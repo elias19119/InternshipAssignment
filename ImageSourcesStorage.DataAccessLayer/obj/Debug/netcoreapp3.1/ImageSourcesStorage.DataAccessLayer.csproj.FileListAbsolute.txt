@@ -1,0 +1,11 @@
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\bin\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.deps.json
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\bin\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.dll
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\bin\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.pdb
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.csproj.AssemblyReference.cache
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.csproj.ResolveComReference.cache
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.AssemblyInfoInputs.cache
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.AssemblyInfo.cs
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.dll
+C:\Internship\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.pdb
