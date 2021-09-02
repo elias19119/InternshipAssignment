@@ -28,6 +28,8 @@ namespace ImageSourcesStorage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ImageSourceContext>(opt => opt.UseInMemoryDatabase("ImageSource"));
+            services.AddScoped<IImageSourceRepository, ImageSourceRepository>();
+
             services.AddControllers();
             services.AddSwaggerGen();
 
