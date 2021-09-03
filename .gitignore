@@ -338,9 +338,3 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-ImageSourcesStorage.DataAccessLayer/ImageSourcesStorage.DataAccessLayer.csproj
-.vs/ImageSourcesStorage/v16/.suo
-*.csproj
-*.csproj
-ImageSourcesStorage.DataAccessLayer/ImageSourcesStorage.DataAccessLayer.csproj
-ImageSourcesStorage.DataAccessLayer/ImageSourcesStorage.DataAccessLayer.csproj
