@@ -1,9 +1,0 @@
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\bin\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.deps.json
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\bin\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.dll
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\bin\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.pdb
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.csproj.ResolveComReference.cache
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.AssemblyInfoInputs.cache
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.AssemblyInfo.cs
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.csproj.CoreCompileInputs.cache
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.dll
-D:\larisa-safonova\INDG\Internship-assigment\InternshipAssignment\ImageSourcesStorage.DataAccessLayer\obj\Debug\netcoreapp3.1\ImageSourcesStorage.DataAccessLayer.pdb
