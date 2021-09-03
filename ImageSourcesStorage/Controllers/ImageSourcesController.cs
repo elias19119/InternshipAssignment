@@ -17,7 +17,6 @@ namespace ImageSourcesStorage.Controllers
     {
         private readonly IImageSourceRepository _imageSourceRepository;
 
-
         public ImageSourcesController(IImageSourceRepository imageSourceRepository)
         {
             this._imageSourceRepository = imageSourceRepository;
@@ -33,7 +32,7 @@ namespace ImageSourcesStorage.Controllers
 
         // GET: api/image-sources/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ImageSource>> GetImageSourceAsync(int id)
+        public async Task<ActionResult<ImageSource>> GetImageSourceAsync(Guid id)
         {
             var imageSource = await _imageSourceRepository.GetByIdAsync(id);
 
@@ -49,7 +48,7 @@ namespace ImageSourcesStorage.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutImageSourceAsync(int id, ImageSource imageSource)
+        public async Task<IActionResult> PutImageSourceAsync(Guid id, ImageSource imageSource)
         {
             if (id != imageSource.Id)
             {
@@ -90,7 +89,7 @@ namespace ImageSourcesStorage.Controllers
 
         // DELETE: api/image-sources/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ImageSource>> DeleteImageSourceAsync(int id)
+        public async Task<ActionResult<ImageSource>> DeleteImageSourceAsync(Guid id)
         {
             if (!await _imageSourceRepository.ExistsAsync(id))
             {
