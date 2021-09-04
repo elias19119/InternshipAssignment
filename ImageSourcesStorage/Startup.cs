@@ -27,8 +27,8 @@ namespace ImageSourcesStorage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ImageSourceContext>(x => x.UseSqlServer("Data Source=ELIASLENOVOX270;Initial Catalog=eliasdb;Integrated Security=True"));
-            services.AddScoped<IImageSourceRepository, ImageSourceRepository>();
+            services.AddDbContext<ImageSourceContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ImageSourceContext"))); services.AddScoped<IImageSourceRepository, ImageSourceRepository>();
             services.AddControllers();
             services.AddSwaggerGen();
 
