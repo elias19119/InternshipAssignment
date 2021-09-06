@@ -29,12 +29,13 @@ namespace ImageSourcesStorage.DataAccessLayer
         public async Task InsertAsync(ImageSource imageSource)
         {
             await _context.ImageSources.AddAsync(imageSource);
+            await SaveAsync();
         }
 
         public async Task UpdateAsync(ImageSource imageSource)
         {
             _context.ImageSources.Add(imageSource);
-             await _context.SaveChangesAsync();
+            await SaveAsync();
         }
 
         public async Task DeleteAsync(Guid imageSourceId)
