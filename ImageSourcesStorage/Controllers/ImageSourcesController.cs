@@ -77,7 +77,6 @@ namespace ImageSourcesStorage.Controllers
         public async Task<ActionResult<ImageSource>> PostImageSourceAsync(ImageSource imageSource)
         {
             await _imageSourceRepository.InsertAsync(imageSource);
-            await _imageSourceRepository.SaveAsync();
             return CreatedAtAction("GetImageSource", new { id = imageSource.Id }, imageSource); //201
         }
 

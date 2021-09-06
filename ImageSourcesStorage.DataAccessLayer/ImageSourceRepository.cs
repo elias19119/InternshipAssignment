@@ -34,7 +34,7 @@ namespace ImageSourcesStorage.DataAccessLayer
 
         public async Task UpdateAsync(ImageSource imageSource)
         {
-            _context.ImageSources.Add(imageSource);
+            await _context.ImageSources.AddAsync(imageSource);
             await SaveAsync();
         }
 
