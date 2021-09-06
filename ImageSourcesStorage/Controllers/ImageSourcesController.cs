@@ -26,7 +26,7 @@ namespace ImageSourcesStorage.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ImageSource>>> GetImageSourcesAsync()
         {
-            var result =  await _imageSourceRepository.GetAllAsync();
+            var result = await _imageSourceRepository.GetAllAsync();
             return Ok(result);
         }
 
@@ -35,12 +35,10 @@ namespace ImageSourcesStorage.Controllers
         public async Task<ActionResult<ImageSource>> GetImageSourceAsync(Guid id)
         {
             var imageSource = await _imageSourceRepository.GetByIdAsync(id);
-
             if (imageSource == null)
             {
                 return NotFound();
             }
-
             return Ok(imageSource); //200
         }
 
@@ -54,10 +52,9 @@ namespace ImageSourcesStorage.Controllers
             {
                 return BadRequest();
             }
-            await _imageSourceRepository.UpdateAsync(imageSource);
-           try
+            try
             {
-                await _imageSourceRepository.SaveAsync();
+                await _imageSourceRepository.UpdateAsync(imageSource);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,7 +67,6 @@ namespace ImageSourcesStorage.Controllers
                     throw;
                 }
             }
-
             return NoContent(); //202
         }
 
@@ -80,10 +76,8 @@ namespace ImageSourcesStorage.Controllers
         [HttpPost]
         public async Task<ActionResult<ImageSource>> PostImageSourceAsync(ImageSource imageSource)
         {
-            
             await _imageSourceRepository.InsertAsync(imageSource);
             await _imageSourceRepository.SaveAsync();
-
             return CreatedAtAction("GetImageSource", new { id = imageSource.Id }, imageSource); //201
         }
 
@@ -95,13 +89,9 @@ namespace ImageSourcesStorage.Controllers
             {
                 return NotFound();
             }
-
             await _imageSourceRepository.DeleteAsync(id);
-
             return NoContent();
-
         }
 
-   
     }
 }
