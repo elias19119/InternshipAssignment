@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageSourcesStorage.DataAccessLayer
 {
-    public class ImageSourceContext : DbContext
+    public class PinContext : DbContext
     {
-        public ImageSourceContext(DbContextOptions<ImageSourceContext> options)
+        public PinContext(DbContextOptions<PinContext> options)
             : base(options)
         {
         }
-        public DbSet<ImageSource> ImageSources { get; set; }
+        public DbSet<Pin> ImageSources { get; set; }
     }
 }

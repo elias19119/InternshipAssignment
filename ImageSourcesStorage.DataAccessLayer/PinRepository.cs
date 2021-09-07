@@ -8,33 +8,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageSourcesStorage.DataAccessLayer
 {
-    public class ImageSourceRepository : IImageSourceRepository
+    public class PinRepository : IPinRepository
     {
-        private readonly ImageSourceContext _context;
-        public ImageSourceRepository(ImageSourceContext context)
+        private readonly PinContext _context;
+        public PinRepository(PinContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<ImageSource>> GetAllAsync()
+        public async Task<IEnumerable<Pin>> GetAllAsync()
         {
             return await _context.ImageSources.ToListAsync();
         }
 
-        public async Task<ImageSource> GetByIdAsync(Guid imageSourceId)
+        public async Task<Pin> GetByIdAsync(Guid imageSourceId)
         {
             return await _context.ImageSources.FindAsync(imageSourceId);
         }
 
-        public async Task InsertAsync(ImageSource imageSource)
+        public async Task InsertAsync(Pin pin)
         {
-            await _context.ImageSources.AddAsync(imageSource);
+            await _context.ImageSources.AddAsync(pin);
             await SaveAsync();
         }
 
-        public async Task UpdateAsync(ImageSource imageSource)
+        public async Task UpdateAsync(Pin pin)
         {
-            await _context.ImageSources.AddAsync(imageSource);
+            await _context.ImageSources.AddAsync(pin);
             await SaveAsync();
         }
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageSourcesStorage.DataAccessLayer.Migrations
 {
-    [DbContext(typeof(ImageSourceContext))]
+    [DbContext(typeof(PinContext))]
     [Migration("20210903142451_Imagesource")]
     partial class Imagesource
     {
@@ -21,7 +21,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.ImageSource", b =>
+            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Pin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

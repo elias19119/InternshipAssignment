@@ -4,14 +4,16 @@ using ImageSourcesStorage.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageSourcesStorage.DataAccessLayer.Migrations
 {
     [DbContext(typeof(PinContext))]
-    partial class ImageSourceContextModelSnapshot : ModelSnapshot
+    [Migration("20210907115831_AddBoard")]
+    partial class AddBoard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

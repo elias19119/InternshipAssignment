@@ -11,20 +11,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageSourcesStorage.Controllers
 {
-    [Route("api/image_sources")]
+    [Route("api/Pin")]
     [ApiController]
-    public class ImageSourcesController : ControllerBase
+    public class PinController : ControllerBase
     {
-        private readonly IImageSourceRepository _imageSourceRepository;
+        private readonly IPinRepository _imageSourceRepository;
 
-        public ImageSourcesController(IImageSourceRepository imageSourceRepository)
+        public PinController(IPinRepository imageSourceRepository)
         {
             this._imageSourceRepository = imageSourceRepository;
         }
 
         // GET: api/image-sources
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ImageSource>>> GetImageSourcesAsync()
+        public async Task<ActionResult<IEnumerable<Pin>>> GetImageSourcesAsync()
         {
             var result = await _imageSourceRepository.GetAllAsync();
             return Ok(result);
@@ -32,7 +32,7 @@ namespace ImageSourcesStorage.Controllers
 
         // GET: api/image-sources/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ImageSource>> GetImageSourceAsync(Guid id)
+        public async Task<ActionResult<Pin>> GetImageSourceAsync(Guid id)
         {
             var imageSource = await _imageSourceRepository.GetByIdAsync(id);
             if (imageSource == null)
@@ -46,15 +46,15 @@ namespace ImageSourcesStorage.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutImageSourceAsync(Guid id, ImageSource imageSource)
+        public async Task<IActionResult> PutImageSourceAsync(Guid id, Pin pin)
         {
-            if (id != imageSource.Id)
+            if (id != pin.Id)
             {
                 return BadRequest();
             }
             try
             {
-                await _imageSourceRepository.UpdateAsync(imageSource);
+                await _imageSourceRepository.UpdateAsync(pin);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,15 +74,15 @@ namespace ImageSourcesStorage.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ImageSource>> PostImageSourceAsync(ImageSource imageSource)
+        public async Task<ActionResult<Pin>> PostImageSourceAsync(Pin pin)
         {
-            await _imageSourceRepository.InsertAsync(imageSource);
-            return CreatedAtAction("GetImageSource", new { id = imageSource.Id }, imageSource); //201
+            await _imageSourceRepository.InsertAsync(pin);
+            return CreatedAtAction("GetImageSource", new { id = pin.Id }, pin); //201
         }
 
         // DELETE: api/image-sources/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ImageSource>> DeleteImageSourceAsync(Guid id)
+        public async Task<ActionResult<Pin>> DeleteImageSourceAsync(Guid id)
         {
             if (!await _imageSourceRepository.ExistsAsync(id))
             {

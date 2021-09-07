@@ -5,11 +5,12 @@ using ImageSourcesStorage.DataAccessLayer.Models;
 
 namespace ImageSourcesStorage.DataAccessLayer
 {
-    public class ImageSource
+    public class Pin
     {
         public Guid Id { get; set; } 
         public double Price { get; set; }
         public Format Format { get; set; }
         public string Description { get; set; }
+        public Board Board { get; set; }
     }
 }
