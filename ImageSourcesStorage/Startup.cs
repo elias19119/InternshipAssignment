@@ -27,12 +27,10 @@ namespace ImageSourcesStorage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ImageSourceContext>(opt => opt.UseInMemoryDatabase("ImageSource"));
-            services.AddScoped<IImageSourceRepository, ImageSourceRepository>();
-
+            services.AddDbContext<ImageSourceContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("ImageSourceContext"))); services.AddScoped<IImageSourceRepository, ImageSourceRepository>();
             services.AddControllers();
             services.AddSwaggerGen();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,20 +40,14 @@ namespace ImageSourcesStorage
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageSource");
             });
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

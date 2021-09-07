@@ -9,11 +9,11 @@ namespace ImageSourcesStorage.DataAccessLayer
     public interface IImageSourceRepository
     {
         Task <IEnumerable<ImageSource>> GetAllAsync();
-        Task<ImageSource> GetByIdAsync(int imageSourceId);
+        Task<ImageSource> GetByIdAsync(Guid imageSourceId);
         Task InsertAsync(ImageSource imageSource);
         Task UpdateAsync(ImageSource imageSource);
-        Task DeleteAsync(int imageSourceId);
+        Task DeleteAsync(Guid imageSourceId);
         Task SaveAsync();
-        Task<bool> ExistsAsync(int imageId);
+        Task<bool> ExistsAsync(Guid imageId);
     }
 }
