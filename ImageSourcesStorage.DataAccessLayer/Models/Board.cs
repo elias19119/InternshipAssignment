@@ -10,7 +10,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Models
         public User User { get; set; }
         public string Name { get; set; }
 
-        public List<Pin> Pins { get; set; }
+      //  public List<Pin> Pins { get; set; }
 
     }
 }

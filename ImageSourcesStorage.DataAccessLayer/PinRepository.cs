@@ -19,30 +19,30 @@ namespace ImageSourcesStorage.DataAccessLayer
 
         public async Task<IEnumerable<Pin>> GetAllAsync()
         {
-            return await _context.ImageSources.Include(p => p.Board).ToListAsync();
+            return await _context.Pins.Include(p => p.Board).ToListAsync();
         }
 
         public async Task<Pin> GetByIdAsync(Guid imageSourceId)
         {
-            return await _context.ImageSources.FindAsync(imageSourceId);
+            return await _context.Pins.FindAsync(imageSourceId);
         }
 
         public async Task InsertAsync(Pin pin)
         {
-            await _context.ImageSources.AddAsync(pin);
+            await _context.Pins.AddAsync(pin);
             await SaveAsync();
         }
 
         public async Task UpdateAsync(Pin pin)
         {
-            await _context.ImageSources.AddAsync(pin);
+            await _context.Pins.AddAsync(pin);
             await SaveAsync();
         }
 
         public async Task DeleteAsync(Guid imageSourceId)
         {
-            var imageSource = await _context.ImageSources.FindAsync(imageSourceId);
-            _context.ImageSources.Remove(imageSource);
+            var imageSource = await _context.Pins.FindAsync(imageSourceId);
+            _context.Pins.Remove(imageSource);
         }
 
         public async Task SaveAsync()
@@ -52,7 +52,7 @@ namespace ImageSourcesStorage.DataAccessLayer
 
         public async Task<bool> ExistsAsync(Guid imageId)
         {
-            return await _context.ImageSources.AnyAsync(a => a.Id == imageId);
+            return await _context.Pins.AnyAsync(a => a.Id == imageId);
         }
     }
 }

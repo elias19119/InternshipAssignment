@@ -11,7 +11,6 @@ namespace ImageSourcesStorage.DataAccessLayer
         public double Price { get; set; }
         public Format Format { get; set; }
         public string Description { get; set; }
-        public Guid BoardId { get; set; }
         public Board Board { get; set; }
     }
 }
