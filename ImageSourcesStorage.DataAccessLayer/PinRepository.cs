@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageSourcesStorage.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -10,15 +11,15 @@ namespace ImageSourcesStorage.DataAccessLayer
 {
     public class PinRepository : IPinRepository
     {
-        private readonly PinContext _context;
-        public PinRepository(PinContext context)
+        private readonly DataContext _context;
+        public PinRepository(DataContext context)
         {
             _context = context;
         }
 
         public async Task<IEnumerable<Pin>> GetAllAsync()
         {
-            return await _context.ImageSources.ToListAsync();
+            return await _context.ImageSources.Include(p => p.Board).ToListAsync();
         }
 
         public async Task<Pin> GetByIdAsync(Guid imageSourceId)
