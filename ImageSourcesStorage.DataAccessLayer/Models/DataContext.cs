@@ -16,11 +16,12 @@ namespace ImageSourcesStorage.DataAccessLayer.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pin>()
+                .ToTable("ImageSources")
                 .HasOne(p => p.Board)
-                .WithMany(p => p.Pins)
-                .HasForeignKey(p => p.BoardId)
-                .HasPrincipalKey(p => p.BoardId)
-                .HasConstraintName("FK_pin_board");
+                .WithMany(p => p.Pins);
+
+            modelBuilder.Entity<Board>().ToTable("Board");
+
         }
     }
 }
