@@ -30,7 +30,7 @@ namespace ImageSourcesStorage.Controllers
 
         // GET: api/image-sources/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserAsync(Guid id)
+        public async Task<IActionResult> GetUserAsync(Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
