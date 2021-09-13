@@ -7,10 +7,10 @@ namespace ImageSourcesStorage.DataAccessLayer
 {
     public class Pin
     {
-        public Guid Id { get; set; } 
-        public double Price { get; set; }
-        public Format Format { get; set; }
+        public Guid PinId { get; set; }
         public string Description { get; set; }
-        public Board Board { get; set; }
+        public string Name { get; set; }
+        public Guid UserId { get; set; }
+        public User Owner { get; set; }
     }
 }

@@ -29,8 +29,9 @@ namespace ImageSourcesStorage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("ImageSourceContext"))); 
+                options.UseSqlServer(Configuration.GetConnectionString("MyDatabase"))); 
             services.AddScoped<IPinRepository, PinRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddSwaggerGen();
         }

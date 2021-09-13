@@ -8,19 +8,17 @@ namespace ImageSourcesStorage.DataAccessLayer.Models
             : base(options)
         {
         }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<Pin> Pins { get; set; }
-        public DbSet<Board> Boards { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Pin>()
-              .ToTable("ImageSources")
-                .HasOne(p => p.Board);
-
-            modelBuilder.Entity<Board>().ToTable("Board");
-
-        }
+        public DbSet<User> User { get; set; }
+        public DbSet<Pin> Pin { get; set; }
+        public DbSet<Board> Board { get; set; }
+        public DbSet<PinBoard> PinBoards { get; set; }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<User>()
+        //        .ToTable("Board");
+        //    modelBuilder.Entity<Board>()
+        //        .ToTable("ImageSources")
+        //        .HasMany(p => p.Pins);
+        //}
     }
 }

@@ -3,62 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageSourcesStorage.DataAccessLayer;
-using Microsoft.AspNetCore.Http;
+using ImageSourcesStorage.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
-
 namespace ImageSourcesStorage.Controllers
 {
-    [Route("api/pins")]
+    [Route("api/users")]
     [ApiController]
-    public class PinController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IPinRepository _pinRepository;
+        private readonly IUserRepository _userRepository;
 
-        public PinController(IPinRepository pinRepository)
+        public UserController(IUserRepository userRepository)
         {
-            this._pinRepository = pinRepository;
+            this._userRepository = userRepository;
         }
 
         // GET: api/image-sources
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pin>>> GetImageSourcesAsync()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUserAsync()
         {
-            var result = await _pinRepository.GetAllAsync();
+            var result = await _userRepository.GetAllAsync();
             return Ok(result);
         }
 
         // GET: api/image-sources/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pin>> GetImageSourceAsync(Guid id)
+        public async Task<ActionResult<User>> GetUserAsync(Guid id)
         {
-            var imageSource = await _pinRepository.GetByIdAsync(id);
-            if (imageSource == null)
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return Ok(imageSource); //200
+            return Ok(user); //200
         }
 
         // PUT: api/image-sources/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutImageSourceAsync(Guid id, Pin pin)
+        public async Task<IActionResult> PutUserAsync(Guid id, User user)
         {
-            if (id != pin.PinId)
+            if (id != user.UserId)
             {
                 return BadRequest();
             }
             try
             {
-                await _pinRepository.UpdateAsync(pin);
+                await _userRepository.UpdateAsync(user);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await _pinRepository.ExistsAsync(id))
+                if (!await _userRepository.ExistsAsync(id))
                 {
                     return NotFound();
                 }
@@ -74,23 +72,22 @@ namespace ImageSourcesStorage.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Pin>> PostImageSourceAsync(Pin pin)
+        public async Task<ActionResult<User>> PostUserAsync(User user)
         {
-            await _pinRepository.InsertAsync(pin);
-            return CreatedAtAction("GetImageSource", new { id = pin.PinId }, pin); //201
+            await _userRepository.InsertAsync(user);
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user); //201
         }
 
         // DELETE: api/image-sources/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Pin>> DeleteImageSourceAsync(Guid id)
+        public async Task<ActionResult<User>> DeleteUserAsync(Guid id)
         {
-            if (!await _pinRepository.ExistsAsync(id))
+            if (!await _userRepository.ExistsAsync(id))
             {
                 return NotFound();
             }
-            await _pinRepository.DeleteAsync(id);
+            await _userRepository.DeleteAsync(id);
             return NoContent();
         }
-
     }
 }

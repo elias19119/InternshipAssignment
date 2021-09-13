@@ -8,16 +8,13 @@ namespace ImageSourcesStorage.DataAccessLayer.Models
     {
         public Guid UserId { get; set; }
         public string Name { get; set; }
-        public int Score
+        public int Score { get; set; }
+        public User() { }
+        public User(Guid UserId, string name, int score)
         {
-            get
-            {
-                return Score;
-            }
-            set
-            {
-                Score = 10;
-            }
+            this.UserId = UserId;
+            this.Name = name;
+            this.Score = score;
         }
     }
 }

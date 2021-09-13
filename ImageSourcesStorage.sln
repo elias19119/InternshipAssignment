@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourcesStorage", "ImageSourcesStorage\ImageSourcesStorage.csproj", "{ECBC0AAF-FAAE-4FC4-8312-4243F7E512E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageSourcesStorage.DataAccessLayer", "ImageSourcesStorage.DataAccessLayer\ImageSourcesStorage.DataAccessLayer.csproj", "{A276BC6D-2C80-4596-9B2A-FA701AA85B09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourcesStorage.DataAccessLayer", "ImageSourcesStorage.DataAccessLayer\ImageSourcesStorage.DataAccessLayer.csproj", "{A276BC6D-2C80-4596-9B2A-FA701AA85B09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserXUnitTest", "UserXUnitTest\UserXUnitTest.csproj", "{10432F7C-290A-4434-98FD-A18759E40D66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A276BC6D-2C80-4596-9B2A-FA701AA85B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A276BC6D-2C80-4596-9B2A-FA701AA85B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A276BC6D-2C80-4596-9B2A-FA701AA85B09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10432F7C-290A-4434-98FD-A18759E40D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10432F7C-290A-4434-98FD-A18759E40D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10432F7C-290A-4434-98FD-A18759E40D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10432F7C-290A-4434-98FD-A18759E40D66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

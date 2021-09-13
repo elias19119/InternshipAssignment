@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageSourcesStorage.DataAccessLayer.Models;
@@ -17,30 +18,32 @@ namespace ImageSourcesStorage.DataAccessLayer
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.User.ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(Guid imageSourceId)
         {
-            return await _context.Users.FindAsync(imageSourceId);
+            return await _context.User.FindAsync(imageSourceId);
         }
 
         public async Task InsertAsync(User user)
         {
-            await _context.Users.AddAsync(user);
+            user.UserId = Guid.NewGuid();
+            user.Score = 10;
+            await _context.User.AddAsync(user);
             await SaveAsync();
         }
 
         public async Task UpdateAsync(User user)
         {
-            await _context.Users.AddAsync(user);
+            await _context.User.AddAsync(user);
             await SaveAsync();
         }
 
         public async Task DeleteAsync(Guid userId)
         {
-            var user = await _context.Users.FindAsync(userId);
-            _context.Users.Remove(user);
+            var user = await _context.User.FindAsync(userId);
+            _context.User.Remove(user);
         }
 
         public async Task SaveAsync()
@@ -50,7 +53,7 @@ namespace ImageSourcesStorage.DataAccessLayer
 
         public async Task<bool> ExistsAsync(Guid userId)
         {
-            return await _context.Users.AnyAsync(a => a.UserId == userId);
+            return await _context.User.AnyAsync(a => a.UserId == userId);
         }
     }
 }
