@@ -22,7 +22,7 @@ namespace ImageSourcesStorage.Controllers
             this._pinRepository = pinRepository;
         }
 
-        // GET: api/image-sources
+        // GET: api/pins
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pin>>> GetImageSourcesAsync()
         {
@@ -30,9 +30,9 @@ namespace ImageSourcesStorage.Controllers
             return Ok(result);
         }
 
-        // GET: api/image-sources/5
+        // GET: api/pins/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pin>> GetImageSourceAsync(Guid id)
+        public async Task<IActionResult> GetImageSourceAsync(Guid id)
         {
             var imageSource = await _pinRepository.GetByIdAsync(id);
             if (imageSource == null)
@@ -42,7 +42,7 @@ namespace ImageSourcesStorage.Controllers
             return Ok(imageSource); //200
         }
 
-        // PUT: api/image-sources/5
+        // PUT: api/pins/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -70,7 +70,7 @@ namespace ImageSourcesStorage.Controllers
             return NoContent(); //202
         }
 
-        // POST: api/image-sources
+        // POST: api/pins
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -80,7 +80,7 @@ namespace ImageSourcesStorage.Controllers
             return CreatedAtAction("GetImageSource", new { id = pin.PinId }, pin); //201
         }
 
-        // DELETE: api/image-sources/5
+        // DELETE: api/pins/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Pin>> DeleteImageSourceAsync(Guid id)
         {

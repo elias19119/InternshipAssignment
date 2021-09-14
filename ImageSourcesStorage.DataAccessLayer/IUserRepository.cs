@@ -6,12 +6,12 @@ using ImageSourcesStorage.DataAccessLayer.Models;
 
 namespace ImageSourcesStorage.DataAccessLayer
 {
-    public interface IUserRepository
+    public interface IUserRepository<TUser> where TUser: class
     {
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> GetByIdAsync(Guid userId);
-        Task InsertAsync(User user);
-        Task UpdateAsync(User user);
+        Task InsertAsync(TUser user);
+        Task UpdateAsync(TUser user);
         Task DeleteAsync(Guid userId);
         Task SaveAsync();
         Task<bool> ExistsAsync(Guid userId);

@@ -31,7 +31,7 @@ namespace ImageSourcesStorage
             services.AddDbContext<DataContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("MyDatabase"))); 
             services.AddScoped<IPinRepository, PinRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddControllers();
             services.AddSwaggerGen();
         }

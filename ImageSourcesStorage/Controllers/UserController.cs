@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageSourcesStorage.DataAccessLayer;
 using ImageSourcesStorage.DataAccessLayer.Models;
+using ImageSourcesStorage.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,81 +15,71 @@ namespace ImageSourcesStorage.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private IUserRepository<User> _userRepository;
+        public UserController(IUserRepository<User> userRepository)
+        { this._userRepository = userRepository; }
 
-        public UserController(IUserRepository userRepository)
-        {
-            this._userRepository = userRepository;
-        }
-
-        // GET: api/image-sources
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUserAsync()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync()
         {
-            var result = await _userRepository.GetAllAsync();
-            return Ok(result);
+            var Result = await _userRepository.GetAllAsync();
+            return Ok(Result);
         }
 
-        // GET: api/image-sources/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserAsync(Guid id)
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
             }
             return Ok(user); //200
+
         }
 
-        // PUT: api/image-sources/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserAsync(Guid id, User user)
-        {
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
-            try
-            {
-                await _userRepository.UpdateAsync(user);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _userRepository.ExistsAsync(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent(); //202
-        }
-
-        // POST: api/image-sources
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<User>> PostUserAsync(User user)
+        public async Task<ActionResult> PostUserAsync(CreateUserRequest request)
         {
+            var user = new User()
+            {
+                Name = request.Name
+            };
             await _userRepository.InsertAsync(user);
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user); //201
+            return CreatedAtAction("GetUsers", new { id = user.UserId }, request);
         }
 
-        // DELETE: api/image-sources/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUserAsync(Guid id)
+        [HttpPut]
+        public async Task<IActionResult> PutUserAsync(UpdateUserRequest request, Guid userId)
         {
-            if (!await _userRepository.ExistsAsync(id))
+            var user = new User()
+            {
+                Name = request.Name,
+                Score = request.Score
+
+            };
+            await _userRepository.UpdateAsync(user);
+
+            if (!await _userRepository.ExistsAsync(userId))
             {
                 return NotFound();
             }
-            await _userRepository.DeleteAsync(id);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{userId}")]
+        public async Task<ActionResult<User>> DeleteUserAsync(Guid userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId).ConfigureAwait(false);
+            if (user == null)
+            {
+                return NotFound($"User with Id = {userId} not found");
+            }
+            await _userRepository.DeleteAsync(userId);
             return NoContent();
         }
     }
 }
+

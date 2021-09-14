@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourcesStorage", "Imag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourcesStorage.DataAccessLayer", "ImageSourcesStorage.DataAccessLayer\ImageSourcesStorage.DataAccessLayer.csproj", "{A276BC6D-2C80-4596-9B2A-FA701AA85B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageSourcesStorage.Tests", "ImageSourcesStorage.Tests\ImageSourcesStorage.Tests.csproj", "{3048DA0F-A636-4FEE-89E6-85E27D0D0F07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageSourceStorage.Tests", "ImageSourceStorage.Tests\ImageSourceStorage.Tests.csproj", "{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{A276BC6D-2C80-4596-9B2A-FA701AA85B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A276BC6D-2C80-4596-9B2A-FA701AA85B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A276BC6D-2C80-4596-9B2A-FA701AA85B09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3048DA0F-A636-4FEE-89E6-85E27D0D0F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3048DA0F-A636-4FEE-89E6-85E27D0D0F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3048DA0F-A636-4FEE-89E6-85E27D0D0F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3048DA0F-A636-4FEE-89E6-85E27D0D0F07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

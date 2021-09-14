@@ -8,52 +8,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageSourcesStorage.DataAccessLayer
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository<TUser> : IUserRepository<User> where TUser : class
     {
         private readonly DataContext _context;
+        private readonly DbSet<User> _entities;
         public UserRepository(DataContext context)
         {
-            _context = context;
+            this._context = context;
+            _entities = context.Set<User>();
         }
-
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _context.User.ToListAsync();
+            return await _entities.ToListAsync();
         }
-
-        public async Task<User> GetByIdAsync(Guid imageSourceId)
+        public async Task<User> GetByIdAsync(Guid userId)
         {
-            return await _context.User.FindAsync(imageSourceId);
+            return await _entities.FindAsync(userId);
         }
-
         public async Task InsertAsync(User user)
         {
             user.UserId = Guid.NewGuid();
             user.Score = 10;
-            await _context.User.AddAsync(user);
+            await _entities.AddAsync(user);
             await SaveAsync();
-        }
 
+        }
         public async Task UpdateAsync(User user)
         {
-            await _context.User.AddAsync(user);
+            await _entities.AddAsync(user);
             await SaveAsync();
         }
-
         public async Task DeleteAsync(Guid userId)
         {
-            var user = await _context.User.FindAsync(userId);
-            _context.User.Remove(user);
+            var user = await _entities.FindAsync(userId);
+            _entities.Remove(user);
         }
-
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
-
         public async Task<bool> ExistsAsync(Guid userId)
         {
-            return await _context.User.AnyAsync(a => a.UserId == userId);
+            return await _entities.AnyAsync(a => a.UserId == userId);
         }
     }
 }
