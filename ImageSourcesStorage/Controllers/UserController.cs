@@ -55,7 +55,7 @@ namespace ImageSourcesStorage.Controllers
         [HttpPut]
         public async Task<IActionResult> PutUserAsync(UpdateUserRequest request, Guid userId)
         {
-            var user = new User()
+            var user = new User
             {
                 Name = request.Name,
                 Score = request.Score
