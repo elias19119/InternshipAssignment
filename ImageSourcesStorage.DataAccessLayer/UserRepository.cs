@@ -42,6 +42,7 @@ namespace ImageSourcesStorage.DataAccessLayer
         {
             var user = await _entities.FindAsync(userId);
             _entities.Remove(user);
+            await SaveAsync();
         }
         public async Task SaveAsync()
         {
