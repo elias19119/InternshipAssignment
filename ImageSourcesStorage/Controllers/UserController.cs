@@ -16,11 +16,14 @@ namespace ImageSourcesStorage.Controllers
     public class UserController : ControllerBase
     {
         private IUserRepository<User> _userRepository;
+
         public UserController(IUserRepository<User> userRepository)
-        { this._userRepository = userRepository; }
+        {
+            this._userRepository = userRepository;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync()
+        public async Task<IActionResult> GetUsersAsync()
         {
             var Result = await _userRepository.GetAllAsync();
             return Ok(Result);
@@ -36,13 +39,12 @@ namespace ImageSourcesStorage.Controllers
                 return NotFound();
             }
             return Ok(user); //200
-
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostUserAsync(CreateUserRequest request)
+        public async Task<IActionResult> PostUserAsync(CreateUserRequest request)
         {
-            var user = new User()
+            var user = new User
             {
                 Name = request.Name
             };
@@ -57,7 +59,6 @@ namespace ImageSourcesStorage.Controllers
             {
                 Name = request.Name,
                 Score = request.Score
-
             };
             await _userRepository.UpdateAsync(user);
 
@@ -70,7 +71,7 @@ namespace ImageSourcesStorage.Controllers
 
         [HttpDelete]
         [Route("{userId}")]
-        public async Task<ActionResult<User>> DeleteUserAsync(Guid userId)
+        public async Task <IActionResult> DeleteUserAsync(Guid userId)
         {
             var user = await _userRepository.GetByIdAsync(userId).ConfigureAwait(false);
             if (user == null)

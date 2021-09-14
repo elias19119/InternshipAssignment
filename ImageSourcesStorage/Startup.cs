@@ -29,8 +29,7 @@ namespace ImageSourcesStorage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("MyDatabase"))); 
-            services.AddScoped<IPinRepository, PinRepository>();
+                options.UseSqlServer(Configuration.GetConnectionString("EliasDataBase")));
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddControllers();
             services.AddSwaggerGen();

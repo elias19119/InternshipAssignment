@@ -9,6 +9,5 @@ namespace ImageSourcesStorage.DataAccessLayer.Models
         public Guid PinBoardId { get; set; }
         public Guid PinId { get; set; }
         public Guid BoardId { get; set; }
-        
     }
 }

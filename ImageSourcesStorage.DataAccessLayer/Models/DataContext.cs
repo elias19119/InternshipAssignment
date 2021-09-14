@@ -12,13 +12,5 @@ namespace ImageSourcesStorage.DataAccessLayer.Models
         public DbSet<Pin> Pin { get; set; }
         public DbSet<Board> Board { get; set; }
         public DbSet<PinBoard> PinBoards { get; set; }
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<User>()
-        //        .ToTable("Board");
-        //    modelBuilder.Entity<Board>()
-        //        .ToTable("ImageSources")
-        //        .HasMany(p => p.Pins);
-        //}
     }
 }
