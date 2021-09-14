@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageSourcesStorage.DataAccessLayer;
+using ImageSourcesStorage.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImageSourcesStorage
@@ -27,8 +28,9 @@ namespace ImageSourcesStorage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ImageSourceContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("ImageSourceContext"))); services.AddScoped<IImageSourceRepository, ImageSourceRepository>();
+            services.AddDbContext<DataContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("ImageSourceDatabase")));
+            services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddControllers();
             services.AddSwaggerGen();
         }
@@ -43,7 +45,7 @@ namespace ImageSourcesStorage
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageSource");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pin");
             });
             app.UseHttpsRedirection();
             app.UseRouting();
