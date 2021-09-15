@@ -1,44 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ImageSourcesStorage.DataAccessLayer;
-using ImageSourcesStorage.DataAccessLayer.Models;
-using ImageSourcesStorage.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace ImageSourcesStorage.Controllers
+﻿namespace ImageSourcesStorage.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
+    using ImageSourcesStorage.Models;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserRepository<User> _userRepository;
+        private readonly IUserRepository<User> userRepository;
 
         public UserController(IUserRepository<User> userRepository)
         {
-            this._userRepository = userRepository;
+            this.userRepository = userRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUsersAsync()
         {
-            var Result = await _userRepository.GetAllAsync();
-            return Ok(Result);
+            var result = await this.userRepository.GetAllAsync();
+            return this.Ok(result);
         }
 
         [HttpGet]
         [Route("{userId}")]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await this.userRepository.GetByIdAsync(userId);
             if (user == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return Ok(user); //200
+
+            return this.Ok(user);
         }
 
         [HttpPost]
@@ -46,10 +43,10 @@ namespace ImageSourcesStorage.Controllers
         {
             var user = new User
             {
-                Name = request.Name
+                Name = request.Name,
             };
-            await _userRepository.InsertAsync(user);
-            return CreatedAtAction("GetUsers", new { id = user.UserId }, request);
+            await this.userRepository.InsertAsync(user);
+            return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
         }
 
         [HttpPut]
@@ -58,29 +55,30 @@ namespace ImageSourcesStorage.Controllers
             var user = new User
             {
                 Name = request.Name,
-                Score = request.Score
+                Score = request.Score,
             };
-            await _userRepository.UpdateAsync(user);
+            await this.userRepository.UpdateAsync(user);
 
-            if (!await _userRepository.ExistsAsync(userId))
+            if (!await this.userRepository.ExistsAsync(userId))
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return NoContent();
+
+            return this.NoContent();
         }
 
         [HttpDelete]
         [Route("{userId}")]
         public async Task <IActionResult> DeleteUserAsync(Guid userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId).ConfigureAwait(false);
+            var user = await this.userRepository.GetByIdAsync(userId).ConfigureAwait(false);
             if (user == null)
             {
-                return NotFound($"User with Id = {userId} not found");
+                return this.NotFound($"User with Id = {userId} not found");
             }
-            await _userRepository.DeleteAsync(userId);
-            return NoContent();
+
+            await this.userRepository.DeleteAsync(userId);
+            return this.NoContent();
         }
     }
 }
-

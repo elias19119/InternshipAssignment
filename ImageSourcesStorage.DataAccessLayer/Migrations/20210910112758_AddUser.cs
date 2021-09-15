@@ -5,6 +5,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
 {
     public partial class AddUser : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -82,6 +83,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 column: "UserId");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

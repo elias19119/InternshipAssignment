@@ -5,6 +5,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
 {
     public partial class AddPinBoard : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -94,6 +95,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 onDelete: ReferentialAction.Cascade);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

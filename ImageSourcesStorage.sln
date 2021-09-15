@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourcesStorage", "Imag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourcesStorage.DataAccessLayer", "ImageSourcesStorage.DataAccessLayer\ImageSourcesStorage.DataAccessLayer.csproj", "{A276BC6D-2C80-4596-9B2A-FA701AA85B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageSourceStorage.Tests", "ImageSourceStorage.Tests\ImageSourceStorage.Tests.csproj", "{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSourceStorage.Tests", "ImageSourceStorage.Tests\ImageSourceStorage.Tests.csproj", "{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21D48DF6-1E95-45A3-B344-A090DA947EEF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
