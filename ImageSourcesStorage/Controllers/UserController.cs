@@ -1,8 +1,4 @@
-﻿// <copyright file="UserController.cs" company="INDG">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace ImageSourcesStorage.Controllers
+﻿namespace ImageSourcesStorage.Controllers
 {
     using System;
     using System.Threading.Tasks;

@@ -21,7 +21,7 @@ namespace ImageSourcesStorage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => 
+            services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddControllers();
@@ -35,6 +35,7 @@ namespace ImageSourcesStorage
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

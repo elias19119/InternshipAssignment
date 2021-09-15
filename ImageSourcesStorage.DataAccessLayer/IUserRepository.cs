@@ -1,8 +1,4 @@
-﻿// <copyright file="IUserRepository.cs" company="GRIP">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace ImageSourcesStorage.DataAccessLayer
+﻿namespace ImageSourcesStorage.DataAccessLayer
 {
     using System;
     using System.Collections.Generic;

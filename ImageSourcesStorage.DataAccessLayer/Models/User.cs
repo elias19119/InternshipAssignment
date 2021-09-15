@@ -1,8 +1,4 @@
-﻿// <copyright file="User.cs" company="INDG">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace ImageSourcesStorage.DataAccessLayer.Models
+﻿namespace ImageSourcesStorage.DataAccessLayer.Models
 {
     using System;
     using System.Collections.Generic;
