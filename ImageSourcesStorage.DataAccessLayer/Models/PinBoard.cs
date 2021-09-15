@@ -1,4 +1,8 @@
-﻿namespace ImageSourcesStorage.DataAccessLayer.Models
+﻿// <copyright file="PinBoard.cs" company="INDG">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace ImageSourcesStorage.DataAccessLayer.Models
 {
     using System;
 

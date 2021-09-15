@@ -1,4 +1,8 @@
-﻿namespace ImageSourcesStorage.DataAccessLayer
+﻿// <copyright file="UserRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace ImageSourcesStorage.DataAccessLayer
 {
     using System;
     using System.Collections.Generic;
@@ -34,7 +38,6 @@
             user.Score = 10;
             await this.entities.AddAsync(user);
             await this.SaveAsync();
-
         }
 
         public async Task UpdateAsync(User user)

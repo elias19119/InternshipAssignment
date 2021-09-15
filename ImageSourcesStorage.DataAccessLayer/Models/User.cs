@@ -1,4 +1,8 @@
-﻿namespace ImageSourcesStorage.DataAccessLayer.Models
+﻿// <copyright file="User.cs" company="INDG">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace ImageSourcesStorage.DataAccessLayer.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +19,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
         /// </summary>
-        public User() { }
+        public User()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.

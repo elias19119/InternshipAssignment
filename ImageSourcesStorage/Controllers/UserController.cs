@@ -1,4 +1,8 @@
-﻿namespace ImageSourcesStorage.Controllers
+﻿// <copyright file="UserController.cs" company="INDG">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace ImageSourcesStorage.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -69,7 +73,7 @@
 
         [HttpDelete]
         [Route("{userId}")]
-        public async Task <IActionResult> DeleteUserAsync(Guid userId)
+        public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
             var user = await this.userRepository.GetByIdAsync(userId).ConfigureAwait(false);
             if (user == null)

@@ -1,4 +1,8 @@
-﻿namespace ImageSourcesStorage.DataAccessLayer.Models
+﻿// <copyright file="DataContext.cs" company="INDG">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace ImageSourcesStorage.DataAccessLayer.Models
 {
     using Microsoft.EntityFrameworkCore;
 
