@@ -1,35 +1,28 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ImageSourcesStorage.DataAccessLayer;
-using ImageSourcesStorage.DataAccessLayer.Models;
-using Microsoft.EntityFrameworkCore;
-
 namespace ImageSourcesStorage
 {
+    using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("ImageSourceDatabase")));
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddControllers();
             services.AddSwaggerGen();
@@ -42,6 +35,7 @@ namespace ImageSourcesStorage
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
