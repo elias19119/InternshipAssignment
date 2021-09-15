@@ -23,7 +23,7 @@ namespace ImageSourcesStorage.Tests
             
             _controller = new UserController(_userRepo.Object);
         }
-
+StyleCop.Error.MSBuild 
 
         [Fact]
         public async Task GetAllUserAsync_should_return_OK_result()
