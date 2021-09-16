@@ -10,33 +10,33 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Pin_Board_UserId",
-                table: "Pin");
+                table: "Pins");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Pin_ImageSources_BoardId",
-                table: "Pin");
+                table: "Pins");
 
             migrationBuilder.DropTable(
                 name: "ImageSources");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Board",
-                table: "Board");
+                table: "Boards");
 
             migrationBuilder.DropColumn(
                 name: "Score",
-                table: "Board");
+                table: "Boards");
 
             migrationBuilder.AddColumn<Guid>(
                 name: "BoardId",
-                table: "Board",
+                table: "Boards",
                 type: "uniqueidentifier",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Board",
-                table: "Board",
+                table: "Boards",
                 column: "BoardId");
 
             migrationBuilder.CreateTable(
@@ -53,7 +53,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -67,30 +67,30 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Board_UserId",
-                table: "Board",
+                table: "Boards",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Board_User_UserId",
-                table: "Board",
+                table: "Boards",
                 column: "UserId",
-                principalTable: "User",
+                principalTable: "Users",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Pin_Board_BoardId",
-                table: "Pin",
+                table: "Pins",
                 column: "BoardId",
-                principalTable: "Board",
+                principalTable: "Boards",
                 principalColumn: "BoardId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Pin_User_UserId",
-                table: "Pin",
+                table: "Pins",
                 column: "UserId",
-                principalTable: "User",
+                principalTable: "Users",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -100,44 +100,44 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Board_User_UserId",
-                table: "Board");
+                table: "Boards");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Pin_Board_BoardId",
-                table: "Pin");
+                table: "Pins");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Pin_User_UserId",
-                table: "Pin");
+                table: "Pins");
 
             migrationBuilder.DropTable(
                 name: "PinBoards");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Board",
-                table: "Board");
+                table: "Boards");
 
             migrationBuilder.DropIndex(
                 name: "IX_Board_UserId",
-                table: "Board");
+                table: "Boards");
 
             migrationBuilder.DropColumn(
                 name: "BoardId",
-                table: "Board");
+                table: "Boards");
 
             migrationBuilder.AddColumn<int>(
                 name: "Score",
-                table: "Board",
+                table: "Boards",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Board",
-                table: "Board",
+                table: "Boards",
                 column: "UserId");
 
             migrationBuilder.CreateTable(
@@ -154,7 +154,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     table.ForeignKey(
                         name: "FK_ImageSources_Board_UserId",
                         column: x => x.UserId,
-                        principalTable: "Board",
+                        principalTable: "Boards",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -166,15 +166,15 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Pin_Board_UserId",
-                table: "Pin",
+                table: "Pins",
                 column: "UserId",
-                principalTable: "Board",
+                principalTable: "Boards",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Pin_ImageSources_BoardId",
-                table: "Pin",
+                table: "Pins",
                 column: "BoardId",
                 principalTable: "ImageSources",
                 principalColumn: "BoardId",

@@ -10,20 +10,20 @@
     using Xunit;
 
     /// <summary>
-    /// Create Test units for User Controller<see cref="UserControllerTest"/> class.
+    /// Create Test units for Users Controller<see cref="UserControllerTest"/> class.
     /// </summary>
     public class UserControllerTest
     {
         private readonly UserController controller;
-        private readonly Mock<IUserRepository<User>> userRepo;
+        private readonly Mock<IUserRepository<User>> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserControllerTest"/> class.
         /// </summary>
         public UserControllerTest()
         {
-            this.userRepo = new Mock<IUserRepository<User>>();
-            this.controller = new UserController(this.userRepo.Object);
+            this.userRepository = new Mock<IUserRepository<User>>();
+            this.controller = new UserController(this.userRepository.Object);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@
         [Fact]
         public async Task GetAllUserAsync_should_return_OK_result()
         {
-            this.userRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<User>());
+            this.userRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<User>());
             var response = await this.controller.GetUsersAsync();
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);
