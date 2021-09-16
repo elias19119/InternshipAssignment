@@ -39,7 +39,7 @@ namespace ImageSourcesStorage
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pin");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pins");
             });
             app.UseHttpsRedirection();
             app.UseRouting();

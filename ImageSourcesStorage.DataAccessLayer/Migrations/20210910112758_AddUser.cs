@@ -9,7 +9,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Board",
+                name: "Boards",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -35,13 +35,13 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     table.ForeignKey(
                         name: "FK_ImageSources_Board_UserId",
                         column: x => x.UserId,
-                        principalTable: "Board",
+                        principalTable: "Boards",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pin",
+                name: "Pins",
                 columns: table => new
                 {
                     PinId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -56,7 +56,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     table.ForeignKey(
                         name: "FK_Pin_Board_UserId",
                         column: x => x.UserId,
-                        principalTable: "Board",
+                        principalTable: "Boards",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -74,12 +74,12 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pin_BoardId",
-                table: "Pin",
+                table: "Pins",
                 column: "BoardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pin_UserId",
-                table: "Pin",
+                table: "Pins",
                 column: "UserId");
         }
 
@@ -87,13 +87,13 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Pin");
+                name: "Pins");
 
             migrationBuilder.DropTable(
                 name: "ImageSources");
 
             migrationBuilder.DropTable(
-                name: "Board");
+                name: "Boards");
         }
     }
 }

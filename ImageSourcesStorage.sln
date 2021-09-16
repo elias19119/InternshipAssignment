@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer.Tests", "DataAccessLayer.Tests\DataAccessLayer.Tests.csproj", "{780A45FA-744A-4BD2-8578-E3E715B76413}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6699FB1A-1FC0-409B-B271-0D64D88B2CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{780A45FA-744A-4BD2-8578-E3E715B76413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{780A45FA-744A-4BD2-8578-E3E715B76413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{780A45FA-744A-4BD2-8578-E3E715B76413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{780A45FA-744A-4BD2-8578-E3E715B76413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

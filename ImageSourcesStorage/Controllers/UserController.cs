@@ -74,7 +74,7 @@
             var user = await this.userRepository.GetByIdAsync(userId).ConfigureAwait(false);
             if (user == null)
             {
-                return this.NotFound($"User with Id = {userId} not found");
+                return this.NotFound($"Users with Id = {userId} not found");
             }
 
             await this.userRepository.DeleteAsync(userId);
