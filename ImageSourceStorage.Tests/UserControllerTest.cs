@@ -34,7 +34,9 @@
         public async Task GetAllUserAsync_should_return_OK_result()
         {
             this.userRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<User>());
+
             var response = await this.controller.GetUsersAsync();
+
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);
         }

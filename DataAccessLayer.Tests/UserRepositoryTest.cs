@@ -42,25 +42,24 @@ namespace DataAccessLayer.Tests
             {
                 new User
                 {
-                    UserId = new Guid("46cc6856-dc27-43b0-b508-01bbddf9b1a8"),
+                    UserId = Guid.NewGuid(),
                     Name = "elias",
                     Score = 20,
                 },
                 new User
                 {
-                    UserId = new Guid("46cc6856-dc27-43b0-b508-01bbddf9b1a7"),
+                    UserId = Guid.NewGuid(),
                     Name = "larisa",
                     Score = 20,
                 },
             };
 
             await this.dataContext.AddRangeAsync(users);
-
             await this.dataContext.SaveChangesAsync();
-
             this.userRepository = new UserRepository<User>(this.dataContext);
 
             var result = await this.userRepository.GetAllAsync();
+
             Assert.NotEmpty(result);
             Assert.Equal(users.Count, result.Count());
         }
@@ -77,12 +76,11 @@ namespace DataAccessLayer.Tests
             };
 
             await this.dataContext.AddRangeAsync(users);
-
             await this.dataContext.SaveChangesAsync();
-
             this.userRepository = new UserRepository<User>(this.dataContext);
 
             var result = await this.userRepository.GetAllAsync();
+
             Assert.Empty(result);
             Assert.Equal(users.Count, result.Count());
         }
