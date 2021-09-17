@@ -84,5 +84,46 @@ namespace DataAccessLayer.Tests
             Assert.Empty(result);
             Assert.Equal(users.Count, result.Count());
         }
+
+        /// <summary>
+        /// should return a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetUserAsync_should_return_Ok_if_user_exists()
+        {
+            User user = new User(Guid.NewGuid(), "elias", 20);
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+            await this.dataContext.Users.FindAsync(user.UserId);
+
+            this.userRepository = new UserRepository<User>(this.dataContext);
+
+            var result = await this.userRepository.GetByIdAsync(user.UserId);
+
+            Assert.NotNull(result);
+            Assert.Equal(user.UserId, result.UserId);
+        }
+
+        /// <summary>
+        /// should not return a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetUserAsync_should_return_No_user()
+        {
+            User user = new User(Guid.NewGuid(), "elias", 20);
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+            await this.dataContext.Users.FindAsync(user.UserId);
+
+            this.userRepository = new UserRepository<User>(this.dataContext);
+
+            var result = await this.userRepository.GetByIdAsync(Guid.NewGuid());
+
+            Assert.Null(result);
+        }
     }
 }
