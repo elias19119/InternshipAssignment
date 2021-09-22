@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
+    using ImageSourcesStorage.DataAccessLayer.Validators;
     using ImageSourcesStorage.Models;
     using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,12 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
+        private readonly UserValidator UserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
+            this.UserValidator = new UserValidator(userRepository);
         }
 
         [HttpGet]
@@ -30,7 +33,8 @@
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
             var user = await this.userRepository.GetByIdAsync(userId);
-            if (user == null)
+            var result = this.UserValidator.Validate(user);
+            if (!result.IsValid)
             {
                 return this.NotFound();
             }
@@ -45,6 +49,14 @@
             {
                 Name = request.Name,
             };
+
+            var result = this.UserValidator.Validate(user);
+
+            if (!result.IsValid)
+            {
+                return this.StatusCode(400);
+            }
+
             await this.userRepository.InsertAsync(user);
             return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
         }

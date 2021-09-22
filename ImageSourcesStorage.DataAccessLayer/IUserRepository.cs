@@ -21,5 +21,7 @@
         Task SaveAsync();
 
         Task<bool> ExistsAsync(Guid userId);
+
+        Task<bool> ExistsNameAsync(string username);
     }
 }

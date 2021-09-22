@@ -20,5 +20,11 @@
         public DbSet<Board> Boards { get; set; }
 
         public DbSet<PinBoard> PinBoards { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .ToTable("User");
+        }
     }
 }
