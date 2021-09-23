@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using FluentValidation;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
@@ -50,7 +51,7 @@
                 Name = request.Name,
             };
 
-            var result = this.UserValidator.Validate(user);
+            var result = this.UserValidator.Validate(user, options => options.IncludeRuleSets("Name"));
 
             if (!result.IsValid)
             {

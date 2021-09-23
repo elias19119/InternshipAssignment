@@ -20,8 +20,11 @@
         public UserValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.RuleFor(x => x.Name).MustAsync(this.UniqueName);
-            this.RuleFor(x => x.Name).Length(1, 50);
+            this.RuleSet("Name", () =>
+            {
+                this.RuleFor(x => x.Name).MustAsync(this.UniqueName);
+                this.RuleFor(x => x.Name).Length(1, 50);
+            });
         }
 
         /// <summary>

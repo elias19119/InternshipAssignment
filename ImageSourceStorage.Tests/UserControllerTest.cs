@@ -1,17 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using FluentValidation.TestHelper;
-using ImageSourcesStorage.DataAccessLayer.Validators;
-
-namespace ImageSourceStorage.Tests
+﻿namespace ImageSourceStorage.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Net;
     using System.Threading.Tasks;
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
+    using ImageSourcesStorage.DataAccessLayer.Validators;
     using ImageSourcesStorage.Models;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
