@@ -19,7 +19,6 @@
     {
         private readonly UserController controller;
         private readonly Mock<IUserRepository<User>> userRepository;
-        private UserValidator userValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserControllerTest"/> class.

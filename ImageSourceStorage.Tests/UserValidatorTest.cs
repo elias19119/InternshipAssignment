@@ -1,5 +1,6 @@
 ﻿namespace ImageSourceStorage.Tests
 {
+    using FluentValidation;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
     using Xunit;
@@ -9,6 +10,8 @@
     /// </summary>
     public class UserValidatorTest
     {
+        private UserValidator userValidator;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserValidatorTest"/> class.
         /// </summary>
@@ -17,20 +20,18 @@
             this.userValidator = new UserValidator();
         }
 
-        private UserValidator userValidator { get; }
-
         /// <summary>
         /// Should return empty.
         /// </summary>
         [Fact]
-        public void Should_have_error_when_Name_is_Empty()
+        public void Should_have_error_when_Name_is_EmptyAsync()
         {
-            var user = new User()
+            User user = new User
             {
                 Name = string.Empty,
             };
 
-            var result = this.userValidator.Validate(user);
+            var result = this.userValidator.Validate(user, options => options.IncludeRuleSets("Name"));
 
             Assert.True(!result.IsValid);
         }
@@ -41,10 +42,23 @@
         [Fact]
         public void Should_have_error_when_Name_Is_Longer_than_50_Characters()
         {
-            var user = new User()
+            User user = new User
             {
-                Name = "eqwqerewrewrqrewqwqfsasdDDSADSADASDSDDSASDDSADSADSADSDSDSADSAASDDSADSDSA",
+                Name = "qwueihrqiuwehruqwehtiuhwqeiuthiqwuehriuwqehriuwehqiuhiuewrhiewhriuerwhiu",
             };
+
+            var result = this.userValidator.Validate(user, options => options.IncludeRuleSets("Name"));
+
+            Assert.True(!result.IsValid);
+        }
+
+        /// <summary>
+        /// user not empty .
+        /// </summary>
+        [Fact]
+        public void User_Not_Empty()
+        {
+            User user = null;
 
             var result = this.userValidator.Validate(user);
 

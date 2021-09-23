@@ -32,6 +32,14 @@
         /// </summary>
         public UserValidator()
         {
+            this.RuleSet("Name", () =>
+            {
+                this.RuleFor(x => x.Name).Length(1, 50).NotNull();
+            });
+            this.RuleSet("UniqueName", () =>
+            {
+                this.RuleFor(x => x.Name).MustAsync(this.UniqueName);
+            });
         }
 
         /// <summary>
