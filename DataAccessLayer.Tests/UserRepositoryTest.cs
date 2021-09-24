@@ -29,6 +29,7 @@ namespace DataAccessLayer.Tests
                 .UseInMemoryDatabase(databaseName: "FakeConnectionString")
                 .Options;
             this.dataContext = new DataContext(options);
+            this.userRepository = new UserRepository<User>(this.dataContext);
         }
 
         /// <summary>
@@ -56,7 +57,6 @@ namespace DataAccessLayer.Tests
 
             await this.dataContext.AddRangeAsync(users);
             await this.dataContext.SaveChangesAsync();
-            this.userRepository = new UserRepository<User>(this.dataContext);
 
             var result = await this.userRepository.GetAllAsync();
 
@@ -77,7 +77,6 @@ namespace DataAccessLayer.Tests
 
             await this.dataContext.AddRangeAsync(users);
             await this.dataContext.SaveChangesAsync();
-            this.userRepository = new UserRepository<User>(this.dataContext);
 
             var result = await this.userRepository.GetAllAsync();
 
@@ -90,15 +89,12 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task GetUserAsync_should_return_Ok_if_user_exists()
+        public async Task GetUserAsync_should_return_user_if_user_exists()
         {
             User user = new User(Guid.NewGuid(), "elias", 20);
 
             await this.dataContext.AddAsync(user);
             await this.dataContext.SaveChangesAsync();
-            await this.dataContext.Users.FindAsync(user.UserId);
-
-            this.userRepository = new UserRepository<User>(this.dataContext);
 
             var result = await this.userRepository.GetByIdAsync(user.UserId);
 
@@ -111,15 +107,12 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task GetUserAsync_should_return_No_user()
+        public async Task GetUserAsync_should_return_Null_if_user_does_not_exist()
         {
             User user = new User(Guid.NewGuid(), "elias", 20);
 
             await this.dataContext.AddAsync(user);
             await this.dataContext.SaveChangesAsync();
-            await this.dataContext.Users.FindAsync(user.UserId);
-
-            this.userRepository = new UserRepository<User>(this.dataContext);
 
             var result = await this.userRepository.GetByIdAsync(Guid.NewGuid());
 
@@ -131,7 +124,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostUserAsync_should_return_Created()
+        public async Task PostUserAsync_should_return_user()
         {
             User user = new User()
             {
@@ -140,8 +133,6 @@ namespace DataAccessLayer.Tests
 
             await this.dataContext.AddAsync(user);
             await this.dataContext.SaveChangesAsync();
-
-            this.userRepository = new UserRepository<User>(this.dataContext);
 
             var response = this.userRepository.InsertAsync(user);
 
@@ -153,15 +144,16 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostUserAsync_Name_Should_Not_Exceed_50_Characters()
+        public async Task PostUserAsync_should_return_not_found_if_name_Exceed_50_Characters()
         {
             bool result = false;
+            const int maxFieldLength = 50;
             User user = new User
             {
                 Name = "HQIUEHWRIUQHEWRUHQWIEUHRIUWQEHRIUHQWEIUHRIUWQHEIURHQWEERWQRWQEU",
             };
 
-            if (user.Name.Length < 50)
+            if (user.Name.Length < maxFieldLength)
             {
                 await this.dataContext.AddAsync(user);
                 await this.dataContext.SaveChangesAsync();
@@ -169,7 +161,6 @@ namespace DataAccessLayer.Tests
                 result = response.IsCompleted;
             }
 
-            this.userRepository = new UserRepository<User>(this.dataContext);
             Assert.False(result);
         }
     }

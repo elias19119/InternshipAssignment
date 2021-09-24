@@ -2,11 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using System.Threading.Tasks;
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
-    using ImageSourcesStorage.DataAccessLayer.Validators;
     using ImageSourcesStorage.Models;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
@@ -62,7 +62,7 @@
             var result = response as OkObjectResult;
 
             Assert.NotNull(response);
-            Assert.Equal(200, result.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostUserAsync_should_return_Created()
+        public async Task PostUserAsync_should_return_ok()
         {
             CreateUserRequest userRequest = new CreateUserRequest
             {
@@ -87,6 +87,22 @@
 
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);
+        }
+
+        /// <summary>
+        /// should return A created user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteUserAsync_should_remove_User_if_id_exist()
+        {
+            var userId = Guid.NewGuid();
+            this.userRepository.Setup(user => user.GetByIdAsync(userId)).ReturnsAsync(new User() { });
+            this.userRepository.Setup(user => user.DeleteAsync(It.IsAny<Guid>())).Returns(Task.CompletedTask);
+
+            await this.controller.DeleteUserAsync(userId);
+
+            this.userRepository.Verify(user => user.DeleteAsync(It.IsAny<Guid>()));
         }
     }
 }

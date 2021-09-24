@@ -2,11 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
-    using FluentValidation;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
     using ImageSourcesStorage.Models;
+    using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/users")]
@@ -14,12 +14,14 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
-        private readonly UserValidator UserValidator;
+        private readonly GetUserValidator getUserValidator;
+        private readonly PostUserValidator postUserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.UserValidator = new UserValidator(userRepository);
+            this.getUserValidator = new GetUserValidator(userRepository);
+            this.postUserValidator = new PostUserValidator(userRepository);
         }
 
         [HttpGet]
@@ -34,7 +36,7 @@
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
             var user = await this.userRepository.GetByIdAsync(userId);
-            var result = this.UserValidator.Validate(user);
+            var result = this.getUserValidator.Validate(user);
             if (!result.IsValid)
             {
                 return this.NotFound();
@@ -51,11 +53,11 @@
                 Name = request.Name,
             };
 
-            var result = this.UserValidator.Validate(user, options => options.IncludeRuleSets("Name"));
+            var result = this.postUserValidator.Validate(user);
 
             if (!result.IsValid)
             {
-                return this.StatusCode(400);
+                return this.BadRequest();
             }
 
             await this.userRepository.InsertAsync(user);

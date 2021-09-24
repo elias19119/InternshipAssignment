@@ -1,8 +1,8 @@
 ﻿namespace ImageSourceStorage.Tests
 {
-    using FluentValidation;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
+    using ImageSourcesStorage.Validators;
     using Xunit;
 
     /// <summary>
@@ -10,59 +10,63 @@
     /// </summary>
     public class UserValidatorTest
     {
-        private UserValidator userValidator;
+        private GetUserValidator getUserValidator;
+        private PostUserValidator postUserValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserValidatorTest"/> class.
         /// </summary>
         public UserValidatorTest()
         {
-            this.userValidator = new UserValidator();
+            this.getUserValidator = new GetUserValidator();
+            this.postUserValidator = new PostUserValidator();
         }
 
         /// <summary>
         /// Should return empty.
         /// </summary>
         [Fact]
-        public void Should_have_error_when_Name_is_EmptyAsync()
+        public void Validate_should_return_false_if_Name_is_Empty()
         {
             User user = new User
             {
                 Name = string.Empty,
             };
 
-            var result = this.userValidator.Validate(user, options => options.IncludeRuleSets("Name"));
+            var result = this.postUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
 
         /// <summary>
         /// Should return error.
         /// </summary>
         [Fact]
-        public void Should_have_error_when_Name_Is_Longer_than_50_Characters()
+        public void Validate_should_return_false_if_name_Exceed_50_Characters()
         {
             User user = new User
             {
                 Name = "qwueihrqiuwehruqwehtiuhwqeiuthiqwuehriuwqehriuwehqiuhiuewrhiewhriuerwhiu",
             };
 
-            var result = this.userValidator.Validate(user, options => options.IncludeRuleSets("Name"));
+            var result = this.postUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
 
         /// <summary>
         /// user not empty .
         /// </summary>
         [Fact]
-        public void User_Not_Empty()
+        public void Validate_should_return_false_if_user_is_null()
         {
-            User user = null;
+            User user = new User()
+            {
+            };
 
-            var result = this.userValidator.Validate(user);
+            var result = this.postUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
     }
 }

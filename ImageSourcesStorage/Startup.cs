@@ -31,7 +31,7 @@ namespace ImageSourcesStorage
             services.AddMvc(opt =>
             {
                 opt.Filters.Add(typeof(ValidationFilter));
-            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<UserValidator>());
+            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<GetUserValidator>());
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
         }
 

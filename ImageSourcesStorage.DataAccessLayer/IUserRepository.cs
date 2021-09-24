@@ -22,6 +22,6 @@
 
         Task<bool> ExistsAsync(Guid userId);
 
-        Task<bool> ExistsNameAsync(string username);
+        Task<bool> NameExistsAsync(string name);
     }
 }
