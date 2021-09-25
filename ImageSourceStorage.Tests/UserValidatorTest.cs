@@ -1,4 +1,6 @@
-﻿namespace ImageSourceStorage.Tests
+﻿using System;
+
+namespace ImageSourceStorage.Tests
 {
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
@@ -44,9 +46,10 @@
         [Fact]
         public void Validate_should_return_false_if_name_Exceed_50_Characters()
         {
+            string name = new string('*', 52);
             User user = new User
             {
-                Name = "qwueihrqiuwehruqwehtiuhwqeiuthiqwuehriuwqehriuwehqiuhiuewrhiewhriuerwhiu",
+                Name = name,
             };
 
             var result = this.postUserValidator.Validate(user);

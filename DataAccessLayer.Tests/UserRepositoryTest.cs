@@ -124,7 +124,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostUserAsync_should_return_user()
+        public async Task InsertAsync_should_return_user_if_isvalid()
         {
             User user = new User()
             {
@@ -140,28 +140,43 @@ namespace DataAccessLayer.Tests
         }
 
         /// <summary>
-        /// should return precondition failed.
+        /// should return name exist.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostUserAsync_should_return_not_found_if_name_Exceed_50_Characters()
+        public async Task NameExistsAsync_should_return_ture_if_name_exists()
         {
-            bool result = false;
-            const int maxFieldLength = 50;
-            User user = new User
+            User user = new User()
             {
-                Name = "HQIUEHWRIUQHEWRUHQWIEUHRIUWQEHRIUHQWEIUHRIUWQHEIURHQWEERWQRWQEU",
+                Name = "Hanna",
             };
 
-            if (user.Name.Length < maxFieldLength)
-            {
-                await this.dataContext.AddAsync(user);
-                await this.dataContext.SaveChangesAsync();
-                var response = this.userRepository.InsertAsync(user);
-                result = response.IsCompleted;
-            }
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
 
-            Assert.False(result);
+            var response = this.userRepository.NameExistsAsync(user.Name);
+
+            Assert.True(response.Result);
+        }
+
+        /// <summary>
+        /// should return name exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task ExistsAsync_should_return_ture_if_id_exists()
+        {
+            User user = new User()
+            {
+               UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.ExistsAsync(user.UserId);
+
+            Assert.True(response.Result);
         }
     }
 }

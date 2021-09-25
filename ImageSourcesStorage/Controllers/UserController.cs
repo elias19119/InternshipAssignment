@@ -35,14 +35,12 @@
         [Route("{userId}")]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var user = await this.userRepository.GetByIdAsync(userId);
-            var result = this.getUserValidator.Validate(user);
-            if (!result.IsValid)
-            {
-                return this.NotFound();
-            }
+            var User = new User { UserId = userId };
+            var result = this.getUserValidator.Validate(User);
 
-            return this.Ok(user);
+            var user = await this.userRepository.GetByIdAsync(userId);
+
+            return result.IsValid ? this.Ok(user) : (ActionResult)this.NotFound();
         }
 
         [HttpPost]
@@ -55,13 +53,11 @@
 
             var result = this.postUserValidator.Validate(user);
 
-            if (!result.IsValid)
-            {
-                return this.BadRequest();
-            }
-
             await this.userRepository.InsertAsync(user);
-            return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
+
+            return result.IsValid
+                ? this.CreatedAtAction("GetUsers", new { id = user.UserId }, request)
+                : (ActionResult)this.BadRequest();
         }
 
         [HttpPut]

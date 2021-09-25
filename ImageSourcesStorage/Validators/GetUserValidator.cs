@@ -21,6 +21,7 @@
         public GetUserValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
+            this.RuleFor(x => x.UserId).MustAsync(this.UniqueId);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@
         {
             var isExists = await this.userRepository.ExistsAsync(userId);
 
-            return !isExists;
+            return isExists;
         }
     }
 }

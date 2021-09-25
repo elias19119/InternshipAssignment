@@ -13,6 +13,7 @@
     {
         private readonly IUserRepository<User> userRepository;
         private const int MaxFieldLength = 50;
+        private const int MinFieldLength = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostUserValidator"/> class.
@@ -22,7 +23,7 @@
         {
             this.userRepository = userRepository;
             this.RuleFor(x => x.Name).MustAsync(this.UniqueName);
-            this.RuleFor(x => x.Name).Length(1, MaxFieldLength);
+            this.RuleFor(x => x.Name).Length(MinFieldLength, MaxFieldLength);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@
         /// </summary>
         public PostUserValidator()
         {
-            this.RuleFor(x => x.Name).Length(1, MaxFieldLength).NotNull();
+            this.RuleFor(x => x.Name).Length(MinFieldLength, MaxFieldLength).NotNull();
         }
 
         /// <summary>
