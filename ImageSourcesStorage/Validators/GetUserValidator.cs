@@ -21,7 +21,7 @@
         public GetUserValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.RuleFor(x => x.UserId).MustAsync(this.UniqueId);
+            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         /// <summary>
@@ -29,13 +29,12 @@
         /// </summary>
         public GetUserValidator()
         {
-            this.RuleFor(x => x.UserId).MustAsync(this.UniqueId);
+            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         /// <summary>
         /// rule for checking if User Exist.
         /// </summary>
-        /// &lt;param name = "name" &gt;&lt;/ param &gt;
         /// <returns> true. </returns>
         public override ValidationResult Validate(ValidationContext<User> user)
         {
@@ -44,7 +43,7 @@
                 : base.Validate(user);
         }
 
-        private async Task<bool> UniqueId(Guid userId, CancellationToken cancellation)
+        private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)
         {
             var isExists = await this.userRepository.ExistsAsync(userId);
 

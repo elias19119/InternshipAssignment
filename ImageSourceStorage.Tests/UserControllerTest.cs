@@ -88,21 +88,5 @@
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);
         }
-
-        /// <summary>
-        /// should return A created user.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task DeleteUserAsync_should_remove_User_if_id_exists()
-        {
-            var userId = Guid.NewGuid();
-            this.userRepository.Setup(user => user.GetByIdAsync(userId)).ReturnsAsync(new User() { });
-            this.userRepository.Setup(user => user.DeleteAsync(It.IsAny<Guid>())).Returns(Task.CompletedTask);
-
-            await this.controller.DeleteUserAsync(userId);
-
-            this.userRepository.Verify(user => user.DeleteAsync(It.IsAny<Guid>()));
-        }
     }
 }

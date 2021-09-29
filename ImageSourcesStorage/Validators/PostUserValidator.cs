@@ -22,7 +22,7 @@
         public PostUserValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.RuleFor(x => x.Name).MustAsync(this.UniqueName);
+            this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync);
             this.RuleFor(x => x.Name).Length(MinFieldLength, MaxFieldLength);
         }
 
@@ -32,6 +32,7 @@
         public PostUserValidator()
         {
             this.RuleFor(x => x.Name).Length(MinFieldLength, MaxFieldLength).NotNull();
+            this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync);
         }
 
         /// <summary>
@@ -39,7 +40,7 @@
         /// </summary>
         // / <param name = "name" ></ param >
         // / < returns > true. </ returns >
-        private async Task<bool> UniqueName(string name, CancellationToken cancellation)
+        private async Task<bool> IsNameUniqueAsync(string name, CancellationToken cancellation)
         {
             var isExists = await this.userRepository.NameExistsAsync(name);
 

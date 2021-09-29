@@ -38,9 +38,7 @@
             var User = new User { UserId = userId };
             var result = this.getUserValidator.Validate(User);
 
-            var user = await this.userRepository.GetByIdAsync(userId);
-
-            return result.IsValid ? this.Ok(user) : (ActionResult)this.NotFound();
+            return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
 
         [HttpPost]
@@ -53,11 +51,13 @@
 
             var result = this.postUserValidator.Validate(user);
 
-            await this.userRepository.InsertAsync(user);
+            if (!result.IsValid)
+            {
+                return this.BadRequest();
+            }
 
-            return result.IsValid
-                ? this.CreatedAtAction("GetUsers", new { id = user.UserId }, request)
-                : (ActionResult)this.BadRequest();
+            await this.userRepository.InsertAsync(user);
+            return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
         }
 
         [HttpPut]
