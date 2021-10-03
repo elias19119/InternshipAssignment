@@ -57,6 +57,7 @@
             };
 
             this.userRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(user);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
             var response = await this.controller.GetUserAsync(user.UserId);
             var result = response as OkObjectResult;
