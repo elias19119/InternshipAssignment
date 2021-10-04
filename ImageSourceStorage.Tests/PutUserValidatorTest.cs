@@ -37,19 +37,13 @@
         [Fact]
         public async Task Validate_should_return_true_if_score_is_not_empty()
         {
-            UpdateUserRequest userRequest = new UpdateUserRequest()
+            User user = new User
             {
                 Name = "reneh",
                 Score = 20,
             };
 
-            User user = new User
-            {
-                Name = userRequest.Name,
-                Score = userRequest.Score,
-            };
-
-            await this.userRepository.UpdateAsync(user);
+            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
 
             var result = this.putuserValidator.Validate(user);
 
@@ -63,18 +57,12 @@
         [Fact]
         public async Task Validate_should_return_false_if_score_is_empty()
         {
-            UpdateUserRequest userRequest = new UpdateUserRequest()
+            User user = new User
             {
                 Name = "reneh",
             };
 
-            User user = new User
-            {
-                Name = userRequest.Name,
-                Score = userRequest.Score,
-            };
-
-            await this.userRepository.UpdateAsync(user);
+            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
 
             var result = this.putuserValidator.Validate(user);
 
@@ -88,19 +76,13 @@
         [Fact]
         public async Task Validate_should_return_false_if_score_is_negative()
         {
-            UpdateUserRequest userRequest = new UpdateUserRequest()
+            User user = new User
             {
                 Name = "reneh",
                 Score = -2,
             };
 
-            User user = new User
-            {
-                Name = userRequest.Name,
-                Score = userRequest.Score,
-            };
-
-            await this.userRepository.UpdateAsync(user);
+            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
 
             var result = this.putuserValidator.Validate(user);
 
@@ -114,19 +96,13 @@
         [Fact]
         public async Task Validate_should_return_true_if_score_is_not_negative()
         {
-            UpdateUserRequest userRequest = new UpdateUserRequest()
+            User user = new User
             {
                 Name = "reneh",
                 Score = 30,
             };
 
-            User user = new User
-            {
-                Name = userRequest.Name,
-                Score = userRequest.Score,
-            };
-
-            await this.userRepository.UpdateAsync(user);
+            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
 
             var result = this.putuserValidator.Validate(user);
 

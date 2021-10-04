@@ -6,7 +6,6 @@ namespace DataAccessLayer.Tests
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Xunit;
 
@@ -157,7 +156,6 @@ namespace DataAccessLayer.Tests
             Assert.True(response.Result);
         }
 
-
         /// <summary>
         /// should return name does not exist.
         /// </summary>
@@ -224,7 +222,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task DeleteAsync_should_return_true_if_id_exists()
+        public async Task DeleteAsync_should_return_false_if_user_is_deleted()
         {
             User user = new User()
             {
@@ -235,8 +233,9 @@ namespace DataAccessLayer.Tests
             await this.dataContext.SaveChangesAsync();
 
             var response = this.userRepository.DeleteAsync(user.UserId);
+            var isUserExists = this.dataContext.Users.Any(x => x.UserId == user.UserId);
 
-            Assert.True(response.IsCompletedSuccessfully);
+            Assert.False(isUserExists);
         }
 
         /// <summary>
@@ -244,7 +243,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task DeleteAsync_should_return_false_if_id_do_not_exists()
+        public async Task DeleteAsync_should_return_true_if_id_do_not_exists()
         {
             User user = new User()
             {
@@ -256,14 +255,15 @@ namespace DataAccessLayer.Tests
 
             var response = this.userRepository.DeleteAsync(Guid.NewGuid());
 
-            Assert.False(!response.IsCompletedSuccessfully);
+            Assert.True(!response.IsCompletedSuccessfully);
         }
 
         /// <summary>
         /// should return true if user is valid.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void UpdateAsync_should_return_true_if_user_is_valid()
+        public async Task UpdateAsync_should_return_true_if_user_is_valid()
         {
             User user = new User()
             {
@@ -271,9 +271,13 @@ namespace DataAccessLayer.Tests
                 Score = 50,
             };
 
-            var response = this.userRepository.UpdateAsync(user);
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
 
-            Assert.True(response.IsCompletedSuccessfully);
+            var response = this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
+            var isUserExists = this.dataContext.Users.Any(x => x.UserId == user.UserId);
+
+            Assert.True(isUserExists);
         }
     }
 }

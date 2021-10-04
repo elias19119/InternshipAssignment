@@ -14,14 +14,14 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
-        private readonly GetUserValidator getUserValidator;
+        private readonly CheckUserIdValidator getUserValidator;
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.getUserValidator = new GetUserValidator(userRepository);
+            this.getUserValidator = new CheckUserIdValidator(userRepository);
             this.postUserValidator = new PostUserValidator(userRepository);
             this.putUserValidator = new PutUserValidator(userRepository);
         }
@@ -74,14 +74,13 @@
             };
 
             var result = this.putUserValidator.Validate(user);
-            user.UserId = Guid.Empty;
 
             if (!result.IsValid)
             {
                 return this.BadRequest();
             }
 
-            await this.userRepository.UpdateAsync(user);
+            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
             return this.NoContent();
         }
 
@@ -89,7 +88,7 @@
         [Route("{userId}")]
         public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
-            var user = await this.userRepository.GetByIdAsync(userId).ConfigureAwait(false);
+            var user = new User { UserId = userId };
 
             var result = this.getUserValidator.Validate(user);
 

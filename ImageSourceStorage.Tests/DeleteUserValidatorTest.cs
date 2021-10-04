@@ -13,7 +13,7 @@
     /// </summary>
     public class DeleteUserValidatorTest
     {
-        private readonly GetUserValidator getUserValidator;
+        private readonly CheckUserIdValidator getUserValidator;
         private readonly UserRepository<User> userRepository;
         private readonly DataContext dataContext;
 
@@ -27,7 +27,7 @@
                 .Options;
             this.dataContext = new DataContext(options);
             this.userRepository = new UserRepository<User>(this.dataContext);
-            this.getUserValidator = new GetUserValidator(this.userRepository);
+            this.getUserValidator = new CheckUserIdValidator(this.userRepository);
         }
 
         /// <summary>
@@ -69,7 +69,5 @@
 
             Assert.True(result.IsValid);
         }
-
-
     }
 }

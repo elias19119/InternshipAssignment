@@ -11,23 +11,23 @@
     /// <summary>
     /// this class test the User validator.
     /// </summary>
-    public class GetUserValidatorTest
+    public class CheckUserIdValidatorTest
     {
-        private readonly GetUserValidator getUserValidator;
+        private readonly CheckUserIdValidator getUserValidator;
         private readonly UserRepository<User> userRepository;
         private readonly DataContext dataContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetUserValidatorTest"/> class.
+        /// Initializes a new instance of the <see cref="CheckUserIdValidatorTest"/> class.
         /// </summary>
-        public GetUserValidatorTest()
+        public CheckUserIdValidatorTest()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(databaseName: "FakeConnectionString")
                 .Options;
             this.dataContext = new DataContext(options);
             this.userRepository = new UserRepository<User>(this.dataContext);
-            this.getUserValidator = new GetUserValidator(this.userRepository);
+            this.getUserValidator = new CheckUserIdValidator(this.userRepository);
         }
 
         /// <summary>

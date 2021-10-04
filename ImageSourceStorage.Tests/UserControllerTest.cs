@@ -132,7 +132,7 @@
             };
 
             this.userRepository.Setup(x => x.GetByIdAsync(user.UserId)).ReturnsAsync(user);
-            this.userRepository.Setup(x => x.UpdateAsync(user));
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score));
             this.userRepository.Setup(x => x.NameExistsAsync(user.Name)).ReturnsAsync(false);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
