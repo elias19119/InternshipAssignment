@@ -1,7 +1,10 @@
 namespace ImageSourcesStorage
 {
+    using FluentValidation.AspNetCore;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
+    using ImageSourcesStorage.DataAccessLayer.Validators;
+    using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -23,9 +26,13 @@ namespace ImageSourcesStorage
         {
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));
-            services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddControllers();
             services.AddSwaggerGen();
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add(typeof(ValidationFilter));
+            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<GetUserValidator>());
+            services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,7 +4,9 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
+    using ImageSourcesStorage.DataAccessLayer.Validators;
     using ImageSourcesStorage.Models;
+    using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/users")]
@@ -12,10 +14,14 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
+        private readonly GetUserValidator getUserValidator;
+        private readonly PostUserValidator postUserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
+            this.getUserValidator = new GetUserValidator(userRepository);
+            this.postUserValidator = new PostUserValidator(userRepository);
         }
 
         [HttpGet]
@@ -29,13 +35,10 @@
         [Route("{userId}")]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var user = await this.userRepository.GetByIdAsync(userId);
-            if (user == null)
-            {
-                return this.NotFound();
-            }
+            var User = new User { UserId = userId };
+            var result = this.getUserValidator.Validate(User);
 
-            return this.Ok(user);
+            return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
 
         [HttpPost]
@@ -45,6 +48,14 @@
             {
                 Name = request.Name,
             };
+
+            var result = this.postUserValidator.Validate(user);
+
+            if (!result.IsValid)
+            {
+                return this.BadRequest();
+            }
+
             await this.userRepository.InsertAsync(user);
             return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
         }

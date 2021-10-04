@@ -18,6 +18,10 @@
             this.entities = context.Set<User>();
         }
 
+        public UserRepository()
+        {
+        }
+
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await this.entities.ToListAsync();
@@ -57,6 +61,11 @@
         public async Task<bool> ExistsAsync(Guid userId)
         {
             return await this.entities.AnyAsync(a => a.UserId == userId);
+        }
+
+        public async Task<bool> NameExistsAsync(string name)
+        {
+            return await this.entities.AnyAsync(a => a.Name == name);
         }
     }
 }
