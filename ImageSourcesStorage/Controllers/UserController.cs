@@ -16,12 +16,14 @@
         private readonly IUserRepository<User> userRepository;
         private readonly GetUserValidator getUserValidator;
         private readonly PostUserValidator postUserValidator;
+        private readonly PutUserValidator putUserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
             this.getUserValidator = new GetUserValidator(userRepository);
             this.postUserValidator = new PostUserValidator(userRepository);
+            this.putUserValidator = new PutUserValidator(userRepository);
         }
 
         [HttpGet]
@@ -61,20 +63,25 @@
         }
 
         [HttpPut]
+        [Route("{userId}")]
         public async Task<IActionResult> PutUserAsync(UpdateUserRequest request, Guid userId)
         {
             var user = new User
             {
                 Name = request.Name,
                 Score = request.Score,
+                UserId = userId,
             };
-            await this.userRepository.UpdateAsync(user);
 
-            if (!await this.userRepository.ExistsAsync(userId))
+            var result = this.putUserValidator.Validate(user);
+            user.UserId = Guid.Empty;
+
+            if (!result.IsValid)
             {
-                return this.NotFound();
+                return this.BadRequest();
             }
 
+            await this.userRepository.UpdateAsync(user);
             return this.NoContent();
         }
 
@@ -83,9 +90,12 @@
         public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
             var user = await this.userRepository.GetByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
+
+            var result = this.getUserValidator.Validate(user);
+
+            if (!result.IsValid)
             {
-                return this.NotFound($"Users with Id = {userId} not found");
+                return this.NotFound();
             }
 
             await this.userRepository.DeleteAsync(userId);

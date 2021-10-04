@@ -6,6 +6,7 @@ namespace DataAccessLayer.Tests
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Xunit;
 
@@ -216,6 +217,63 @@ namespace DataAccessLayer.Tests
             var response = this.userRepository.ExistsAsync(Guid.NewGuid());
 
             Assert.False(response.Result);
+        }
+
+        /// <summary>
+        /// should delete a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteAsync_should_return_true_if_id_exists()
+        {
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.DeleteAsync(user.UserId);
+
+            Assert.True(response.IsCompletedSuccessfully);
+        }
+
+        /// <summary>
+        /// should delete a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteAsync_should_return_false_if_id_do_not_exists()
+        {
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.DeleteAsync(Guid.NewGuid());
+
+            Assert.False(!response.IsCompletedSuccessfully);
+        }
+
+        /// <summary>
+        /// should return true if user is valid.
+        /// </summary>
+        [Fact]
+        public void UpdateAsync_should_return_true_if_user_is_valid()
+        {
+            User user = new User()
+            {
+                Name = "Reneh",
+                Score = 50,
+            };
+
+            var response = this.userRepository.UpdateAsync(user);
+
+            Assert.True(response.IsCompletedSuccessfully);
         }
     }
 }

@@ -89,5 +89,57 @@
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);
         }
+
+        /// <summary>
+        /// should return A created user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteUserAsync_should_remove_User_if_id_exists()
+        {
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            this.userRepository.Setup(x => x.GetByIdAsync(user.UserId)).ReturnsAsync(user);
+            this.userRepository.Setup(x => x.DeleteAsync(user.UserId));
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
+
+            var result = await this.controller.DeleteUserAsync(user.UserId);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        /// <summary>
+        /// should return updated user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task PutUserAsync_should_update_User_if_id_exists_and_if_name_is_unique()
+        {
+            UpdateUserRequest userRequest = new UpdateUserRequest()
+            {
+                Name = "sana",
+                Score = 20,
+            };
+
+            User user = new User()
+            {
+                Name = userRequest.Name,
+                Score = userRequest.Score,
+                UserId = Guid.NewGuid(),
+            };
+
+            this.userRepository.Setup(x => x.GetByIdAsync(user.UserId)).ReturnsAsync(user);
+            this.userRepository.Setup(x => x.UpdateAsync(user));
+            this.userRepository.Setup(x => x.NameExistsAsync(user.Name)).ReturnsAsync(false);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
+
+            var result = await this.controller.PutUserAsync(userRequest, user.UserId);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
     }
 }
