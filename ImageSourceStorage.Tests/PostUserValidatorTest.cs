@@ -34,7 +34,7 @@
         /// Should return empty.
         /// </summary>
         [Fact]
-        public void Validate_should_return_true_if_Name_is_Empty()
+        public void Validate_should_return_false_if_Name_is_Empty()
         {
             User user = new User
             {
@@ -43,7 +43,7 @@
 
             var result = this.postUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@
         /// Should return error.
         /// </summary>
         [Fact]
-        public void Validate_should_return_true_if_name_Exceed_50_Characters()
+        public void Validate_should_return_false_if_name_Exceed_50_Characters()
         {
             string name = new string('*', 52);
             User user = new User
@@ -76,7 +76,7 @@
 
             var result = this.postUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_Name_is_not_unique()
+        public async Task Validate_should_return_false_if_Name_is_not_unique()
         {
             User user = new User()
             {
@@ -97,7 +97,7 @@
 
             var result = this.postUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
 
         /// <summary>

@@ -162,7 +162,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task NameExistsAsync_should_return_true_if_name_does_not_exists()
+        public async Task NameExistsAsync_should_return_false_if_name_does_not_exists()
         {
             string testname = "rami";
             User user = new User()
@@ -175,7 +175,7 @@ namespace DataAccessLayer.Tests
 
             var response = this.userRepository.NameExistsAsync(testname);
 
-            Assert.True(!response.Result);
+            Assert.False(response.Result);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task ExistsAsync_should_return_true_if_id_does_not_exists()
+        public async Task ExistsAsync_should_return_false_if_id_does_not_exists()
         {
             User user = new User()
             {
@@ -215,7 +215,7 @@ namespace DataAccessLayer.Tests
 
             var response = this.userRepository.ExistsAsync(Guid.NewGuid());
 
-            Assert.True(!response.Result);
+            Assert.False(response.Result);
         }
     }
 }
