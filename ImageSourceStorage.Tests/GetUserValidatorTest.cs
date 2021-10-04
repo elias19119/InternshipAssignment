@@ -35,7 +35,7 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_id_does_not_exists()
+        public async Task Validate_should_return_false_if_id_does_not_exists()
         {
             User user = new User()
             {
@@ -46,7 +46,7 @@
 
             var result = this.getUserValidator.Validate(user);
 
-            Assert.True(!result.IsValid);
+            Assert.False(result.IsValid);
         }
 
         /// <summary>
