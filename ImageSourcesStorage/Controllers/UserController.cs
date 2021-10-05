@@ -37,8 +37,8 @@
         [Route("{userId}")]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var User = new User { UserId = userId };
-            var result = this.checkUserIdValidator.Validate(User);
+            var user = new User { UserId = userId };
+            var result = this.checkUserIdValidator.Validate(user);
 
             return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
