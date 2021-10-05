@@ -14,14 +14,16 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
-        private readonly GetUserValidator getUserValidator;
+        private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly PostUserValidator postUserValidator;
+        private readonly PutUserValidator putUserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.getUserValidator = new GetUserValidator(userRepository);
+            this.checkUserIdValidator = new CheckUserIdValidator(userRepository);
             this.postUserValidator = new PostUserValidator(userRepository);
+            this.putUserValidator = new PutUserValidator(userRepository);
         }
 
         [HttpGet]
@@ -35,8 +37,8 @@
         [Route("{userId}")]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var User = new User { UserId = userId };
-            var result = this.getUserValidator.Validate(User);
+            var user = new User { UserId = userId };
+            var result = this.checkUserIdValidator.Validate(user);
 
             return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
@@ -61,20 +63,24 @@
         }
 
         [HttpPut]
+        [Route("{userId}")]
         public async Task<IActionResult> PutUserAsync(UpdateUserRequest request, Guid userId)
         {
             var user = new User
             {
                 Name = request.Name,
                 Score = request.Score,
+                UserId = userId,
             };
-            await this.userRepository.UpdateAsync(user);
 
-            if (!await this.userRepository.ExistsAsync(userId))
+            var result = this.putUserValidator.Validate(user);
+
+            if (!result.IsValid)
             {
-                return this.NotFound();
+                return this.BadRequest();
             }
 
+            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
             return this.NoContent();
         }
 
@@ -82,10 +88,13 @@
         [Route("{userId}")]
         public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
-            var user = await this.userRepository.GetByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
+            var user = new User { UserId = userId };
+
+            var result = this.checkUserIdValidator.Validate(user);
+
+            if (!result.IsValid)
             {
-                return this.NotFound($"Users with Id = {userId} not found");
+                return this.NotFound();
             }
 
             await this.userRepository.DeleteAsync(userId);

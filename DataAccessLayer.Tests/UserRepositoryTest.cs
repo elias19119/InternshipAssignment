@@ -156,7 +156,6 @@ namespace DataAccessLayer.Tests
             Assert.True(response.Result);
         }
 
-
         /// <summary>
         /// should return name does not exist.
         /// </summary>
@@ -216,6 +215,69 @@ namespace DataAccessLayer.Tests
             var response = this.userRepository.ExistsAsync(Guid.NewGuid());
 
             Assert.False(response.Result);
+        }
+
+        /// <summary>
+        /// should delete a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteAsync_should_return_false_if_user_is_deleted()
+        {
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.DeleteAsync(user.UserId);
+            var isUserExists = this.dataContext.Users.Any(x => x.UserId == user.UserId);
+
+            Assert.False(isUserExists);
+        }
+
+        /// <summary>
+        /// should delete a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteAsync_should_return_false_if_id_do_not_exists()
+        {
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.DeleteAsync(Guid.NewGuid());
+
+            Assert.False(response.IsCompletedSuccessfully);
+        }
+
+        /// <summary>
+        /// should return true if user is valid.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public async Task UpdateAsync_should_return_true_if_user_is_valid()
+        {
+            User user = new User()
+            {
+                Name = "Reneh",
+                Score = 50,
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
+            var isUserExists = this.dataContext.Users.Any(x => x.UserId == user.UserId);
+
+            Assert.True(isUserExists);
         }
     }
 }

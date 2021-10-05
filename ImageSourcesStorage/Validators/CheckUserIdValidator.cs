@@ -10,24 +10,24 @@
     /// <summary>
     /// User Validation.
     /// </summary>
-    public class GetUserValidator : AbstractValidator<User>
+    public class CheckUserIdValidator : AbstractValidator<User>
     {
         private readonly IUserRepository<User> userRepository;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetUserValidator"/> class.
-        /// Initializes a new user of the <see cref="GetUserValidator"/> class.
+        /// Initializes a new instance of the <see cref="CheckUserIdValidator"/> class.
+        /// Initializes a new user of the <see cref="CheckUserIdValidator"/> class.
         /// </summary>
-        public GetUserValidator(IUserRepository<User> userRepository)
+        public CheckUserIdValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetUserValidator"/> class.
+        /// Initializes a new instance of the <see cref="CheckUserIdValidator"/> class.
         /// </summary>
-        public GetUserValidator()
+        public CheckUserIdValidator()
         {
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }

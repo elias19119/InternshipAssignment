@@ -40,10 +40,16 @@
             await this.SaveAsync();
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task UpdateAsync(Guid userId, string name, int score)
         {
-            await this.entities.AddAsync(user);
-            await this.SaveAsync();
+            var user = await this.entities.FindAsync(userId);
+
+            if (user != null)
+            {
+                user.Name = name;
+                user.Score = score;
+                await this.SaveAsync();
+            }
         }
 
         public async Task DeleteAsync(Guid userId)

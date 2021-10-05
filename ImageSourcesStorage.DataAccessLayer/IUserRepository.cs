@@ -14,7 +14,7 @@
 
         Task InsertAsync(TUser user);
 
-        Task UpdateAsync(TUser user);
+        Task UpdateAsync(Guid userId, string name, int score);
 
         Task DeleteAsync(Guid userId);
 
