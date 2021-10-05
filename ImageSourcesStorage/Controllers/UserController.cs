@@ -14,14 +14,14 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
-        private readonly CheckUserIdValidator getUserValidator;
+        private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.getUserValidator = new CheckUserIdValidator(userRepository);
+            this.checkUserIdValidator = new CheckUserIdValidator(userRepository);
             this.postUserValidator = new PostUserValidator(userRepository);
             this.putUserValidator = new PutUserValidator(userRepository);
         }
@@ -38,7 +38,7 @@
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
             var User = new User { UserId = userId };
-            var result = this.getUserValidator.Validate(User);
+            var result = this.checkUserIdValidator.Validate(User);
 
             return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
@@ -90,7 +90,7 @@
         {
             var user = new User { UserId = userId };
 
-            var result = this.getUserValidator.Validate(user);
+            var result = this.checkUserIdValidator.Validate(user);
 
             if (!result.IsValid)
             {

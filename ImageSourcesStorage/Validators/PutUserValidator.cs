@@ -15,7 +15,7 @@
         private readonly IUserRepository<User> userRepository;
         private const int MaxFieldLength = 50;
         private const int MinFieldLength = 1;
-        private const int MinScroreValue = 0;
+        private const int MinScoreValue = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PutUserValidator"/> class.
@@ -28,7 +28,7 @@
             this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync);
             this.RuleFor(x => x.Name).Length(MinFieldLength, MaxFieldLength);
             this.RuleFor(x => x.Score).NotEmpty();
-            this.RuleFor(x => x.Score).GreaterThan(MinScroreValue);
+            this.RuleFor(x => x.Score).GreaterThan(MinScoreValue);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         public PutUserValidator()
         {
             this.RuleFor(x => x.Score).NotEmpty();
-            this.RuleFor(x => x.Score).GreaterThan(MinScroreValue);
+            this.RuleFor(x => x.Score).GreaterThan(MinScoreValue);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)

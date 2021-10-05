@@ -13,7 +13,7 @@
     /// </summary>
     public class CheckUserIdValidatorTest
     {
-        private readonly CheckUserIdValidator getUserValidator;
+        private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly UserRepository<User> userRepository;
         private readonly DataContext dataContext;
 
@@ -27,7 +27,7 @@
                 .Options;
             this.dataContext = new DataContext(options);
             this.userRepository = new UserRepository<User>(this.dataContext);
-            this.getUserValidator = new CheckUserIdValidator(this.userRepository);
+            this.checkUserIdValidator = new CheckUserIdValidator(this.userRepository);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
 
             await this.userRepository.GetByIdAsync(Guid.NewGuid());
 
-            var result = this.getUserValidator.Validate(user);
+            var result = this.checkUserIdValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -65,7 +65,7 @@
 
             await this.userRepository.GetByIdAsync(user.UserId);
 
-            var result = this.getUserValidator.Validate(user);
+            var result = this.checkUserIdValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }

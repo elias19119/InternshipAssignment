@@ -243,7 +243,7 @@ namespace DataAccessLayer.Tests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task DeleteAsync_should_return_true_if_id_do_not_exists()
+        public async Task DeleteAsync_should_return_false_if_id_do_not_exists()
         {
             User user = new User()
             {
@@ -255,7 +255,7 @@ namespace DataAccessLayer.Tests
 
             var response = this.userRepository.DeleteAsync(Guid.NewGuid());
 
-            Assert.True(!response.IsCompletedSuccessfully);
+            Assert.False(response.IsCompletedSuccessfully);
         }
 
         /// <summary>
