@@ -25,6 +25,14 @@
         {
             modelBuilder.Entity<User>()
                 .ToTable("User");
+
+            modelBuilder.Entity<Board>()
+            .ToTable("Board")
+            .HasMany(c => c.Pins);
+
+            modelBuilder.Entity<Pin>()
+             .ToTable("Pin").HasKey(x => x.PinId);
+
         }
     }
 }

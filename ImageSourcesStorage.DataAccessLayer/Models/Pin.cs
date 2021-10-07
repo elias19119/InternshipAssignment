@@ -13,8 +13,12 @@
 
         public string Name { get; set; }
 
+        public string ImagePath { get; set; }
+
         public Guid UserId { get; set; }
 
         public User Owner { get; set; }
+
+        public Guid BoardId { get; set; }
     }
 }

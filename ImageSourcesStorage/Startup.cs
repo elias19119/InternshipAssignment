@@ -33,6 +33,7 @@ namespace ImageSourcesStorage
                 opt.Filters.Add(typeof(ValidationFilter));
             }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<CheckUserIdValidator>());
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
+            services.AddTransient(typeof(IBoardRepository), typeof(BoardRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
