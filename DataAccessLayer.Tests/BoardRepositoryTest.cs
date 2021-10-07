@@ -13,8 +13,8 @@
     /// </summary>
     public class BoardRepositoryTest
     {
-        private DataContext dataContext;
-        private BoardRepository userRepository;
+        private readonly DataContext dataContext;
+        private readonly BoardRepository userRepository;
         private Guid userId = new Guid("13e74e68-2d77-4f7d-8d74-5ea43e2c13f6");
 
         /// <summary>
