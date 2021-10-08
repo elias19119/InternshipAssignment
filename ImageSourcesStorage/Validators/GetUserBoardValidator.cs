@@ -13,21 +13,21 @@
     /// </summary>
     public class GetUserBoardValidator : AbstractValidator<Board>
     {
-        private readonly IBoardRepository boardRepositroy;
+          private readonly IUserRepository<User> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserBoardValidator"/> class.
         /// </summary>
-        /// <param name="boardRepositroy"></param>
-        public GetUserBoardValidator(IBoardRepository boardRepositroy)
+        /// <param name="userRepository"></param>
+        public GetUserBoardValidator(IUserRepository<User> boardRepositroy)
         {
-            this.boardRepositroy = boardRepositroy;
+            this.userRepository = userRepository;
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)
         {
-            var isExists = await this.boardRepositroy.UserIdExistsAsync(userId);
+            var isExists = await this.userRepository.UserIdExistsAsync(userId);
 
             return isExists;
         }
