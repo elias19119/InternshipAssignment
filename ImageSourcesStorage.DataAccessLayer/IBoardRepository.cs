@@ -8,7 +8,5 @@
     public interface IBoardRepository
     {
         Task<List<Board>> GetUserBoardAsync(Guid userId);
-
-        Task<bool> UserIdExistsAsync(Guid userId);
     }
 }

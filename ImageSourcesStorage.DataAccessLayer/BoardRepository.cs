@@ -29,10 +29,5 @@
             .Where(u => u.UserId == userId)
             .ToListAsync();
         }
-
-        public async Task<bool> UserIdExistsAsync(Guid userId)
-        {
-            return await this.context.Users.AnyAsync(x => x.UserId == userId);
-        }
     }
 }

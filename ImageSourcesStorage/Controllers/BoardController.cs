@@ -14,15 +14,17 @@
     public class BoardController : ControllerBase
     {
         private readonly IBoardRepository boardRepository;
-        private readonly GetUserBoardValidator getUserIdboardValidator;
+        private readonly IUserRepository<User> userRepository;
+        private readonly GetUserBoardValidator getUserBoardValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
         /// </summary>
-        public BoardController(IBoardRepository boardRepository)
+        public BoardController(IBoardRepository boardRepository , IUserRepository<User> userRepository)
         {
             this.boardRepository = boardRepository;
-            this.getUserIdboardValidator = new GetUserBoardValidator(boardRepository);
+            this.userRepository = userRepository;
+            this.getUserBoardValidator = new GetUserBoardValidator(userRepository);
         }
 
         [HttpGet]
@@ -31,7 +33,7 @@
         {
             var board = new Board() { UserId = userId };
 
-            var result = this.getUserIdboardValidator.Validate(board);
+            var result = this.getUserBoardValidator.Validate(board);
 
             if (!result.IsValid)
             {
@@ -39,9 +41,9 @@
             }
 
             var boards = await this.boardRepository.GetUserBoardAsync(userId);
-            var respnse = new GetUserBoardResponse(boards);
+            var response = new GetUserBoardResponse(boards);
 
-            return this.Ok(respnse);
+            return this.Ok(response);
         }
     }
 }

@@ -32,7 +32,6 @@
 
             modelBuilder.Entity<Pin>()
              .ToTable("Pin").HasKey(x => x.PinId);
-
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace ImageSourceStorage.Tests
+﻿namespace ImageSourceStorage.Tests
 {
     using System;
     using System.Threading.Tasks;
@@ -8,6 +8,9 @@ namespace ImageSourceStorage.Tests
     using Microsoft.EntityFrameworkCore;
     using Xunit;
 
+    /// <summary>
+    /// test class for get user board.
+    /// </summary>
     public class GetUserBoardValidatorTest
     {
         private readonly GetUserBoardValidator getUserBoardValidator;
@@ -58,7 +61,7 @@ namespace ImageSourceStorage.Tests
 
             Board board = new Board()
             {
-               UserId = user.UserId,
+                UserId = user.UserId,
             };
 
             await this.dataContext.AddAsync(user);

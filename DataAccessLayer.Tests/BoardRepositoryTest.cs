@@ -15,7 +15,7 @@
     {
         private readonly DataContext dataContext;
         private readonly BoardRepository userRepository;
-        private Guid userId = new Guid("13e74e68-2d77-4f7d-8d74-5ea43e2c13f6");
+        private readonly Guid userId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardRepositoryTest"/> class.
@@ -27,6 +27,7 @@
                 .Options;
             this.dataContext = new DataContext(options);
             this.userRepository = new BoardRepository(this.dataContext);
+            this.userId = Guid.NewGuid();
         }
 
         /// <summary>
@@ -73,7 +74,7 @@
 
             var result = await this.userRepository.GetUserBoardAsync(this.userId);
 
-            Assert.Equal(boards.Count, result.Count);
+            Assert.Empty(result);
         }
     }
 }
