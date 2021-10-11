@@ -16,6 +16,7 @@
         private readonly IBoardRepository boardRepository;
         private readonly IUserRepository<User> userRepository;
         private readonly GetUserBoardValidator getUserBoardValidator;
+        private readonly AddBoardtoUserValidator addBoardValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
@@ -25,6 +26,7 @@
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;
             this.getUserBoardValidator = new GetUserBoardValidator(userRepository);
+            this.addBoardValidator = new AddBoardtoUserValidator(userRepository, boardRepository);
         }
 
         [HttpGet]
@@ -45,5 +47,30 @@
 
             return this.Ok(response);
         }
+
+        [HttpPost]
+        [Route("{userId}/boards")]
+        public async Task<IActionResult> PostBoardtoUserAsync(Guid userId, PostBoardtoUserRequest request)
+        {
+            Board board = new Board()
+            {
+                UserId = userId,
+                Name = request.Name,
+            };
+
+            var result = this.addBoardValidator.Validate(board);
+
+            if (!result.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            await this.boardRepository.PostBoardtoUserAsync(userId, board);
+
+            var response = new PostBoardtoUserResponse(board.BoardId);
+
+            return this.CreatedAtAction("PostBoardtoUser", new { id = board.UserId }, response);
+        }
+
     }
 }

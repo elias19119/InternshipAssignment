@@ -14,7 +14,7 @@
     public class BoardRepositoryTest
     {
         private readonly DataContext dataContext;
-        private readonly BoardRepository userRepository;
+        private readonly BoardRepository boardRepository;
         private readonly Guid userId;
 
         /// <summary>
@@ -26,7 +26,7 @@
                 .UseInMemoryDatabase(databaseName: "FakeConnectionString")
                 .Options;
             this.dataContext = new DataContext(options);
-            this.userRepository = new BoardRepository(this.dataContext);
+            this.boardRepository = new BoardRepository(this.dataContext);
             this.userId = Guid.NewGuid();
         }
 
@@ -54,7 +54,7 @@
             await this.dataContext.AddRangeAsync(boards);
             await this.dataContext.SaveChangesAsync();
 
-            var result = await this.userRepository.GetUserBoardAsync(this.userId);
+            var result = await this.boardRepository.GetUserBoardAsync(this.userId);
 
             Assert.NotEmpty(result);
             Assert.Equal(boards.Count, result.Count);
@@ -72,9 +72,87 @@
             await this.dataContext.AddRangeAsync(boards);
             await this.dataContext.SaveChangesAsync();
 
-            var result = await this.userRepository.GetUserBoardAsync(this.userId);
+            var result = await this.boardRepository.GetUserBoardAsync(this.userId);
 
             Assert.Empty(result);
+        }
+
+        /// <summary>
+        /// should return ok.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task PostBoardtoUserAsync_should_return_true_if_User_exists()
+        {
+            var board = new Board();
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.boardRepository.PostBoardtoUserAsync(this.userId, board);
+
+            Assert.NotNull(response);
+        }
+
+        /// <summary>
+        /// should return ok.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task PostBoardtoUserAsync_should_return_false_if_User_does_not_exists()
+        {
+            var board = new Board()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.boardRepository.PostBoardtoUserAsync(Guid.NewGuid(), board);
+
+            Assert.False(response.IsCompletedSuccessfully);
+        }
+
+        /// <summary>
+        /// should return name exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task NameExistsAsync_should_return_true_if_name_exists()
+        {
+            Board board = new Board()
+            {
+                Name = "cars",
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.boardRepository.NameExistsAsync(board.Name);
+
+            Assert.True(response.Result);
+        }
+
+        /// <summary>
+        /// should return name does not exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task NameExistsAsync_should_return_false_if_name_does_not_exists()
+        {
+            string testname = "boats";
+            Board board = new Board()
+            {
+                Name = "cars",
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.boardRepository.NameExistsAsync(testname);
+
+            Assert.False(response.Result);
         }
     }
 }

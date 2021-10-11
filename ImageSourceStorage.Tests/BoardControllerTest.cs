@@ -6,6 +6,7 @@
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
+    using ImageSourcesStorage.Models;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using Xunit;
@@ -17,6 +18,7 @@
     {
         private readonly BoardController controller;
         private readonly Mock<IBoardRepository> boardRepository;
+        private readonly Mock<IUserRepository<User>> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardControllerTest"/> class.
@@ -24,7 +26,8 @@
         public BoardControllerTest()
         {
             this.boardRepository = new Mock<IBoardRepository>();
-            this.controller = new BoardController(this.boardRepository.Object);
+            this.userRepository = new Mock<IUserRepository<User>>();
+            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object);
         }
 
         /// <summary>
@@ -41,5 +44,34 @@
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);
         }
+
+        /// <summary>
+        /// should return An OK Result.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task PostBoardtoUserAsync_should_return_OK_result()
+        {
+            User user = new User { UserId = Guid.NewGuid() };
+
+            PostBoardtoUserRequest request = new PostBoardtoUserRequest()
+            {
+                Name = "cars",
+            };
+            Board board = new Board()
+            {
+                Name = request.Name,
+            };
+
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.PostBoardtoUserAsync(user.UserId, board));
+            this.boardRepository.Setup(x => x.SaveAsync());
+
+            var response = await this.controller.PostBoardtoUserAsync(user.UserId, request);
+
+            Assert.NotNull(response);
+            Assert.IsType<CreatedAtActionResult>(response);
+        }
+
     }
 }

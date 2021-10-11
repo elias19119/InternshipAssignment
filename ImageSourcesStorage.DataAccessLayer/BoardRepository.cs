@@ -29,5 +29,22 @@
             .Where(u => u.UserId == userId)
             .ToListAsync();
         }
+
+        public async Task PostBoardtoUserAsync(Guid userId, Board board)
+        {
+            board.BoardId = Guid.NewGuid();
+            await this.context.Boards.AddAsync(board);
+            await this.SaveAsync();
+        }
+
+        public Task SaveAsync()
+        {
+            return this.context.SaveChangesAsync();
+        }
+
+        public async Task<bool> NameExistsAsync(string name)
+        {
+            return await this.context.Boards.AnyAsync(a => a.Name == name);
+        }
     }
 }
