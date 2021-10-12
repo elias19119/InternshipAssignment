@@ -30,6 +30,15 @@
             this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync).NotEmpty().Length(MinFieldLength, MaxFieldLength);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddBoardtoUserValidator"/> class.
+        /// </summary>
+        public AddBoardtoUserValidator(IBoardRepository boardRepository)
+        {
+            this.boardRepository = boardRepository;
+            this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync);
+        }
+
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)
         {
             var isExists = await this.userRepository.ExistsAsync(userId);

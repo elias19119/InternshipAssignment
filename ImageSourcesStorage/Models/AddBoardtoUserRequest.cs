@@ -3,7 +3,7 @@
     /// <summary>
     /// this is the request for adding a board to user.
     /// </summary>
-    public class PostBoardtoUserRequest
+    public class AddBoardtoUserRequest
     {
         public string Name { get; set; }
     }

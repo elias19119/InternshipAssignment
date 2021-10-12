@@ -82,16 +82,25 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostBoardtoUserAsync_should_return_true_if_User_exists()
+        public async Task AddBoardToUserAsync_should_add_board_to_context_if_data_is_valid()
         {
-            var board = new Board();
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+            var board = new Board()
+            {
+                BoardId = Guid.NewGuid(),
+                UserId = user.UserId,
+            };
 
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = this.boardRepository.PostBoardtoUserAsync(this.userId, board);
+            await this.boardRepository.AddBoardtoUserAsync(board.UserId, board.BoardId, board.Name);
+            var isboardExists = this.boardRepository.GetBoardByIdAsync(board.BoardId);
 
-            Assert.NotNull(response);
+            Assert.NotNull(isboardExists.Result);
         }
 
         /// <summary>
@@ -99,19 +108,19 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostBoardtoUserAsync_should_return_false_if_User_does_not_exists()
+        public async Task AddBoardToUserAsync_should_not_add_board_to_context_if_data_is_not_valid()
         {
             var board = new Board()
             {
                 UserId = Guid.NewGuid(),
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
             };
 
-            await this.dataContext.AddAsync(board);
-            await this.dataContext.SaveChangesAsync();
+            await this.boardRepository.AddBoardtoUserAsync(board.UserId, Guid.NewGuid(), board.Name);
+            var isboardExists = this.boardRepository.GetBoardByIdAsync(board.BoardId);
 
-            var response = this.boardRepository.PostBoardtoUserAsync(Guid.NewGuid(), board);
-
-            Assert.False(response.IsCompletedSuccessfully);
+            Assert.Null(isboardExists.Result);
         }
 
         /// <summary>
@@ -124,6 +133,7 @@
             Board board = new Board()
             {
                 Name = "cars",
+                BoardId = Guid.NewGuid(),
             };
 
             await this.dataContext.AddAsync(board);
@@ -139,12 +149,13 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task NameExistsAsync_should_return_false_if_name_does_not_exists()
+        public async Task NameExistsAsync_should_return_false_if_name_does_not_exist()
         {
             string testname = "boats";
             Board board = new Board()
             {
                 Name = "cars",
+                BoardId = Guid.NewGuid(),
             };
 
             await this.dataContext.AddAsync(board);

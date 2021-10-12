@@ -30,9 +30,15 @@
             .ToListAsync();
         }
 
-        public async Task PostBoardtoUserAsync(Guid userId, Board board)
+        public async Task AddBoardtoUserAsync(Guid userId, Guid boardId, string name)
         {
-            board.BoardId = Guid.NewGuid();
+            Board board = new Board()
+            {
+                BoardId = boardId,
+                UserId = userId,
+                Name = name,
+            };
+
             await this.context.Boards.AddAsync(board);
             await this.SaveAsync();
         }
@@ -45,6 +51,11 @@
         public async Task<bool> NameExistsAsync(string name)
         {
             return await this.context.Boards.AnyAsync(a => a.Name == name);
+        }
+
+        public async Task<Board> GetBoardByIdAsync(Guid boardId)
+        {
+            return await this.context.Boards.FindAsync(boardId);
         }
     }
 }

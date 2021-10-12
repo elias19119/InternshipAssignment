@@ -48,10 +48,26 @@
             return this.Ok(response);
         }
 
+        [HttpGet]
+        [Route("boards/{boardId}")]
+        public async Task<IActionResult> GetUserBoardByIdAsync(Guid boardId)
+        {
+            var board = new Board()
+            {
+                BoardId = boardId,
+            };
+
+            var boards = await this.boardRepository.GetBoardByIdAsync(boardId);
+            var response = new GetBoardIdResponse(boards.BoardId);
+
+            return this.Ok(response);
+        }
+
         [HttpPost]
         [Route("{userId}/boards")]
-        public async Task<IActionResult> PostBoardtoUserAsync(Guid userId, PostBoardtoUserRequest request)
+        public async Task<IActionResult> AddBoardtoUserAsync(Guid userId, AddBoardtoUserRequest request)
         {
+            var boardId = Guid.NewGuid();
             Board board = new Board()
             {
                 UserId = userId,
@@ -65,12 +81,10 @@
                 return this.NotFound();
             }
 
-            await this.boardRepository.PostBoardtoUserAsync(userId, board);
+            await this.boardRepository.AddBoardtoUserAsync(userId, board.BoardId, board.Name);
+            var response = new AddBoardtoUserResponse(boardId);
 
-            var response = new PostBoardtoUserResponse(board.BoardId);
-
-            return this.CreatedAtAction("PostBoardtoUser", new { id = board.UserId }, response);
+            return this.CreatedAtAction(nameof(this.GetUserBoardByIdAsync), new { boardId }, response);
         }
-
     }
 }

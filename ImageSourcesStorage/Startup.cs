@@ -30,6 +30,7 @@ namespace ImageSourcesStorage
             services.AddSwaggerGen();
             services.AddMvc(opt =>
             {
+                opt.SuppressAsyncSuffixInActionNames = false;
                 opt.Filters.Add(typeof(ValidationFilter));
             }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<CheckUserIdValidator>());
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));

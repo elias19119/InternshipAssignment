@@ -9,7 +9,9 @@
     {
         Task<List<Board>> GetUserBoardAsync(Guid userId);
 
-        Task PostBoardtoUserAsync(Guid userId, Board board);
+        Task AddBoardtoUserAsync(Guid userId, Guid boardId, string name);
+
+        Task<Board> GetBoardByIdAsync(Guid boardId);
 
         Task<bool> NameExistsAsync(string name);
 

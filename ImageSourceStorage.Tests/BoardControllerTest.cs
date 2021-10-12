@@ -50,11 +50,11 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task PostBoardtoUserAsync_should_return_OK_result()
+        public async Task AddBoardtoUserAsync_should_return_OK_result()
         {
             User user = new User { UserId = Guid.NewGuid() };
 
-            PostBoardtoUserRequest request = new PostBoardtoUserRequest()
+            AddBoardtoUserRequest request = new AddBoardtoUserRequest()
             {
                 Name = "cars",
             };
@@ -64,14 +64,13 @@
             };
 
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.PostBoardtoUserAsync(user.UserId, board));
+            this.boardRepository.Setup(x => x.AddBoardtoUserAsync(user.UserId, board.BoardId , board.Name));
             this.boardRepository.Setup(x => x.SaveAsync());
 
-            var response = await this.controller.PostBoardtoUserAsync(user.UserId, request);
+            var response = await this.controller.AddBoardtoUserAsync(user.UserId, request);
 
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);
         }
-
     }
 }

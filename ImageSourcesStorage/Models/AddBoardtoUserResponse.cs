@@ -5,17 +5,17 @@
     /// <summary>
     /// this is the response for Add board to user.
     /// </summary>
-    public class PostBoardtoUserResponse
+    public class AddBoardtoUserResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PostBoardtoUserResponse"/> class.
+        /// Initializes a new instance of the <see cref="AddBoardtoUserResponse"/> class.
         /// </summary>
         /// <param name="boardId"></param>
-        public PostBoardtoUserResponse(Guid boardId)
+        public AddBoardtoUserResponse(Guid boardId)
         {
-            this.BoardId = boardId;
+            this.boardId = boardId;
         }
 
-        public Guid BoardId { get; set; }
+        public Guid boardId { get; set; }
     }
 }
