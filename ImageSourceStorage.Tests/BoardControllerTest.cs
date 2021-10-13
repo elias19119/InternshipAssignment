@@ -64,10 +64,10 @@
             };
 
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.AddBoardtoUserAsync(user.UserId, board.BoardId , board.Name));
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(user.UserId, board.BoardId , board.Name));
             this.boardRepository.Setup(x => x.SaveAsync());
 
-            var response = await this.controller.AddBoardtoUserAsync(user.UserId, request);
+            var response = await this.controller.AddBoardToUserAsync(user.UserId, request);
 
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);

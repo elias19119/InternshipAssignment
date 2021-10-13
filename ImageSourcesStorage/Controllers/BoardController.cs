@@ -17,6 +17,7 @@
         private readonly IUserRepository<User> userRepository;
         private readonly GetUserBoardValidator getUserBoardValidator;
         private readonly AddBoardtoUserValidator addBoardValidator;
+        private readonly GetBoardByIdValidator getBoardIdValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
@@ -27,6 +28,7 @@
             this.userRepository = userRepository;
             this.getUserBoardValidator = new GetUserBoardValidator(userRepository);
             this.addBoardValidator = new AddBoardtoUserValidator(userRepository, boardRepository);
+            this.getBoardIdValidator = new GetBoardByIdValidator(this.boardRepository);
         }
 
         [HttpGet]
@@ -52,10 +54,14 @@
         [Route("boards/{boardId}")]
         public async Task<IActionResult> GetUserBoardByIdAsync(Guid boardId)
         {
-            var board = new Board()
+            var board = new Board() { BoardId = boardId };
+
+            var result = this.getBoardIdValidator.Validate(board);
+
+            if (!result.IsValid)
             {
-                BoardId = boardId,
-            };
+               return this.BadRequest();
+            }
 
             var boards = await this.boardRepository.GetBoardByIdAsync(boardId);
             var response = new GetBoardIdResponse(boards.BoardId);
@@ -65,7 +71,7 @@
 
         [HttpPost]
         [Route("{userId}/boards")]
-        public async Task<IActionResult> AddBoardtoUserAsync(Guid userId, AddBoardtoUserRequest request)
+        public async Task<IActionResult> AddBoardToUserAsync(Guid userId, AddBoardtoUserRequest request)
         {
             var boardId = Guid.NewGuid();
             Board board = new Board()
@@ -81,7 +87,7 @@
                 return this.NotFound();
             }
 
-            await this.boardRepository.AddBoardtoUserAsync(userId, board.BoardId, board.Name);
+            await this.boardRepository.AddBoardToUserAsync(userId, board.BoardId, board.Name);
             var response = new AddBoardtoUserResponse(boardId);
 
             return this.CreatedAtAction(nameof(this.GetUserBoardByIdAsync), new { boardId }, response);

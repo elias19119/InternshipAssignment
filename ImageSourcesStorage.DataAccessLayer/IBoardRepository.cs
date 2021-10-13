@@ -9,11 +9,13 @@
     {
         Task<List<Board>> GetUserBoardAsync(Guid userId);
 
-        Task AddBoardtoUserAsync(Guid userId, Guid boardId, string name);
+        Task AddBoardToUserAsync(Guid userId, Guid boardId, string name);
 
         Task<Board> GetBoardByIdAsync(Guid boardId);
 
         Task<bool> NameExistsAsync(string name);
+
+        Task<bool> IsBoardExistsAsync(Guid boardId);
 
         Task SaveAsync();
     }

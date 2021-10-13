@@ -92,15 +92,16 @@
             {
                 BoardId = Guid.NewGuid(),
                 UserId = user.UserId,
+                Name = "cars",
             };
 
-            await this.dataContext.AddAsync(board);
+            await this.dataContext.AddAsync(user);
             await this.dataContext.SaveChangesAsync();
+            await this.boardRepository.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name);
 
-            await this.boardRepository.AddBoardtoUserAsync(board.UserId, board.BoardId, board.Name);
-            var isboardExists = this.boardRepository.GetBoardByIdAsync(board.BoardId);
+            var Board = await this.boardRepository.GetBoardByIdAsync(board.BoardId);
 
-            Assert.NotNull(isboardExists.Result);
+            Assert.Equal(board.BoardId, Board.BoardId);
         }
 
         /// <summary>
@@ -110,17 +111,15 @@
         [Fact]
         public async Task AddBoardToUserAsync_should_not_add_board_to_context_if_data_is_not_valid()
         {
-            var board = new Board()
-            {
-                UserId = Guid.NewGuid(),
-                Name = "cars",
-                BoardId = Guid.NewGuid(),
-            };
 
-            await this.boardRepository.AddBoardtoUserAsync(board.UserId, Guid.NewGuid(), board.Name);
-            var isboardExists = this.boardRepository.GetBoardByIdAsync(board.BoardId);
+            Guid userId = Guid.NewGuid();
+            string name = "cars";
+            Guid boardId = Guid.NewGuid();
 
-            Assert.Null(isboardExists.Result);
+            await this.boardRepository.AddBoardToUserAsync(userId, boardId, name);
+            var board = await this.boardRepository.GetBoardByIdAsync(Guid.NewGuid());
+
+            Assert.Null(board);
         }
 
         /// <summary>
@@ -139,9 +138,9 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = this.boardRepository.NameExistsAsync(board.Name);
+            var response = await this.boardRepository.NameExistsAsync(board.Name);
 
-            Assert.True(response.Result);
+            Assert.True(response);
         }
 
         /// <summary>
@@ -161,9 +160,52 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = this.boardRepository.NameExistsAsync(testname);
+            var response = await this.boardRepository.NameExistsAsync(testname);
 
-            Assert.False(response.Result);
+            Assert.False(response);
+        }
+
+        /// <summary>
+        /// should return id exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task IsBoardExistsAsync_should_return_true_if_id_exists()
+        {
+            Board board = new Board()
+            {
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = await this.boardRepository.IsBoardExistsAsync(board.BoardId);
+
+            Assert.True(response);
+        }
+
+        /// <summary>
+        /// should return name does not exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task IsBoardExistsAsync_should_return_true_if_id_does_not_exist()
+        {
+            Guid testId = Guid.NewGuid();
+            Board board = new Board()
+            {
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = await this.boardRepository.IsBoardExistsAsync(testId);
+
+            Assert.False(response);
         }
     }
 }
