@@ -88,7 +88,7 @@
             {
                 UserId = Guid.NewGuid(),
             };
-            var boardrepo = new Board()
+            var boardEntity = new Board()
             {
                 BoardId = Guid.NewGuid(),
                 UserId = user.UserId,
@@ -97,13 +97,13 @@
 
             await this.dataContext.AddAsync(user);
             await this.dataContext.SaveChangesAsync();
-            await this.boardRepository.AddBoardToUserAsync(boardrepo.UserId, boardrepo.BoardId, boardrepo.Name);
+            await this.boardRepository.AddBoardToUserAsync(boardEntity.UserId, boardEntity.BoardId, boardEntity.Name);
 
-            var board = await this.boardRepository.GetBoardByIdAsync(boardrepo.BoardId);
+            var board = await this.boardRepository.GetBoardByIdAsync(boardEntity.BoardId);
 
-            Assert.Equal(board.BoardId, boardrepo.BoardId);
-            Assert.Equal(board.UserId, boardrepo.UserId);
-            Assert.Equal(board.Name, boardrepo.Name);
+            Assert.Equal(board.BoardId, boardEntity.BoardId);
+            Assert.Equal(board.UserId, boardEntity.UserId);
+            Assert.Equal(board.Name, boardEntity.Name);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@
         [Fact]
         public async Task NameExistsAsync_should_return_false_if_name_does_not_exist()
         {
-            var testname = "boats";
+            var testName = "boats";
             var board = new Board()
             {
                 Name = "cars",
@@ -161,7 +161,7 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = await this.boardRepository.IsNameExistsAsync(testname);
+            var response = await this.boardRepository.IsNameExistsAsync(testName);
 
             Assert.False(response);
         }

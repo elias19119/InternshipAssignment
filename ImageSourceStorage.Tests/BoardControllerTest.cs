@@ -57,12 +57,12 @@
                 Name = "cars",
             };
 
-            var Name = request.Name;
+            var name = request.Name;
             var boardId = Guid.NewGuid();
             var userId = Guid.NewGuid();
 
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, Name));
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, name));
             this.boardRepository.Setup(x => x.SaveAsync());
 
             var response = await this.controller.AddBoardToUserAsync(userId, request);
