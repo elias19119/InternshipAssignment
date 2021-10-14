@@ -8,5 +8,15 @@
     public interface IBoardRepository
     {
         Task<List<Board>> GetUserBoardAsync(Guid userId);
+
+        Task AddBoardToUserAsync(Guid userId, Guid boardId, string name);
+
+        Task<Board> GetBoardByIdAsync(Guid boardId);
+
+        Task<bool> IsNameExistsAsync(string name);
+
+        Task<bool> IsBoardExistsAsync(Guid boardId);
+
+        Task SaveAsync();
     }
 }

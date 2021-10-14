@@ -29,5 +29,38 @@
             .Where(u => u.UserId == userId)
             .ToListAsync();
         }
+
+        public async Task AddBoardToUserAsync(Guid userId, Guid boardId, string name)
+        {
+            Board board = new Board()
+            {
+                BoardId = boardId,
+                UserId = userId,
+                Name = name,
+            };
+
+            await this.context.Boards.AddAsync(board);
+            await this.SaveAsync();
+        }
+
+        public Task SaveAsync()
+        {
+            return this.context.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsNameExistsAsync(string name)
+        {
+            return await this.context.Boards.AnyAsync(a => a.Name == name);
+        }
+
+        public async Task<Board> GetBoardByIdAsync(Guid boardId)
+        {
+            return await this.context.Boards.FindAsync(boardId);
+        }
+
+        public async Task<bool> IsBoardExistsAsync(Guid boardId)
+        {
+            return await this.context.Boards.AnyAsync(x => x.BoardId == boardId);
+        }
     }
 }
