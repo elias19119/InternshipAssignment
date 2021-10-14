@@ -46,7 +46,7 @@
 
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
-            await this.boardRepository.NameExistsAsync(board.Name);
+            await this.boardRepository.IsNameExistsAsync(board.Name);
 
             var result = this.addBoardtoUserValidator.Validate(board);
 
@@ -65,7 +65,7 @@
                 Name = "Iphones",
             };
 
-            await this.boardRepository.NameExistsAsync(board.Name);
+            await this.boardRepository.IsNameExistsAsync(board.Name);
 
             var result = this.addBoardtoUserValidator.Validate(board);
 

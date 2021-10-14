@@ -52,22 +52,20 @@
         [Fact]
         public async Task AddBoardtoUserAsync_should_return_OK_result()
         {
-            User user = new User { UserId = Guid.NewGuid() };
-
-            AddBoardtoUserRequest request = new AddBoardtoUserRequest()
+            var request = new AddBoardtoUserRequest()
             {
                 Name = "cars",
             };
-            Board board = new Board()
-            {
-                Name = request.Name,
-            };
 
-            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(user.UserId, board.BoardId , board.Name));
+            var Name = request.Name;
+            var boardId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+
+            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, Name));
             this.boardRepository.Setup(x => x.SaveAsync());
 
-            var response = await this.controller.AddBoardToUserAsync(user.UserId, request);
+            var response = await this.controller.AddBoardToUserAsync(userId, request);
 
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);

@@ -48,7 +48,7 @@
 
         private async Task<bool> IsNameUniqueAsync(string name, CancellationToken cancellation)
         {
-            var isExists = await this.boardRepository.NameExistsAsync(name);
+            var isExists = await this.boardRepository.IsNameExistsAsync(name);
 
             return !isExists;
         }

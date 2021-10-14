@@ -84,11 +84,11 @@
         [Fact]
         public async Task AddBoardToUserAsync_should_add_board_to_context_if_data_is_valid()
         {
-            User user = new User()
+            var user = new User()
             {
                 UserId = Guid.NewGuid(),
             };
-            var board = new Board()
+            var boardrepo = new Board()
             {
                 BoardId = Guid.NewGuid(),
                 UserId = user.UserId,
@@ -97,11 +97,13 @@
 
             await this.dataContext.AddAsync(user);
             await this.dataContext.SaveChangesAsync();
-            await this.boardRepository.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name);
+            await this.boardRepository.AddBoardToUserAsync(boardrepo.UserId, boardrepo.BoardId, boardrepo.Name);
 
-            var Board = await this.boardRepository.GetBoardByIdAsync(board.BoardId);
+            var board = await this.boardRepository.GetBoardByIdAsync(boardrepo.BoardId);
 
-            Assert.Equal(board.BoardId, Board.BoardId);
+            Assert.Equal(board.BoardId, boardrepo.BoardId);
+            Assert.Equal(board.UserId, boardrepo.UserId);
+            Assert.Equal(board.Name, boardrepo.Name);
         }
 
         /// <summary>
@@ -111,10 +113,9 @@
         [Fact]
         public async Task AddBoardToUserAsync_should_not_add_board_to_context_if_data_is_not_valid()
         {
-
-            Guid userId = Guid.NewGuid();
-            string name = "cars";
-            Guid boardId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var name = "cars";
+            var boardId = Guid.NewGuid();
 
             await this.boardRepository.AddBoardToUserAsync(userId, boardId, name);
             var board = await this.boardRepository.GetBoardByIdAsync(Guid.NewGuid());
@@ -129,7 +130,7 @@
         [Fact]
         public async Task NameExistsAsync_should_return_true_if_name_exists()
         {
-            Board board = new Board()
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),
@@ -138,7 +139,7 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = await this.boardRepository.NameExistsAsync(board.Name);
+            var response = await this.boardRepository.IsNameExistsAsync(board.Name);
 
             Assert.True(response);
         }
@@ -150,8 +151,8 @@
         [Fact]
         public async Task NameExistsAsync_should_return_false_if_name_does_not_exist()
         {
-            string testname = "boats";
-            Board board = new Board()
+            var testname = "boats";
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),
@@ -160,7 +161,7 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = await this.boardRepository.NameExistsAsync(testname);
+            var response = await this.boardRepository.IsNameExistsAsync(testname);
 
             Assert.False(response);
         }
@@ -172,7 +173,7 @@
         [Fact]
         public async Task IsBoardExistsAsync_should_return_true_if_id_exists()
         {
-            Board board = new Board()
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),
@@ -193,8 +194,8 @@
         [Fact]
         public async Task IsBoardExistsAsync_should_return_true_if_id_does_not_exist()
         {
-            Guid testId = Guid.NewGuid();
-            Board board = new Board()
+            var testId = Guid.NewGuid();
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),

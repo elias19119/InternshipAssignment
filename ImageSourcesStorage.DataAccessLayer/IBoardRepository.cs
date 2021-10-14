@@ -13,7 +13,7 @@
 
         Task<Board> GetBoardByIdAsync(Guid boardId);
 
-        Task<bool> NameExistsAsync(string name);
+        Task<bool> IsNameExistsAsync(string name);
 
         Task<bool> IsBoardExistsAsync(Guid boardId);
 

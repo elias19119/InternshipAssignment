@@ -48,7 +48,7 @@
             return this.context.SaveChangesAsync();
         }
 
-        public async Task<bool> NameExistsAsync(string name)
+        public async Task<bool> IsNameExistsAsync(string name)
         {
             return await this.context.Boards.AnyAsync(a => a.Name == name);
         }

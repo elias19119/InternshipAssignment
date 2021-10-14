@@ -34,15 +34,12 @@
         [Fact]
         public void IsBoardExistsAsync_should_return_true_if_id_exists()
         {
-            User user = new User()
-            {
-                UserId = Guid.NewGuid(),
-            };
-            Board board = new Board()
+            var userId = Guid.NewGuid();
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),
-                UserId = user.UserId,
+                UserId = userId,
             };
 
             this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name));
@@ -59,15 +56,12 @@
         [Fact]
         public void IsBoardExistsAsync_should_return_true_if_id_does_not_exist()
         {
-            User user = new User()
-            {
-                UserId = Guid.NewGuid(),
-            };
+            var userId = Guid.NewGuid();
             Board board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),
-                UserId = user.UserId,
+                UserId = userId,
             };
 
             this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, Guid.NewGuid(), board.Name));
