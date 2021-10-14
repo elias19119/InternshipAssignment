@@ -1,6 +1,7 @@
 ﻿namespace ImageSourceStorage.Tests
 {
     using System;
+    using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
@@ -39,7 +40,7 @@
                 UserId = userId,
             };
 
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name));
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
 
             var result = this.getBoardByIdValidator.Validate(board);
@@ -61,8 +62,8 @@
                 UserId = userId,
             };
 
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, Guid.NewGuid(), board.Name));
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId));
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, Guid.NewGuid(), board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(false);
 
             var result = this.getBoardByIdValidator.Validate(board);
 

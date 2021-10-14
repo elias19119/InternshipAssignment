@@ -35,7 +35,7 @@
                 UserId = Guid.NewGuid(),
             };
 
-            this.userRepository.Setup(x => x.ExistsAsync(board.UserId));
+            this.userRepository.Setup(x => x.ExistsAsync(board.UserId)).ReturnsAsync(false);
 
             var result = this.getUserBoardValidator.Validate(board);
 

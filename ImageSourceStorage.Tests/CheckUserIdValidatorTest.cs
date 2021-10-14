@@ -1,6 +1,7 @@
 ﻿namespace ImageSourceStorage.Tests
 {
     using System;
+    using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
@@ -35,7 +36,8 @@
                 UserId = Guid.NewGuid(),
             };
 
-            this.userRepository.Setup(x => x.InsertAsync(user));
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(false);
 
             var result = this.checkUserIdValidator.Validate(user);
 
@@ -53,7 +55,7 @@
                 UserId = Guid.NewGuid(),
             };
 
-            this.userRepository.Setup(x => x.InsertAsync(user));
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
             var result = this.checkUserIdValidator.Validate(user);

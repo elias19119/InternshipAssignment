@@ -1,5 +1,6 @@
 ﻿namespace ImageSourceStorage.Tests
 {
+    using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
@@ -12,7 +13,7 @@
     public class PutUserValidatorTest
     {
         private readonly Mock<IUserRepository<User>> userRepository;
-        private readonly PutUserValidator putuserValidator;
+        private readonly PutUserValidator putUserValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PutUserValidatorTest"/> class.
@@ -20,7 +21,7 @@
         public PutUserValidatorTest()
         {
             this.userRepository = new Mock<IUserRepository<User>>();
-            this.putuserValidator = new PutUserValidator(this.userRepository.Object);
+            this.putUserValidator = new PutUserValidator(this.userRepository.Object);
         }
 
         /// <summary>
@@ -35,11 +36,11 @@
                 Score = 20,
             };
 
-            this.userRepository.Setup(x => x.InsertAsync(user));
-            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score));
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }
@@ -55,10 +56,10 @@
                 Name = "reneh",
             };
 
-            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score));
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -75,10 +76,10 @@
                 Score = -2,
             };
 
-            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score));
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -95,10 +96,10 @@
                 Score = 30,
             };
 
-            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score));
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }
