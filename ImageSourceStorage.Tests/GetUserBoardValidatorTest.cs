@@ -1,11 +1,10 @@
 ﻿namespace ImageSourceStorage.Tests
 {
     using System;
-    using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
-    using Microsoft.EntityFrameworkCore;
+    using Moq;
     using Xunit;
 
     /// <summary>
@@ -14,32 +13,29 @@
     public class GetUserBoardValidatorTest
     {
         private readonly GetUserBoardValidator getUserBoardValidator;
-        private readonly UserRepository<User> userRepository;
-        private readonly DataContext dataContext;
+        private readonly Mock<IUserRepository<User>> userRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetUserBoardValidatorTest"/> class.
+        /// </summary>
         public GetUserBoardValidatorTest()
         {
-            var options = new DbContextOptionsBuilder<DataContext>()
-              .UseInMemoryDatabase(databaseName: "FakeConnectionString")
-              .Options;
-            this.dataContext = new DataContext(options);
-            this.userRepository = new UserRepository<User>(this.dataContext);
-            this.getUserBoardValidator = new GetUserBoardValidator(this.userRepository);
+            this.userRepository = new Mock<IUserRepository<User>>();
+            this.getUserBoardValidator = new GetUserBoardValidator(this.userRepository.Object);
         }
 
         /// <summary>
         /// should return id does not exists .
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_false_if_id_does_not_exists()
+        public void Validate_should_return_false_if_id_does_not_exists()
         {
-            Board board = new Board()
+            var board = new Board()
             {
                 UserId = Guid.NewGuid(),
             };
 
-            await this.userRepository.GetByIdAsync(Guid.NewGuid());
+            this.userRepository.Setup(x => x.ExistsAsync(board.UserId));
 
             var result = this.getUserBoardValidator.Validate(board);
 
@@ -49,25 +45,17 @@
         /// <summary>
         /// should return id exists .
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_id_exists()
+        public void Validate_should_return_true_if_id_exists()
         {
+            var userId = Guid.NewGuid();
 
-            User user = new User()
+            var board = new Board()
             {
-                UserId = Guid.NewGuid(),
+                UserId = userId,
             };
 
-            Board board = new Board()
-            {
-                UserId = user.UserId,
-            };
-
-            await this.dataContext.AddAsync(user);
-            await this.dataContext.SaveChangesAsync();
-
-            await this.userRepository.GetByIdAsync(board.UserId);
+            this.userRepository.Setup(x => x.ExistsAsync(board.UserId)).ReturnsAsync(true);
 
             var result = this.getUserBoardValidator.Validate(board);
 

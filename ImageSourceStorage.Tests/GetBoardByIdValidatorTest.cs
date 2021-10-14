@@ -1,9 +1,6 @@
 ﻿namespace ImageSourceStorage.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
@@ -57,7 +54,7 @@
         public void IsBoardExistsAsync_should_return_true_if_id_does_not_exist()
         {
             var userId = Guid.NewGuid();
-            Board board = new Board()
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),

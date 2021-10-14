@@ -6,6 +6,7 @@
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
     using Microsoft.EntityFrameworkCore;
+    using Moq;
     using Xunit;
 
     /// <summary>
@@ -14,39 +15,29 @@
     public class AddBoardtoUserValidatorTest
     {
         private readonly AddBoardtoUserValidator addBoardtoUserValidator;
-        private readonly IBoardRepository boardRepository;
-        private readonly UserRepository<User> userRepository;
-        private readonly DataContext dataContext;
+        private readonly Mock<IBoardRepository> boardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddBoardtoUserValidatorTest"/> class.
         /// </summary>
         public AddBoardtoUserValidatorTest()
         {
-            var options = new DbContextOptionsBuilder<DataContext>()
-              .UseInMemoryDatabase(databaseName: "FakeConnectionString")
-              .Options;
-            this.dataContext = new DataContext(options);
-            this.boardRepository = new BoardRepository(this.dataContext);
-            this.userRepository = new UserRepository<User>(this.dataContext);
-            this.addBoardtoUserValidator = new AddBoardtoUserValidator(this.boardRepository);
+            this.boardRepository = new Mock<IBoardRepository>();
+            this.addBoardtoUserValidator = new AddBoardtoUserValidator(this.boardRepository.Object);
         }
 
         /// <summary>
         /// Should return empty.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_false_if_Name_is_not_unique()
+        public void Validate_should_return_false_if_Name_is_not_unique()
         {
-            Board board = new Board
+            var board = new Board
             {
                 Name = "cars",
             };
 
-            await this.dataContext.AddAsync(board);
-            await this.dataContext.SaveChangesAsync();
-            await this.boardRepository.IsNameExistsAsync(board.Name);
+            this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(true);
 
             var result = this.addBoardtoUserValidator.Validate(board);
 
@@ -56,16 +47,15 @@
         /// <summary>
         /// Should return name is not unique.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_Name_is_unique()
+        public void Validate_should_return_true_if_Name_is_unique()
         {
-            Board board = new Board
+            var board = new Board
             {
                 Name = "Iphones",
             };
 
-            await this.boardRepository.IsNameExistsAsync(board.Name);
+            this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(false);
 
             var result = this.addBoardtoUserValidator.Validate(board);
 

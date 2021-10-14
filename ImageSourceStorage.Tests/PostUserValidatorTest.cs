@@ -1,10 +1,8 @@
 ﻿namespace ImageSourceStorage.Tests
 {
-    using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
-    using Microsoft.EntityFrameworkCore;
     using Moq;
     using Xunit;
 
@@ -14,20 +12,15 @@
     public class PostUserValidatorTest
     {
         private readonly PostUserValidator postUserValidator;
-        private readonly UserRepository<User> userRepository;
-        private readonly DataContext dataContext;
+        private readonly Mock<IUserRepository<User>> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostUserValidatorTest"/> class.
         /// </summary>
         public PostUserValidatorTest()
         {
-            var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: "FakeConnectionString")
-                .Options;
-            this.dataContext = new DataContext(options);
-            this.userRepository = new UserRepository<User>(this.dataContext);
-            this.postUserValidator = new PostUserValidator(this.userRepository);
+            this.userRepository = new Mock<IUserRepository<User>>();
+            this.postUserValidator = new PostUserValidator(this.userRepository.Object);
         }
 
         /// <summary>
@@ -36,7 +29,7 @@
         [Fact]
         public void Validate_should_return_false_if_Name_is_Empty()
         {
-            User user = new User
+            var user = new User
             {
                 Name = string.Empty,
             };
@@ -52,7 +45,7 @@
         [Fact]
         public void Validate_should_return_true_if_Name_is_valid()
         {
-            User user = new User
+            var user = new User
             {
                 Name = "Carla",
             };
@@ -68,8 +61,9 @@
         [Fact]
         public void Validate_should_return_false_if_name_Exceed_50_Characters()
         {
-            string name = new string('*', 52);
-            User user = new User
+            var name = new string('*', 52);
+
+            var user = new User
             {
                 Name = name,
             };
@@ -82,18 +76,15 @@
         /// <summary>
         /// Should return empty.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_false_if_Name_is_not_unique()
+        public void Validate_should_return_false_if_Name_is_not_unique()
         {
-            User user = new User()
+            var user = new User()
             {
                 Name = "Elias",
             };
 
-            await this.dataContext.AddAsync(user);
-            await this.dataContext.SaveChangesAsync();
-            await this.userRepository.NameExistsAsync(user.Name);
+            this.userRepository.Setup(x => x.NameExistsAsync(user.Name)).ReturnsAsync(true);
 
             var result = this.postUserValidator.Validate(user);
 
@@ -103,16 +94,15 @@
         /// <summary>
         /// Should return name is not unique.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_Name_is_unique()
+        public void Validate_should_return_true_if_Name_is_unique()
         {
-            User user = new User
+            var user = new User
             {
                 Name = "testname",
             };
 
-            await this.userRepository.NameExistsAsync(user.Name);
+            this.userRepository.Setup(x => x.NameExistsAsync(user.Name)).ReturnsAsync(false);
 
             var result = this.postUserValidator.Validate(user);
 
