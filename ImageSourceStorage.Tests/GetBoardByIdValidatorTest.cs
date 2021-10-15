@@ -1,8 +1,6 @@
 ﻿namespace ImageSourceStorage.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
@@ -42,7 +40,7 @@
                 UserId = userId,
             };
 
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name));
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
 
             var result = this.getBoardByIdValidator.Validate(board);
@@ -57,15 +55,15 @@
         public void IsBoardExistsAsync_should_return_true_if_id_does_not_exist()
         {
             var userId = Guid.NewGuid();
-            Board board = new Board()
+            var board = new Board()
             {
                 Name = "cars",
                 BoardId = Guid.NewGuid(),
                 UserId = userId,
             };
 
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, Guid.NewGuid(), board.Name));
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId));
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, Guid.NewGuid(), board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(false);
 
             var result = this.getBoardByIdValidator.Validate(board);
 

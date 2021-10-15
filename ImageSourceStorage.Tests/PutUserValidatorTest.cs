@@ -3,9 +3,8 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
-    using ImageSourcesStorage.Models;
     using ImageSourcesStorage.Validators;
-    using Microsoft.EntityFrameworkCore;
+    using Moq;
     using Xunit;
 
     /// <summary>
@@ -13,39 +12,35 @@
     /// </summary>
     public class PutUserValidatorTest
     {
-        private readonly UserRepository<User> userRepository;
-        private readonly DataContext dataContext;
-        private readonly PutUserValidator putuserValidator;
+        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly PutUserValidator putUserValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PutUserValidatorTest"/> class.
         /// </summary>
         public PutUserValidatorTest()
         {
-            var options = new DbContextOptionsBuilder<DataContext>()
-               .UseInMemoryDatabase(databaseName: "FakeConnectionString")
-               .Options;
-            this.dataContext = new DataContext(options);
-            this.userRepository = new UserRepository<User>(this.dataContext);
-            this.putuserValidator = new PutUserValidator();
+            this.userRepository = new Mock<IUserRepository<User>>();
+            this.putUserValidator = new PutUserValidator(this.userRepository.Object);
         }
 
         /// <summary>
         /// Should return score is not empty.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_score_is_not_empty()
+        public void Validate_should_return_true_if_score_is_not_empty()
         {
-            User user = new User
+            var user = new User
             {
                 Name = "reneh",
                 Score = 20,
             };
 
-            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }
@@ -53,18 +48,18 @@
         /// <summary>
         /// Should return score is empty.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_false_if_score_is_empty()
+        public void Validate_should_return_false_if_score_is_empty()
         {
-            User user = new User
+            var user = new User
             {
                 Name = "reneh",
             };
 
-            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -72,19 +67,19 @@
         /// <summary>
         /// Should return score is negative.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_false_if_score_is_negative()
+        public void Validate_should_return_false_if_score_is_negative()
         {
-            User user = new User
+            var user = new User
             {
                 Name = "reneh",
                 Score = -2,
             };
 
-            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -92,19 +87,19 @@
         /// <summary>
         /// Should return score is not negative.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task Validate_should_return_true_if_score_is_not_negative()
+        public void Validate_should_return_true_if_score_is_not_negative()
         {
-            User user = new User
+            var user = new User
             {
                 Name = "reneh",
                 Score = 30,
             };
 
-            await this.userRepository.UpdateAsync(user.UserId, user.Name, user.Score);
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.putuserValidator.Validate(user);
+            var result = this.putUserValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }
