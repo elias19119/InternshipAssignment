@@ -13,6 +13,8 @@
 
         Task<Board> GetBoardByIdAsync(Guid boardId);
 
+        Task DeleteBoardOfUserAsync(Guid boardId);
+
         Task<bool> IsNameExistsAsync(string name);
 
         Task<bool> IsBoardExistsAsync(Guid boardId);

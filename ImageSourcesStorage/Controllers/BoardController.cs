@@ -18,6 +18,7 @@
         private readonly GetUserBoardValidator getUserBoardValidator;
         private readonly AddBoardtoUserValidator addBoardValidator;
         private readonly GetBoardByIdValidator getBoardIdValidator;
+        private readonly DeleteBoardOfUserValidator deleteBoardValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
@@ -29,6 +30,7 @@
             this.getUserBoardValidator = new GetUserBoardValidator(userRepository);
             this.addBoardValidator = new AddBoardtoUserValidator(userRepository, boardRepository);
             this.getBoardIdValidator = new GetBoardByIdValidator(this.boardRepository);
+            this.deleteBoardValidator = new DeleteBoardOfUserValidator(userRepository, boardRepository);
         }
 
         [HttpGet]
@@ -92,5 +94,23 @@
 
             return this.CreatedAtAction(nameof(this.GetUserBoardByIdAsync), new { boardId }, response);
         }
+
+        [HttpDelete]
+        [Route("{userId}/boards{boardId}")]
+        public async Task<IActionResult> DeleteBoardOfUserAsync(Guid userId, Guid boardId)
+        {
+            var board = new Board { UserId = userId, BoardId = boardId };
+
+            var result = this.deleteBoardValidator.Validate(board);
+
+            if (!result.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            await this.boardRepository.DeleteBoardOfUserAsync(boardId);
+            return this.NoContent();
+        }
+
     }
 }

@@ -70,5 +70,24 @@
             Assert.NotNull(response);
             Assert.IsType<CreatedAtActionResult>(response);
         }
+
+        /// <summary>
+        /// should delete A board.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteBoardOfUserAsync_should_remove_board_if_boardId_and_userId_exists()
+        {
+            var userId = Guid.NewGuid();
+            var boardId = Guid.NewGuid();
+            var name = "cars";
+
+            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
+
+            var result = await this.controller.DeleteBoardOfUserAsync(userId, boardId);
+
+            Assert.IsType<NoContentResult>(result);
+        }
     }
 }
