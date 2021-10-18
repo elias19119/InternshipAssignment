@@ -21,6 +21,7 @@
             this.userRepository = userRepository;
             this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
+            this.RuleFor(x => x).MustAsync(this.IsBoardBelongToUserAsync);
         }
 
         /// <summary>
@@ -45,5 +46,13 @@
 
             return isExists;
         }
+
+        private async Task<bool> IsBoardBelongToUserAsync(Board board, CancellationToken cancellation)
+        {
+            var isBelong = await this.boardRepository.IsBoardBelongToUserAsync(board.BoardId, board.UserId);
+
+            return isBelong;
+        }
+
     }
 }

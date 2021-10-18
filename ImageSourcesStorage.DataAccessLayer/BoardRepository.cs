@@ -69,5 +69,10 @@
         {
             return await this.context.Boards.AnyAsync(x => x.BoardId == boardId);
         }
+
+        public Task<bool> IsBoardBelongToUserAsync(Guid boardId, Guid userId)
+        {
+            return this.context.Boards.AnyAsync(x => x.BoardId == boardId && x.UserId == userId);
+        }
     }
 }

@@ -96,7 +96,7 @@
         }
 
         [HttpDelete]
-        [Route("{userId}/boards{boardId}")]
+        [Route("{userId}/boards/{boardId}")]
         public async Task<IActionResult> DeleteBoardOfUserAsync(Guid userId, Guid boardId)
         {
             var board = new Board { UserId = userId, BoardId = boardId };
@@ -111,6 +111,5 @@
             await this.boardRepository.DeleteBoardOfUserAsync(boardId);
             return this.NoContent();
         }
-
     }
 }

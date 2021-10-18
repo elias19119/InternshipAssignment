@@ -19,6 +19,8 @@
 
         Task<bool> IsBoardExistsAsync(Guid boardId);
 
+        Task<bool> IsBoardBelongToUserAsync(Guid boardId, Guid userId);
+
         Task SaveAsync();
     }
 }
