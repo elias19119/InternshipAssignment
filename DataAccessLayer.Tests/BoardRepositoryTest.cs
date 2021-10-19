@@ -227,7 +227,7 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            await this.boardRepository.DeleteBoardOfUserAsync(board.UserId, board.BoardId);
+            await this.boardRepository.DeleteBoardOfUserAsync(board.BoardId);
             var isUserExists = this.dataContext.Boards.Any(x => x.BoardId == board.BoardId);
 
             Assert.False(isUserExists);
@@ -250,9 +250,111 @@
             await this.dataContext.AddAsync(board);
             await this.dataContext.SaveChangesAsync();
 
-            var response = this.boardRepository.DeleteBoardOfUserAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = this.boardRepository.DeleteBoardOfUserAsync(Guid.NewGuid());
 
             Assert.False(response.IsCompletedSuccessfully);
+        }
+
+        /// <summary>
+        /// should return id exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task IsBoardBelongToUserAsync_should_return_true_if_boardId_belongs_to_user()
+        {
+            var board = new Board()
+            {
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = await this.boardRepository.IsBoardBelongToUserAsync(board.BoardId, board.UserId);
+
+            Assert.True(response);
+        }
+
+        /// <summary>
+        /// should return id does not exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task IsBoardBelongToUserAsync_should_return_false_if_boardId_does_not_belongs_to_user()
+        {
+            var board = new Board()
+            {
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = await this.boardRepository.IsBoardBelongToUserAsync(board.BoardId, Guid.NewGuid());
+
+            Assert.False(response);
+        }
+
+        /// <summary>
+        /// should return true if board is valid.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public async Task EditBoardOfUserAsync_should_update_User_if_id_exists_and_if_board_belongs_to_user()
+        {
+            var user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            var board = new Board()
+            {
+                Name = "nature",
+                BoardId = Guid.NewGuid(),
+                UserId = user.UserId,
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            await this.boardRepository.EditBoardOfUserAsync(board.BoardId, board.UserId, board.Name);
+            var isBoardBelongs = await this.boardRepository.IsBoardBelongToUserAsync(board.BoardId, board.UserId);
+
+            Assert.True(isBoardBelongs);
+        }
+
+        /// <summary>
+        /// should return true if board is not valid.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public async Task EditBoardOfUserAsync_should_not_update_board_if_id_does_not_exists_or_if_board_does_not_belongs_to_user()
+        {
+            var user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
+
+            var board = new Board()
+            {
+                Name = "nature",
+                BoardId = Guid.NewGuid(),
+                UserId = user.UserId,
+            };
+
+            await this.dataContext.AddAsync(user);
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            await this.boardRepository.EditBoardOfUserAsync(board.BoardId, board.UserId, board.Name); ;
+            var isBoardBelongs = await this.boardRepository.IsBoardBelongToUserAsync(board.BoardId, Guid.NewGuid());
+
+            Assert.False(isBoardBelongs);
         }
     }
 }
