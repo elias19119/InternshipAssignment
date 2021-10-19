@@ -43,6 +43,13 @@
             await this.SaveAsync();
         }
 
+        public async Task DeleteBoardOfUserAsync(Guid boardId)
+        {
+            var board = await this.context.Boards.FindAsync(boardId);
+            this.context.Boards.Remove(board);
+            await this.SaveAsync();
+        }
+
         public Task SaveAsync()
         {
             return this.context.SaveChangesAsync();
@@ -61,6 +68,11 @@
         public async Task<bool> IsBoardExistsAsync(Guid boardId)
         {
             return await this.context.Boards.AnyAsync(x => x.BoardId == boardId);
+        }
+
+        public Task<bool> IsBoardBelongToUserAsync(Guid boardId, Guid userId)
+        {
+            return this.context.Boards.AnyAsync(x => x.BoardId == boardId && x.UserId == userId);
         }
     }
 }

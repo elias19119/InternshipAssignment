@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
@@ -207,6 +208,51 @@
             var response = await this.boardRepository.IsBoardExistsAsync(testId);
 
             Assert.False(response);
+        }
+
+        /// <summary>
+        /// should delete a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteAsync_should_return_false_if_board_is_deleted()
+        {
+            var board = new Board()
+            {
+                UserId = Guid.NewGuid(),
+                BoardId = Guid.NewGuid(),
+                Name = "Iphones",
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            await this.boardRepository.DeleteBoardOfUserAsync(board.UserId, board.BoardId);
+            var isUserExists = this.dataContext.Boards.Any(x => x.BoardId == board.BoardId);
+
+            Assert.False(isUserExists);
+        }
+
+        /// <summary>
+        /// should delete a user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeleteAsync_should_return_false_if_id_do_not_exists()
+        {
+            var board = new Board()
+            {
+                UserId = Guid.NewGuid(),
+                BoardId = Guid.NewGuid(),
+                Name = "Iphones",
+            };
+
+            await this.dataContext.AddAsync(board);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.boardRepository.DeleteBoardOfUserAsync(Guid.NewGuid(), Guid.NewGuid());
+
+            Assert.False(response.IsCompletedSuccessfully);
         }
     }
 }
