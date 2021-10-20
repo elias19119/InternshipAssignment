@@ -62,8 +62,8 @@
             var userId = Guid.NewGuid();
 
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, name));
-            this.boardRepository.Setup(x => x.SaveAsync());
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.SaveAsync()).Returns(Task.CompletedTask);
 
             var response = await this.controller.AddBoardToUserAsync(userId, request);
 
@@ -83,6 +83,7 @@
             var name = "cars";
 
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
 
             var result = await this.controller.DeleteBoardOfUserAsync(userId, boardId);

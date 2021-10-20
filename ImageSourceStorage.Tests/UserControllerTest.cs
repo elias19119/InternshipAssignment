@@ -82,7 +82,7 @@
                 Name = userRequest.Name,
             };
 
-            this.userRepository.Setup(x => x.InsertAsync(user));
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
 
             var response = await this.controller.PostUserAsync(userRequest);
 
@@ -103,7 +103,7 @@
             };
 
             this.userRepository.Setup(x => x.GetByIdAsync(user.UserId)).ReturnsAsync(user);
-            this.userRepository.Setup(x => x.DeleteAsync(user.UserId));
+            this.userRepository.Setup(x => x.DeleteAsync(user.UserId)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
             var result = await this.controller.DeleteUserAsync(user.UserId);
@@ -132,7 +132,7 @@
             };
 
             this.userRepository.Setup(x => x.GetByIdAsync(user.UserId)).ReturnsAsync(user);
-            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score));
+            this.userRepository.Setup(x => x.UpdateAsync(user.UserId, user.Name, user.Score)).Returns(Task.CompletedTask);
             this.userRepository.Setup(x => x.NameExistsAsync(user.Name)).ReturnsAsync(false);
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
@@ -140,6 +140,5 @@
 
             Assert.IsType<NoContentResult>(result);
         }
-
     }
 }
