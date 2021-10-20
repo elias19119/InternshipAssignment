@@ -20,6 +20,8 @@
 
         Task SaveAsync();
 
+        Task ChangeUserScore(Guid userId, ChangeScoreOptions changeScoreOptions);
+
         Task<bool> ExistsAsync(Guid userId);
 
         Task<bool> NameExistsAsync(string name);

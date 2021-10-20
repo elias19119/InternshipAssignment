@@ -279,5 +279,55 @@ namespace DataAccessLayer.Tests
 
             Assert.True(isUserExists);
         }
+
+        /// <summary>
+        ///  should return true if id exists.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task ChangeUserScoreAsync_should_change_score_if_user_is_valid()
+        {
+            User userEntity = new User()
+            {
+                Name = "Reneh",
+                Score = 50,
+            };
+
+            await this.dataContext.Users.AddAsync(userEntity);
+            await this.dataContext.SaveChangesAsync();
+
+            await this.userRepository.ChangeUserScore(userEntity.UserId, ChangeScoreOptions.Decrease);
+
+            var isUserExists = this.dataContext.Users.Any(x => x.UserId == userEntity.UserId);
+            var user = await this.userRepository.GetByIdAsync(userEntity.UserId);
+
+            Assert.True(isUserExists);
+            Assert.Equal(userEntity.Score, user.Score);
+        }
+
+        /// <summary>
+        ///  should return null if id does not exists.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task ChangeUserScoreAsync_should_not_change_score_if_user_is_not_valid()
+        {
+            User userEntity = new User()
+            {
+                Name = "Reneh",
+                Score = 50,
+            };
+
+            await this.dataContext.Users.AddAsync(userEntity);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.userRepository.ChangeUserScore(userEntity.UserId, ChangeScoreOptions.Decrease);
+
+            var isUserExists = this.dataContext.Users.Any(x => x.UserId == Guid.NewGuid());
+            var user = await this.userRepository.GetByIdAsync(Guid.NewGuid());
+
+            Assert.False(isUserExists);
+            Assert.Null(user);
+        }
     }
 }

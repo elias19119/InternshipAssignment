@@ -11,6 +11,7 @@ namespace ImageSourcesStorage
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using System.Text.Json.Serialization;
 
     public class Startup
     {
@@ -26,7 +27,8 @@ namespace ImageSourcesStorage
         {
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
             services.AddMvc(opt =>
             {
