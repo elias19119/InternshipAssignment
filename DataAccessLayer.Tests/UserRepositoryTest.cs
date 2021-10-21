@@ -281,16 +281,17 @@ namespace DataAccessLayer.Tests
         }
 
         /// <summary>
-        ///  should return true if id exists.
+        ///  should decrease the score.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task ChangeUserScoreAsync_should_change_score_if_user_is_valid()
+        public async Task ChangeUserScoreAsync_should_decrease_score_if_user_is_valid()
         {
+            const int score = 50;
             User userEntity = new User()
             {
                 Name = "Reneh",
-                Score = 50,
+                Score = score,
             };
 
             await this.dataContext.Users.AddAsync(userEntity);
@@ -298,36 +299,59 @@ namespace DataAccessLayer.Tests
 
             await this.userRepository.ChangeUserScore(userEntity.UserId, ChangeScoreOptions.Decrease);
 
-            var isUserExists = this.dataContext.Users.Any(x => x.UserId == userEntity.UserId);
             var user = await this.userRepository.GetByIdAsync(userEntity.UserId);
 
-            Assert.True(isUserExists);
-            Assert.Equal(userEntity.Score, user.Score);
+            Assert.Equal(score - 1, user.Score);
         }
 
         /// <summary>
-        ///  should return null if id does not exists.
+        ///  should increase the score.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task ChangeUserScoreAsync_should_not_change_score_if_user_is_not_valid()
+        public async Task ChangeUserScoreAsync_should_increase_score_if_user_is_valid()
         {
+            const int score = 50;
             User userEntity = new User()
             {
                 Name = "Reneh",
-                Score = 50,
+                Score = score,
+                UserId = Guid.NewGuid(),
             };
 
             await this.dataContext.Users.AddAsync(userEntity);
             await this.dataContext.SaveChangesAsync();
 
-            var response = this.userRepository.ChangeUserScore(userEntity.UserId, ChangeScoreOptions.Decrease);
+            await this.userRepository.ChangeUserScore(userEntity.UserId, ChangeScoreOptions.Increase);
 
-            var isUserExists = this.dataContext.Users.Any(x => x.UserId == Guid.NewGuid());
-            var user = await this.userRepository.GetByIdAsync(Guid.NewGuid());
+            var user = await this.userRepository.GetByIdAsync(userEntity.UserId);
 
-            Assert.False(isUserExists);
-            Assert.Null(user);
+            Assert.Equal(score + 1, user.Score);
+        }
+
+        /// <summary>
+        ///  should not change score if id does not exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task ChangeUserScoreAsync_should_not_change_score_if_user_does_not_exist()
+        {
+            const int score = 50;
+            User userEntity = new User()
+            {
+                Name = "Reneh",
+                Score = score,
+                UserId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.Users.AddAsync(userEntity);
+            await this.dataContext.SaveChangesAsync();
+
+            await this.userRepository.ChangeUserScore(Guid.NewGuid(), ChangeScoreOptions.Decrease);
+
+            var user = await this.userRepository.GetByIdAsync(userEntity.UserId);
+
+            Assert.Equal(score, user.Score);
         }
     }
 }

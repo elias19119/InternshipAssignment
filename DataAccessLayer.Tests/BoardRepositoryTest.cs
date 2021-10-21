@@ -322,7 +322,7 @@
             await this.dataContext.AddAsync(boardEntity);
             await this.dataContext.SaveChangesAsync();
 
-            await this.boardRepository.EditBoardOfUserAsync(boardEntity.BoardId, boardEntity.UserId, boardEntity.Name);
+            await this.boardRepository.EditBoardOfUserAsync(boardEntity.BoardId, boardEntity.UserId, "cars");
             var board = await this.boardRepository.GetBoardByIdAsync(boardEntity.BoardId);
 
             Assert.Equal(board.BoardId, boardEntity.BoardId);
@@ -335,7 +335,7 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task EditBoardOfUserAsync_should_not_return_null_if_boardId_does_not_exists()
+        public async Task EditBoardOfUserAsync_should_not_update_board_if_boardId_does_not_exists()
         {
             var user = new User()
             {
@@ -353,11 +353,13 @@
             await this.dataContext.AddAsync(boardEntity);
             await this.dataContext.SaveChangesAsync();
 
-            await this.boardRepository.EditBoardOfUserAsync(boardEntity.BoardId, boardEntity.UserId, boardEntity.Name);
+            await this.boardRepository.EditBoardOfUserAsync(Guid.NewGuid(), boardEntity.UserId, "cars");
 
-            var board = await this.boardRepository.GetBoardByIdAsync(Guid.NewGuid());
+            var board = await this.boardRepository.GetBoardByIdAsync(boardEntity.BoardId);
 
-            Assert.Null(board);
+            Assert.Equal(board.BoardId, boardEntity.BoardId);
+            Assert.Equal(board.UserId, boardEntity.UserId);
+            Assert.Equal(board.Name, boardEntity.Name);
         }
     }
 }
