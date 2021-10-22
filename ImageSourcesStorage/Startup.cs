@@ -1,5 +1,6 @@
 namespace ImageSourcesStorage
 {
+    using System.Text.Json.Serialization;
     using FluentValidation.AspNetCore;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
@@ -11,7 +12,6 @@ namespace ImageSourcesStorage
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using System.Text.Json.Serialization;
 
     public class Startup
     {
@@ -37,6 +37,7 @@ namespace ImageSourcesStorage
             }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<CheckUserIdValidator>());
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddTransient(typeof(IBoardRepository), typeof(BoardRepository));
+            services.AddTransient(typeof(IPinRepository), typeof(PinRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
