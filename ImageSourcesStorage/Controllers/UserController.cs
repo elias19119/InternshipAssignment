@@ -1,6 +1,7 @@
 ﻿namespace ImageSourcesStorage.Controllers
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
@@ -17,6 +18,7 @@
         private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
+        private readonly ChangeUserScoreValidator changeScoreValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
@@ -24,6 +26,7 @@
             this.checkUserIdValidator = new CheckUserIdValidator(userRepository);
             this.postUserValidator = new PostUserValidator(userRepository);
             this.putUserValidator = new PutUserValidator(userRepository);
+            this.changeScoreValidator = new ChangeUserScoreValidator(userRepository);
         }
 
         [HttpGet]
@@ -98,6 +101,27 @@
             }
 
             await this.userRepository.DeleteAsync(userId);
+            return this.NoContent();
+        }
+
+        [HttpPost]
+        [Route("{userId}/scores")]
+        public async Task<IActionResult> ChangeUserScoreAsync(Guid userId, [Required]ChangeScoreOptions changeScoreOptions)
+        {
+            var user = new User
+            {
+                UserId = userId,
+            };
+
+            var result = this.changeScoreValidator.Validate(user);
+
+            if (!result.IsValid)
+            {
+                return this.BadRequest();
+            }
+
+            await this.userRepository.ChangeUserScore(user.UserId, changeScoreOptions);
+
             return this.NoContent();
         }
     }
