@@ -40,7 +40,7 @@
                 BoardId = Guid.NewGuid(),
             };
 
-            this.boardRepository.Setup(x => x.EditBoardOfUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(board.BoardId, board.UserId)).ReturnsAsync(true);
@@ -64,7 +64,7 @@
                 BoardId = Guid.NewGuid(),
             };
 
-            this.boardRepository.Setup(x => x.EditBoardOfUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(board.BoardId, board.UserId)).ReturnsAsync(false);
@@ -87,7 +87,7 @@
                 UserId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
-            this.boardRepository.Setup(x => x.EditBoardOfUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(board.BoardId, board.UserId)).ReturnsAsync(true);
@@ -110,7 +110,7 @@
                 UserId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
-            this.boardRepository.Setup(x => x.EditBoardOfUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(board.BoardId, board.UserId)).ReturnsAsync(true);
@@ -135,7 +135,7 @@
                 BoardId = Guid.NewGuid(),
             };
 
-            this.boardRepository.Setup(x => x.EditBoardOfUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsNameExistsAsync(board.Name)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(board.BoardId, board.UserId)).ReturnsAsync(true);

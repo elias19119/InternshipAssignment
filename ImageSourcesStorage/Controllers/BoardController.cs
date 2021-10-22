@@ -116,7 +116,7 @@
 
         [HttpPut]
         [Route("{userId}/boards/{boardId}")]
-        public async Task<IActionResult> EditBoardOfUserAsync(Guid boardId, Guid userId, UpdateBoardOfUserRequest request)
+        public async Task<IActionResult> EditNameOfBoardAsync(Guid boardId, Guid userId, UpdateBoardOfUserRequest request)
         {
             var board = new Board
             {
@@ -132,7 +132,7 @@
                 return this.BadRequest();
             }
 
-            await this.boardRepository.EditBoardOfUserAsync(board.BoardId, board.UserId, request.Name);
+            await this.boardRepository.EditNameOfBoardAsync(board.BoardId, board.UserId, request.Name);
             return this.NoContent();
         }
     }
