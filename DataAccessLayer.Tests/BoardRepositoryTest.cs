@@ -324,11 +324,7 @@
             await this.dataContext.AddAsync(boardEntity);
             await this.dataContext.SaveChangesAsync();
 
-<<<<<<< HEAD
-            await this.boardRepository.EditBoardOfUserAsync(boardEntity.BoardId, boardEntity.UserId, "cars");
-=======
             await this.boardRepository.EditNameOfBoardAsync(boardEntity.BoardId, boardEntity.UserId, testName);
->>>>>>> b53fbcc6bb73739ebccf29eb206f137d6d3534d8
             var board = await this.boardRepository.GetBoardByIdAsync(boardEntity.BoardId);
 
             Assert.Equal(board.BoardId, boardEntity.BoardId);
@@ -341,11 +337,7 @@
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-<<<<<<< HEAD
-        public async Task EditBoardOfUserAsync_should_not_update_board_if_boardId_does_not_exists()
-=======
         public async Task EditNameOfBoardAsync_should_not_update_board_if_boardId_does_not_exists()
->>>>>>> b53fbcc6bb73739ebccf29eb206f137d6d3534d8
         {
             var testName = "cars";
 
@@ -365,21 +357,14 @@
             await this.dataContext.AddAsync(boardEntity);
             await this.dataContext.SaveChangesAsync();
 
-<<<<<<< HEAD
-            await this.boardRepository.EditBoardOfUserAsync(Guid.NewGuid(), boardEntity.UserId, "cars");
-=======
             await this.boardRepository.EditNameOfBoardAsync(Guid.NewGuid(), boardEntity.UserId, testName);
->>>>>>> b53fbcc6bb73739ebccf29eb206f137d6d3534d8
 
             var board = await this.boardRepository.GetBoardByIdAsync(boardEntity.BoardId);
 
             Assert.Equal(board.BoardId, boardEntity.BoardId);
             Assert.Equal(board.UserId, boardEntity.UserId);
-<<<<<<< HEAD
-            Assert.Equal(board.Name, boardEntity.Name);
-=======
+
             Assert.Equal(boardEntity.Name, board.Name);
->>>>>>> b53fbcc6bb73739ebccf29eb206f137d6d3534d8
         }
     }
 }
