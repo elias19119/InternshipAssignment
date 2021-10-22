@@ -140,28 +140,5 @@
 
             Assert.IsType<NoContentResult>(result);
         }
-
-        /// <summary>
-        ///  should change score if user is valid.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task ChangeUserScoreAsync_should_change_score_if_user_is_valid()
-        {
-            User user = new User()
-            {
-                Name = "Elias",
-                Score = 59,
-                UserId = Guid.NewGuid(),
-            };
-
-            this.userRepository.Setup(x => x.NameExistsAsync(user.Name)).ReturnsAsync(false);
-            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
-            this.userRepository.Setup(x => x.ChangeUserScore(user.UserId, ChangeScoreOptions.Increase)).Returns(Task.CompletedTask);
-
-            var result = await this.controller.ChangeUserScoreAsync(user.UserId, ChangeScoreOptions.Decrease);
-
-            Assert.IsType<NoContentResult>(result);
-        }
     }
 }
