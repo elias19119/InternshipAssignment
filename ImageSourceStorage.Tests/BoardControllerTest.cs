@@ -107,13 +107,13 @@
             var userId = Guid.NewGuid();
             var boardId = Guid.NewGuid();
 
-            this.boardRepository.Setup(x => x.EditBoardOfUserAsync(boardId, userId, name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(boardId, userId, name)).Returns(Task.CompletedTask);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsNameExistsAsync(name)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
 
-            var result = await this.controller.EditBoardOfUserAsync(boardId, userId, boardRequest);
+            var result = await this.controller.EditNameOfBoardAsync(boardId, userId, boardRequest);
 
             Assert.IsType<NoContentResult>(result);
         }
