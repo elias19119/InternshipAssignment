@@ -73,5 +73,24 @@
         {
             return await this.entities.AnyAsync(a => a.Name == name);
         }
+
+        public async Task ChangeUserScore(Guid userId, ChangeScoreOptions changeScoreOptions)
+        {
+            var user = await this.entities.FindAsync(userId);
+
+            if (user != null)
+            {
+                if (changeScoreOptions == ChangeScoreOptions.Decrease)
+                {
+                    user.Score -= 1;
+                }
+                else
+                {
+                    user.Score += 1;
+                }
+
+                await this.SaveAsync();
+            }
+        }
     }
 }

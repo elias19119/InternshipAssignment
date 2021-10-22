@@ -363,6 +363,7 @@
 
             Assert.Equal(board.BoardId, boardEntity.BoardId);
             Assert.Equal(board.UserId, boardEntity.UserId);
+
             Assert.Equal(boardEntity.Name, board.Name);
         }
     }
