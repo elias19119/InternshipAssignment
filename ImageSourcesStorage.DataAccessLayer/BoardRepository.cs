@@ -74,5 +74,16 @@
         {
             return this.context.Boards.AnyAsync(x => x.BoardId == boardId && x.UserId == userId);
         }
+
+        public async Task EditNameOfBoardAsync(Guid boardId, Guid userId, string name)
+        {
+            var board = await this.context.Boards.FindAsync(boardId);
+
+            if (board != null)
+            {
+                board.Name = name;
+                await this.SaveAsync();
+            }
+        }
     }
 }

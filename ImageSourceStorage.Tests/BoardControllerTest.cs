@@ -62,8 +62,8 @@
             var userId = Guid.NewGuid();
 
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, name));
-            this.boardRepository.Setup(x => x.SaveAsync());
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(userId, boardId, name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.SaveAsync()).Returns(Task.CompletedTask);
 
             var response = await this.controller.AddBoardToUserAsync(userId, request);
 
@@ -83,9 +83,37 @@
             var name = "cars";
 
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
 
             var result = await this.controller.DeleteBoardOfUserAsync(userId, boardId);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        /// <summary>
+        /// should return updated board.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task EditBoardOfUserAsync_should_update_board_if_id_exists_and_if_board_belongs_to_user()
+        {
+            var boardRequest = new UpdateBoardOfUserRequest()
+            {
+                Name = "cards",
+            };
+
+            var name = boardRequest.Name;
+            var userId = Guid.NewGuid();
+            var boardId = Guid.NewGuid();
+
+            this.boardRepository.Setup(x => x.EditNameOfBoardAsync(boardId, userId, name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsNameExistsAsync(name)).ReturnsAsync(false);
+            this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
+            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+
+            var result = await this.controller.EditNameOfBoardAsync(boardId, userId, boardRequest);
 
             Assert.IsType<NoContentResult>(result);
         }
