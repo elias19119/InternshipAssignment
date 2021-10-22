@@ -21,7 +21,7 @@
 
         Task<bool> IsBoardBelongToUserAsync(Guid boardId, Guid userId);
 
-        Task EditBoardOfUserAsync(Guid boardId, Guid userId, string name);
+        Task EditNameOfBoardAsync(Guid boardId, Guid userId, string name);
 
         Task SaveAsync();
     }
