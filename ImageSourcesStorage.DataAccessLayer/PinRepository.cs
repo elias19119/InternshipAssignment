@@ -9,7 +9,6 @@
     public class PinRepository : IPinRepository
     {
         private readonly DataContext dataContext;
-        private readonly DbSet<Pin> entity;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinRepository"/> class.
@@ -18,12 +17,11 @@
         public PinRepository(DataContext dataContext)
         {
             this.dataContext = dataContext;
-            this.entity = dataContext.Set<Pin>();
         }
 
         public async Task<List<Pin>> GetAllPinsAsync()
         {
-            return await this.entity.ToListAsync();
+            return await this.dataContext.Pins.ToListAsync();
         }
     }
 }
