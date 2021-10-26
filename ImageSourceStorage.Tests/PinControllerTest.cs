@@ -1,6 +1,8 @@
 ﻿namespace ImageSourceStorage.Tests
 {
+    using System;
     using System.Collections.Generic;
+    using System.Net;
     using System.Threading.Tasks;
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
@@ -35,6 +37,28 @@
 
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);
+        }
+
+        /// <summary>
+        /// should return a pin.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetPinByIdAsync_should_return_Ok_if_pin_exists()
+        {
+            var pin = new Pin
+            {
+                PinId = Guid.NewGuid(),
+            };
+
+            this.pinRepository.Setup(x => x.GetPinByIdAsync(It.IsAny<Guid>())).ReturnsAsync(pin);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
+
+            var response = await this.pinController.GetPinByIdAsync(pin.PinId);
+            var result = response as OkObjectResult;
+
+            Assert.NotNull(response);
+            Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
         }
     }
 }
