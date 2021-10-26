@@ -1,18 +1,24 @@
 ﻿namespace ImageSourcesStorage.Models
 {
+    using System;
     using ImageSourcesStorage.DataAccessLayer;
 
     public class GetPinByIdResponse
     {
-        public PinsModel Pin { get; set; }
+        public Guid PinId { get; set; }
+
+        public string Name { get; set; }
+
+        public string ImagePath { get; set; }
+
+        public string Description { get; set; }
 
         public GetPinByIdResponse(Pin pin)
         {
-            this.Pin = new PinsModel();
-            this.Pin.Name = pin.Name;
-            this.Pin.PinId = pin.PinId;
-            this.Pin.ImagePath = pin.ImagePath;
-            this.Pin.Description = pin.Description;
+            this.Name = pin.Name;
+            this.PinId = pin.PinId;
+            this.ImagePath = pin.ImagePath;
+            this.Description = pin.Description;
         }
     }
 }
