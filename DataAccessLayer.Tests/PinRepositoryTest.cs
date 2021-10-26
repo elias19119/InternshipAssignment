@@ -79,5 +79,76 @@
             Assert.Empty(result);
             Assert.Equal(pins.Count, result.Count);
         }
+
+        /// <summary>
+        /// should return a pin.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetPinByIdAsync_should_return_pin_if_pin_exists()
+        {
+            var pin = new Pin { PinId = Guid.NewGuid() };
+
+            await this.dataContext.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+
+            var result = await this.pinRepository.GetPinByIdAsync(pin.PinId);
+
+            Assert.NotNull(result);
+            Assert.Equal(pin.PinId, result.PinId);
+        }
+
+        /// <summary>
+        /// should not return a pin.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetPinByIdAsync_should_return_Null_if_pin_does_not_exist()
+        {
+            var testId = Guid.NewGuid();
+            var pin = new Pin { PinId = Guid.NewGuid() };
+
+            await this.dataContext.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+
+            var result = await this.pinRepository.GetPinByIdAsync(testId);
+
+            Assert.Null(result);
+        }
+
+        /// <summary>
+        /// should return id exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task IsPinExistsAsync_should_return_true_if_id_exists()
+        {
+            var pin = new Pin { PinId = Guid.NewGuid() };
+
+            await this.dataContext.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+
+            var result = await this.pinRepository.IsPinExistsAsync(pin.PinId);
+
+            Assert.True(result);
+        }
+
+        /// <summary>
+        /// should return id does not exist.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task IsPinExistsAsync_should_return_false_if_id_does_not_exists()
+        {
+            var testId = Guid.NewGuid();
+            var pin = new Pin { PinId = Guid.NewGuid() };
+
+            await this.dataContext.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+
+            var result = await this.pinRepository.IsPinExistsAsync(testId);
+
+            Assert.False(result);
+        }
     }
 }
