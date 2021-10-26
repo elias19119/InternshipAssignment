@@ -33,6 +33,7 @@
                         PinId = pin.PinId,
                         ImagePath = pin.ImagePath,
                         UserId = pin.UserId,
+                        Description = pin.Description,
                     };
                     boardModel.Pins.Add(pinModel);
                 }

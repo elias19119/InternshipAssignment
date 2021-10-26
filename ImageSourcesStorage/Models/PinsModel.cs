@@ -1,15 +1,15 @@
 ﻿namespace ImageSourcesStorage.Models
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    /// <summary>
-    /// PinModel.
-    /// </summary>
-    public class PinModel
+    public class PinsModel
     {
         public Guid PinId { get; set; }
 
-        public Guid UserId { get; set; }
+        public string Name { get; set; }
 
         public string ImagePath { get; set; }
 

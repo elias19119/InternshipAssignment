@@ -10,12 +10,10 @@
         where TUser : class
     {
         private readonly DataContext context;
-        private readonly DbSet<User> entities;
 
         public UserRepository(DataContext context)
         {
             this.context = context;
-            this.entities = context.Set<User>();
         }
 
         public UserRepository()
@@ -24,25 +22,25 @@
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await this.entities.ToListAsync();
+            return await this.context.Users.ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(Guid userId)
         {
-            return await this.entities.FindAsync(userId);
+            return await this.context.Users.FindAsync(userId);
         }
 
         public async Task InsertAsync(User user)
         {
             user.UserId = Guid.NewGuid();
             user.Score = 10;
-            await this.entities.AddAsync(user);
+            await this.context.Users.AddAsync(user);
             await this.SaveAsync();
         }
 
         public async Task UpdateAsync(Guid userId, string name, int score)
         {
-            var user = await this.entities.FindAsync(userId);
+            var user = await this.context.Users.FindAsync(userId);
 
             if (user != null)
             {
@@ -54,8 +52,8 @@
 
         public async Task DeleteAsync(Guid userId)
         {
-            var user = await this.entities.FindAsync(userId);
-            this.entities.Remove(user);
+            var user = await this.context.Users.FindAsync(userId);
+            this.context.Users.Remove(user);
             await this.SaveAsync();
         }
 
@@ -66,17 +64,17 @@
 
         public async Task<bool> ExistsAsync(Guid userId)
         {
-            return await this.entities.AnyAsync(a => a.UserId == userId);
+            return await this.context.Users.AnyAsync(a => a.UserId == userId);
         }
 
         public async Task<bool> NameExistsAsync(string name)
         {
-            return await this.entities.AnyAsync(a => a.Name == name);
+            return await this.context.Users.AnyAsync(a => a.Name == name);
         }
 
         public async Task ChangeUserScore(Guid userId, ChangeScoreOptions changeScoreOptions)
         {
-            var user = await this.entities.FindAsync(userId);
+            var user = await this.context.Users.FindAsync(userId);
 
             if (user != null)
             {
