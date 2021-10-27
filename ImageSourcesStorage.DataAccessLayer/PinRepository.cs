@@ -30,6 +30,13 @@
             return await this.dataContext.Pins.FindAsync(pinId);
         }
 
+        public async Task<List<Pin>> GetUserPinsAsync(Guid userId)
+        {
+            return await this.dataContext.Pins
+           .Where(u => u.UserId == userId)
+           .ToListAsync();
+        }
+
         public async Task<bool> IsPinExistsAsync(Guid pinId)
         {
             return await this.dataContext.Pins.AnyAsync(x => x.PinId == pinId);

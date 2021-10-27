@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using Xunit;
@@ -13,6 +14,7 @@
     public class PinControllerTest
     {
         private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IUserRepository<User>> userRepository;
         private readonly PinController pinController;
 
         /// <summary>
@@ -21,7 +23,8 @@
         public PinControllerTest()
         {
             this.pinRepository = new Mock<IPinRepository>();
-            this.pinController = new PinController(this.pinRepository.Object);
+            this.userRepository = new Mock<IUserRepository<User>>();
+            this.pinController = new PinController(this.pinRepository.Object, this.userRepository.Object);
         }
 
         /// <summary>
@@ -59,6 +62,21 @@
 
             Assert.NotNull(response);
             Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
+        }
+
+        /// <summary>
+        /// should return An OK Result.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetUserPinsAsync_should_return_OK_result()
+        {
+            this.pinRepository.Setup(x => x.GetUserPinsAsync(It.IsAny<Guid>())).ReturnsAsync(new List<Pin>());
+
+            var response = await this.pinController.GetUserPinsAsync(It.IsAny<Guid>());
+
+            Assert.NotNull(response);
+            Assert.IsAssignableFrom<IActionResult>(response);
         }
     }
 }
