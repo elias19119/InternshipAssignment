@@ -10,7 +10,7 @@
     /// <summary>
     /// to validate the Get User Board method.
     /// </summary>
-    public class GetUserBoardValidator : AbstractValidator<Board>
+    public class GetUserBoardValidator : AbstractValidator<Guid>
     {
           private readonly IUserRepository<User> userRepository;
 
@@ -21,7 +21,7 @@
           public GetUserBoardValidator(IUserRepository<User> userRepository)
           {
             this.userRepository = userRepository;
-            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
+            this.RuleFor(x => x).MustAsync(this.IsUserExistsAsync);
           }
 
           private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)

@@ -12,6 +12,8 @@
 
         Task<User> GetByIdAsync(Guid userId);
 
+        Task<List<Pin>> GetUserPinsAsync(Guid userId);
+
         Task InsertAsync(TUser user);
 
         Task UpdateAsync(Guid userId, string name, int score);

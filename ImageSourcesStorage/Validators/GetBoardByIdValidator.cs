@@ -10,7 +10,7 @@
     /// <summary>
     /// this class is to validate Get Board By Id request.
     /// </summary>
-    public class GetBoardByIdValidator : AbstractValidator<Board>
+    public class GetBoardByIdValidator : AbstractValidator<Guid>
     {
         private readonly IBoardRepository boardRepository;
 
@@ -20,7 +20,7 @@
         public GetBoardByIdValidator(IBoardRepository boardRepository)
         {
             this.boardRepository = boardRepository;
-            this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);
+            this.RuleFor(x => x).MustAsync(this.IsBoardExistsAsync);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@
         /// </summary>
         public GetBoardByIdValidator()
         {
-            this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);
+            this.RuleFor(x => x).MustAsync(this.IsBoardExistsAsync);
         }
 
         private async Task<bool> IsBoardExistsAsync(Guid boardId, CancellationToken cancellation)
