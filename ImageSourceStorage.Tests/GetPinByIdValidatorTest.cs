@@ -26,11 +26,14 @@
         [Fact]
         public void Validate_should_return_false_if_id_does_not_exists()
         {
-            var pinId = Guid.NewGuid();
+            var pin = new Pin()
+            {
+                PinId = Guid.NewGuid(),
+            };
 
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinId)).ReturnsAsync(false);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(false);
 
-            var result = this.getPinByIdValidator.Validate(pinId);
+            var result = this.getPinByIdValidator.Validate(pin);
 
             Assert.False(result.IsValid);
         }
@@ -41,11 +44,14 @@
         [Fact]
         public void Validate_should_return_true_if_id_exists()
         {
-            var pinId = Guid.NewGuid();
+            var pin = new Pin()
+            {
+                PinId = Guid.NewGuid(),
+            };
 
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinId)).ReturnsAsync(true);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
 
-            var result = this.getPinByIdValidator.Validate(pinId);
+            var result = this.getPinByIdValidator.Validate(pin);
 
             Assert.True(result.IsValid);
         }

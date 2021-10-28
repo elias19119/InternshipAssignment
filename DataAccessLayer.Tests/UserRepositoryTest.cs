@@ -353,53 +353,5 @@ namespace DataAccessLayer.Tests
 
             Assert.Equal(score, user.Score);
         }
-
-        /// <summary>
-        /// should return An OK Result.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task GetUserPinsAsync_should_return_list_of_pins_if_User_exists()
-        {
-            var userId = Guid.NewGuid();
-            var pins = new List<Pin>
-            {
-                new Pin
-                {
-                    UserId = userId,
-                    Name = "AUDI",
-                },
-                new Pin
-                {
-                    UserId = userId,
-                    Name = "BMW",
-                },
-            };
-
-            await this.dataContext.AddRangeAsync(pins);
-            await this.dataContext.SaveChangesAsync();
-
-            var result = await this.userRepository.GetUserPinsAsync(userId);
-
-            Assert.NotEmpty(result);
-            Assert.Equal(pins.Count, result.Count);
-        }
-
-        /// <summary>
-        /// should return not found.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task GetUserPinsAsync_should_return_empty_list_of_pins_if_User_does_not_exists()
-        {
-            var pins = new List<Pin>();
-
-            await this.dataContext.AddRangeAsync(pins);
-            await this.dataContext.SaveChangesAsync();
-
-            var result = await this.userRepository.GetUserPinsAsync(Guid.NewGuid());
-
-            Assert.Empty(result);
-        }
     }
 }

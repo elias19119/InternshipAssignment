@@ -32,11 +32,18 @@
         [Fact]
         public void IsBoardExistsAsync_should_return_true_if_id_exists()
         {
-            var boardId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var board = new Board()
+            {
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
+                UserId = userId,
+            };
 
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, board.BoardId, board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(true);
 
-            var result = this.getBoardByIdValidator.Validate(boardId);
+            var result = this.getBoardByIdValidator.Validate(board);
 
             Assert.True(result.IsValid);
         }
@@ -47,11 +54,18 @@
         [Fact]
         public void IsBoardExistsAsync_should_return_true_if_id_does_not_exist()
         {
-            var boardId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var board = new Board()
+            {
+                Name = "cars",
+                BoardId = Guid.NewGuid(),
+                UserId = userId,
+            };
 
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(false);
+            this.boardRepository.Setup(x => x.AddBoardToUserAsync(board.UserId, Guid.NewGuid(), board.Name)).Returns(Task.CompletedTask);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(board.BoardId)).ReturnsAsync(false);
 
-            var result = this.getBoardByIdValidator.Validate(boardId);
+            var result = this.getBoardByIdValidator.Validate(board);
 
             Assert.False(result.IsValid);
         }

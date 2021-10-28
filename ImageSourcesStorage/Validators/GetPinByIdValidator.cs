@@ -9,7 +9,7 @@
     /// <summary>
     /// this class is to validate get pin by Id.
     /// </summary>
-    public class GetPinByIdValidator : AbstractValidator<Guid>
+    public class GetPinByIdValidator : AbstractValidator<Pin>
     {
         private readonly IPinRepository pinRepository;
 
@@ -20,7 +20,7 @@
         public GetPinByIdValidator(IPinRepository pinRepository)
         {
             this.pinRepository = pinRepository;
-            this.RuleFor(x => x).MustAsync(this.IsPinExistsAsync);
+            this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync);
         }
 
         private async Task<bool> IsPinExistsAsync(Guid pinId, CancellationToken cancellation)

@@ -39,7 +39,9 @@
         [Route("{userId}/boards")]
         public async Task<IActionResult> GetUserBoardAsync(Guid userId)
         {
-            var result = this.getUserBoardValidator.Validate(userId);
+            var board = new Board() { UserId = userId };
+
+            var result = this.getUserBoardValidator.Validate(board);
 
             if (!result.IsValid)
             {
@@ -56,7 +58,9 @@
         [Route("boards/{boardId}")]
         public async Task<IActionResult> GetUserBoardByIdAsync(Guid boardId)
         {
-            var result = this.getBoardIdValidator.Validate(boardId);
+            var board = new Board() { BoardId = boardId };
+
+            var result = this.getBoardIdValidator.Validate(board);
 
             if (!result.IsValid)
             {

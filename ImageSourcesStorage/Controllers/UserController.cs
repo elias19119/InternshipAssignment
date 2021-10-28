@@ -19,7 +19,6 @@
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
         private readonly ChangeUserScoreValidator changeScoreValidator;
-        private readonly GetUserPinsValidator getUserPinsValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
@@ -28,7 +27,6 @@
             this.postUserValidator = new PostUserValidator(userRepository);
             this.putUserValidator = new PutUserValidator(userRepository);
             this.changeScoreValidator = new ChangeUserScoreValidator(userRepository);
-            this.getUserPinsValidator = new GetUserPinsValidator(userRepository);
         }
 
         [HttpGet]
@@ -42,7 +40,8 @@
         [Route("{userId}")]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
-            var result = this.checkUserIdValidator.Validate(userId);
+            var user = new User { UserId = userId };
+            var result = this.checkUserIdValidator.Validate(user);
 
             return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
@@ -92,7 +91,9 @@
         [Route("{userId}")]
         public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
-            var result = this.checkUserIdValidator.Validate(userId);
+            var user = new User { UserId = userId };
+
+            var result = this.checkUserIdValidator.Validate(user);
 
             if (!result.IsValid)
             {
@@ -107,34 +108,21 @@
         [Route("{userId}/scores")]
         public async Task<IActionResult> ChangeUserScoreAsync(Guid userId, [Required]ChangeScoreOptions changeScoreOptions)
         {
-            var result = this.changeScoreValidator.Validate(userId);
+            var user = new User
+            {
+                UserId = userId,
+            };
+
+            var result = this.changeScoreValidator.Validate(user);
 
             if (!result.IsValid)
             {
                 return this.BadRequest();
             }
 
-            await this.userRepository.ChangeUserScore(userId, changeScoreOptions);
+            await this.userRepository.ChangeUserScore(user.UserId, changeScoreOptions);
 
             return this.NoContent();
-        }
-
-        [HttpGet]
-        [Route("{userId}/pins")]
-        public async Task<IActionResult> GetUserPinsAsync(Guid userId)
-        {
-            var result = this.getUserPinsValidator.Validate(userId);
-
-            if (!result.IsValid)
-            {
-                return this.NotFound();
-            }
-
-            var pins = await this.userRepository.GetUserPinsAsync(userId);
-
-            var response = new GetUserPinsResponse(pins);
-
-            return this.Ok(response);
         }
     }
 }

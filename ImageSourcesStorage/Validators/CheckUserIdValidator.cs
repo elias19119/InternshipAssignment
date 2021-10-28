@@ -10,7 +10,7 @@
     /// <summary>
     /// User Validation.
     /// </summary>
-    public class CheckUserIdValidator : AbstractValidator<Guid>
+    public class CheckUserIdValidator : AbstractValidator<User>
     {
         private readonly IUserRepository<User> userRepository;
 
@@ -21,7 +21,7 @@
         public CheckUserIdValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.RuleFor(x => x).MustAsync(this.IsUserExistsAsync);
+            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         /// <summary>
@@ -29,7 +29,18 @@
         /// </summary>
         public CheckUserIdValidator()
         {
-            this.RuleFor(x => x).MustAsync(this.IsUserExistsAsync);
+            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
+        }
+
+        /// <summary>
+        /// rule for checking if User Exist.
+        /// </summary>
+        /// <returns> true. </returns>
+        public override ValidationResult Validate(ValidationContext<User> user)
+        {
+            return (user.InstanceToValidate == null)
+                ? new ValidationResult(new[] { new ValidationFailure("Property", "Error Message") })
+                : base.Validate(user);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)

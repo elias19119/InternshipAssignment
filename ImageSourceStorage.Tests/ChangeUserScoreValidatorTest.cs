@@ -40,7 +40,7 @@
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(false);
             this.userRepository.Setup(x => x.ChangeUserScore(user.UserId, ChangeScoreOptions.Increase)).Returns(Task.CompletedTask);
 
-            var result = this.changeUserScoreValidator.Validate(user.UserId);
+            var result = this.changeUserScoreValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -60,7 +60,7 @@
             this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
             this.userRepository.Setup(x => x.ChangeUserScore(user.UserId, ChangeScoreOptions.Increase)).Returns(Task.CompletedTask);
 
-            var result = this.changeUserScoreValidator.Validate(user.UserId);
+            var result = this.changeUserScoreValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }

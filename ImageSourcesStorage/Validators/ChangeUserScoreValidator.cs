@@ -13,7 +13,7 @@
     /// <summary>
     /// this class is to validate change user score.
     /// </summary>
-    public class ChangeUserScoreValidator : AbstractValidator<Guid>
+    public class ChangeUserScoreValidator : AbstractValidator<User>
     {
         private readonly IUserRepository<User> userRepository;
 
@@ -24,7 +24,7 @@
         public ChangeUserScoreValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.RuleFor(x => x).MustAsync(this.IsUserExistsAsync);
+            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)

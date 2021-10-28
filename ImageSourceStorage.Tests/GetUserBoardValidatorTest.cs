@@ -30,11 +30,14 @@
         [Fact]
         public void Validate_should_return_false_if_id_does_not_exists()
         {
-            var userId = Guid.NewGuid();
+            var board = new Board()
+            {
+                UserId = Guid.NewGuid(),
+            };
 
-            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(false);
+            this.userRepository.Setup(x => x.ExistsAsync(board.UserId)).ReturnsAsync(false);
 
-            var result = this.getUserBoardValidator.Validate(userId);
+            var result = this.getUserBoardValidator.Validate(board);
 
             Assert.False(result.IsValid);
         }
@@ -47,9 +50,14 @@
         {
             var userId = Guid.NewGuid();
 
-            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+            var board = new Board()
+            {
+                UserId = userId,
+            };
 
-            var result = this.getUserBoardValidator.Validate(userId);
+            this.userRepository.Setup(x => x.ExistsAsync(board.UserId)).ReturnsAsync(true);
+
+            var result = this.getUserBoardValidator.Validate(board);
 
             Assert.True(result.IsValid);
         }

@@ -31,11 +31,15 @@
         [Fact]
         public void Validate_should_return_false_if_id_does_not_exists()
         {
-            var userId = Guid.NewGuid();
+            var user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
 
-            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(false);
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(false);
 
-            var result = this.checkUserIdValidator.Validate(userId);
+            var result = this.checkUserIdValidator.Validate(user);
 
             Assert.False(result.IsValid);
         }
@@ -46,11 +50,15 @@
         [Fact]
         public void Validate_should_return_true_if_id_exists()
         {
-            var userId = Guid.NewGuid();
+            var user = new User()
+            {
+                UserId = Guid.NewGuid(),
+            };
 
-            this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
+            this.userRepository.Setup(x => x.InsertAsync(user)).Returns(Task.CompletedTask);
+            this.userRepository.Setup(x => x.ExistsAsync(user.UserId)).ReturnsAsync(true);
 
-            var result = this.checkUserIdValidator.Validate(userId);
+            var result = this.checkUserIdValidator.Validate(user);
 
             Assert.True(result.IsValid);
         }

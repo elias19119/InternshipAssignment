@@ -1,6 +1,7 @@
 ﻿namespace ImageSourcesStorage.Validators
 {
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using FluentValidation;
@@ -10,7 +11,7 @@
     /// <summary>
     /// this class is to validate get user pins request.
     /// </summary>
-    public class GetUserPinsValidator : AbstractValidator<Guid>
+    public class GetUserPinsValidator : AbstractValidator<Pin>
     {
         private readonly IUserRepository<User> userRepository;
 
@@ -21,7 +22,7 @@
         public GetUserPinsValidator(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.RuleFor(x => x).MustAsync(this.IsUserExistsAsync);
+            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)

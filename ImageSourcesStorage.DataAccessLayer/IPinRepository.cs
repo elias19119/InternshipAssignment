@@ -8,6 +8,8 @@
     {
         Task<List<Pin>> GetAllPinsAsync();
 
+        Task<List<Pin>> GetUserPinsAsync(Guid userId);
+
         Task<Pin> GetPinByIdAsync(Guid pinId);
 
         Task<bool> IsPinExistsAsync(Guid pinId);
