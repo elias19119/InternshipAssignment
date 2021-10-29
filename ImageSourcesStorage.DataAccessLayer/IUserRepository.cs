@@ -22,6 +22,8 @@
 
         Task ChangeUserScore(Guid userId, ChangeScoreOptions changeScoreOptions);
 
+        Task<List<Pin>> GetUserPinsAsync(Guid userId);
+
         Task<bool> ExistsAsync(Guid userId);
 
         Task<bool> NameExistsAsync(string name);

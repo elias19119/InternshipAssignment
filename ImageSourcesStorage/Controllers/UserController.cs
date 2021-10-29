@@ -19,6 +19,7 @@
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
         private readonly ChangeUserScoreValidator changeScoreValidator;
+        private readonly GetUserPinsValidator getUserPinsValidator;
 
         public UserController(IUserRepository<User> userRepository)
         {
@@ -27,6 +28,7 @@
             this.postUserValidator = new PostUserValidator(userRepository);
             this.putUserValidator = new PutUserValidator(userRepository);
             this.changeScoreValidator = new ChangeUserScoreValidator(userRepository);
+            this.getUserPinsValidator = new GetUserPinsValidator(userRepository);
         }
 
         [HttpGet]
@@ -123,6 +125,26 @@
             await this.userRepository.ChangeUserScore(user.UserId, changeScoreOptions);
 
             return this.NoContent();
+        }
+
+        [HttpGet]
+        [Route("{userId}/pins")]
+        public async Task<IActionResult> GetUserPinsAsync(Guid userId)
+        {
+            var pin = new Pin() { UserId = userId };
+
+            var result = this.getUserPinsValidator.Validate(pin);
+
+            if (!result.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            var pins = await this.userRepository.GetUserPinsAsync(userId);
+
+            var response = new GetUserPinsResponse(pins);
+
+            return this.Ok(response);
         }
     }
 }

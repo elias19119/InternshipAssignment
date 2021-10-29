@@ -8,13 +8,13 @@
     using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Mvc;
 
+    [Route("api/pins")]
     [ApiController]
     public class PinController : ControllerBase
     {
         private readonly IPinRepository pinRepository;
         private readonly IUserRepository<User> userRepository;
         private readonly GetPinByIdValidator getPinByIdValidator;
-        private readonly GetUserPinsValidator getUserPinsValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinController"/> class.
@@ -25,11 +25,9 @@
             this.pinRepository = pinRepository;
             this.userRepository = userRepository;
             this.getPinByIdValidator = new GetPinByIdValidator(pinRepository);
-            this.getUserPinsValidator = new GetUserPinsValidator(userRepository);
         }
 
         [HttpGet]
-        [Route("api/pins")]
         public async Task<IActionResult> GetAllPinsAsync()
         {
             var result = await this.pinRepository.GetAllPinsAsync();
@@ -39,7 +37,7 @@
         }
 
         [HttpGet]
-        [Route("api/pins/{pinId}")]
+        [Route("{pinId}")]
         public async Task<IActionResult> GetPinByIdAsync(Guid pinId)
         {
             var pin = new Pin() { PinId = pinId };
@@ -53,26 +51,6 @@
 
             var result = await this.pinRepository.GetPinByIdAsync(pinId);
             var response = new GetPinByIdResponse(result);
-
-            return this.Ok(response);
-        }
-
-        [HttpGet]
-        [Route("api/users/{userId}/pins")]
-        public async Task<IActionResult> GetUserPinsAsync(Guid userId)
-        {
-            var pin = new Pin() { UserId = userId };
-
-            var result = this.getUserPinsValidator.Validate(pin);
-
-            if (!result.IsValid)
-            {
-                return this.NotFound();
-            }
-
-            var pins = await this.pinRepository.GetUserPinsAsync(userId);
-
-            var response = new GetUserPinsResponse(pins);
 
             return this.Ok(response);
         }
