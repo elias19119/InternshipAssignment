@@ -85,5 +85,12 @@
                 await this.SaveAsync();
             }
         }
+
+        public async Task DeletePinOfBoardAsync(Guid pinId)
+        {
+            var pin = await this.context.Pins.FindAsync(pinId);
+            this.context.Pins.Remove(pin);
+            await this.SaveAsync();
+        }
     }
 }

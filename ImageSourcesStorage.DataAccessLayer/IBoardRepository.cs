@@ -15,6 +15,8 @@
 
         Task DeleteBoardOfUserAsync(Guid boardId);
 
+        Task DeletePinOfBoardAsync(Guid pinId);
+
         Task<bool> IsNameExistsAsync(string name);
 
         Task<bool> IsBoardExistsAsync(Guid boardId);

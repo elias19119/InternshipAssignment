@@ -19,6 +19,7 @@
         private readonly BoardController controller;
         private readonly Mock<IBoardRepository> boardRepository;
         private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IPinRepository> pinRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardControllerTest"/> class.
@@ -27,7 +28,8 @@
         {
             this.boardRepository = new Mock<IBoardRepository>();
             this.userRepository = new Mock<IUserRepository<User>>();
-            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object);
+            this.pinRepository = new Mock<IPinRepository>();
+            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object, this.pinRepository.Object);
         }
 
         /// <summary>
@@ -114,6 +116,26 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
 
             var result = await this.controller.EditNameOfBoardAsync(boardId, userId, boardRequest);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        /// <summary>
+        /// should delete a pin from a board.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeletePinOfBoardAsync_should_delete_pin_if_pin_belongs_to_board()
+        {
+            var boardId = Guid.NewGuid();
+            var pinId = Guid.NewGuid();
+
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
+            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.DeletePinOfBoardAsync(pinId)).Returns(Task.CompletedTask);
+
+            var result = await this.controller.DeletePinOfBoardAsync(pinId, boardId);
 
             Assert.IsType<NoContentResult>(result);
         }

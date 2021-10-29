@@ -34,5 +34,10 @@
         {
             return await this.dataContext.Pins.AnyAsync(x => x.PinId == pinId);
         }
+
+        public Task<bool> IsPinBelongToBoardAsync(Guid boardId, Guid pinId)
+        {
+            return this.dataContext.Pins.AnyAsync(x => x.PinId == pinId && x.BoardId == boardId);
+        }
     }
 }

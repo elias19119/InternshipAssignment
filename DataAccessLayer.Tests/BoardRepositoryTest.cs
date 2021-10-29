@@ -366,5 +366,48 @@
 
             Assert.Equal(boardEntity.Name, board.Name);
         }
+
+        /// <summary>
+        /// should delete a pin.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeletePinOfBoardAsync_should_return_false_if_pin_is_deleted()
+        {
+            var pin = new Pin()
+            {
+                PinId = Guid.NewGuid(),
+                BoardId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+
+            await this.boardRepository.DeletePinOfBoardAsync(pin.PinId);
+            var isPinExists = this.dataContext.Pins.Any(x => x.PinId == pin.PinId);
+
+            Assert.False(isPinExists);
+        }
+
+        /// <summary>
+        /// should not delete a pin.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task DeletePinOfBoardAsync_should_return_false_if_id_does_not_exists()
+        {
+            var pin = new Pin()
+            {
+                PinId = Guid.NewGuid(),
+                BoardId = Guid.NewGuid(),
+            };
+
+            await this.dataContext.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+
+            var response = this.boardRepository.DeletePinOfBoardAsync(Guid.NewGuid());
+
+            Assert.False(response.IsCompletedSuccessfully);
+        }
     }
 }
