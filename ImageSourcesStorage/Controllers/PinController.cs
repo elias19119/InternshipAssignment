@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Models;
     using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Mvc;
@@ -12,15 +13,17 @@
     public class PinController : ControllerBase
     {
         private readonly IPinRepository pinRepository;
+        private readonly IUserRepository<User> userRepository;
         private readonly GetPinByIdValidator getPinByIdValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinController"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
-        public PinController(IPinRepository pinRepository)
+        public PinController(IPinRepository pinRepository, IUserRepository<User> userRepository)
         {
             this.pinRepository = pinRepository;
+            this.userRepository = userRepository;
             this.getPinByIdValidator = new GetPinByIdValidator(pinRepository);
         }
 

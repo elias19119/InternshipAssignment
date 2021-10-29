@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using Microsoft.EntityFrameworkCore;
@@ -89,6 +90,13 @@
 
                 await this.SaveAsync();
             }
+        }
+
+        public async Task<List<Pin>> GetUserPinsAsync(Guid userId)
+        {
+            return await this.context.Pins
+           .Where(u => u.UserId == userId)
+           .ToListAsync();
         }
     }
 }
