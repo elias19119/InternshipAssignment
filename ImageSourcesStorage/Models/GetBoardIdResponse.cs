@@ -5,7 +5,7 @@
 
     public class GetBoardIdResponse
     {
-        public Guid boardId { get; set; }
+        public Guid BoardId { get; set; }
 
         public Guid UserId { get; set; }
 
@@ -17,7 +17,7 @@
         /// <param name="boardId"></param>
         public GetBoardIdResponse(Board board)
         {
-            this.boardId = board.BoardId;
+            this.BoardId = board.BoardId;
             this.Name = board.Name;
             this.UserId = board.UserId;
         }

@@ -43,9 +43,9 @@
 
         private async Task<bool> IsPinBelongToBoardAsync(Pin pin, CancellationToken cancellation)
         {
-            var isExists = await this.pinRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
+            var isBelongs = await this.pinRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
 
-            return isExists;
+            return isBelongs;
         }
     }
 }
