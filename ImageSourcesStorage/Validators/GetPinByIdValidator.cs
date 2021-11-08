@@ -23,6 +23,14 @@
             this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetPinByIdValidator"/> class.
+        /// </summary>
+        public GetPinByIdValidator()
+        {
+            this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync);
+        }
+
         private async Task<bool> IsPinExistsAsync(Guid pinId, CancellationToken cancellation)
         {
             var isExists = await this.pinRepository.IsPinExistsAsync(pinId);

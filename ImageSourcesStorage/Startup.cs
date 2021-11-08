@@ -34,7 +34,7 @@ namespace ImageSourcesStorage
             {
                 opt.SuppressAsyncSuffixInActionNames = false;
                 opt.Filters.Add(typeof(ValidationFilter));
-            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<CheckUserIdValidator>());
+            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddTransient(typeof(IBoardRepository), typeof(BoardRepository));
             services.AddTransient(typeof(IPinRepository), typeof(PinRepository));

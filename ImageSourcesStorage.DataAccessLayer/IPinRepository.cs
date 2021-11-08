@@ -11,5 +11,7 @@
         Task<Pin> GetPinByIdAsync(Guid pinId);
 
         Task<bool> IsPinExistsAsync(Guid pinId);
+
+        Task<bool> IsPinBelongToBoardAsync(Guid boardId, Guid pinId);
     }
 }
