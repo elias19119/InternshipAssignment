@@ -39,5 +39,24 @@
         {
             return this.dataContext.Pins.AnyAsync(x => x.PinId == pinId && x.BoardId == boardId);
         }
+
+        public async Task InsertPinAsync(Pin pin)
+        {
+            pin.PinId = Guid.NewGuid();
+            await this.dataContext.Pins.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        public async Task InsertPinBoard(PinBoard pinBoard)
+        {
+            pinBoard.PinBoardId = Guid.NewGuid();
+            await this.dataContext.PinBoards.AddAsync(pinBoard);
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        public async Task<PinBoard> GetPinBoardByIdAsync(Guid pinBoardId)
+        {
+            return await this.dataContext.PinBoards.FindAsync(pinBoardId);
+        }
     }
 }
