@@ -20,30 +20,22 @@
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<User> userRepository;
-        private readonly IBoardRepository boardRepository;
-        private readonly IPinRepository pinRepository;
         private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
         private readonly ChangeUserScoreValidator changeScoreValidator;
         private readonly GetUserPinsValidator getUserPinsValidator;
-        private readonly UploadImageValidator uploadImageValidator;
-        private readonly IStorage storage;
 
         public object ViewBag { get; private set; }
 
-        public UserController(IUserRepository<User> userRepository, IStorage storage, IBoardRepository boardRepository, IPinRepository pinRepository)
+        public UserController(IUserRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.boardRepository = boardRepository;
-            this.pinRepository = pinRepository;
-            this.storage = storage;
             this.checkUserIdValidator = new CheckUserIdValidator(userRepository);
             this.postUserValidator = new PostUserValidator(userRepository);
             this.putUserValidator = new PutUserValidator(userRepository);
             this.changeScoreValidator = new ChangeUserScoreValidator(userRepository);
             this.getUserPinsValidator = new GetUserPinsValidator(userRepository);
-            this.uploadImageValidator = new UploadImageValidator(userRepository, boardRepository, pinRepository);
         }
 
         [HttpGet]
@@ -160,48 +152,6 @@
             var response = new GetUserPinsResponse(pins);
 
             return this.Ok(response);
-        }
-
-        [HttpPost]
-        [Route("{userId}/boards/{boardId}/pins")]
-        public async Task<IActionResult> UploadFileAsync([FromForm] UploadImageRequest request, Guid userId, Guid boardId)
-        {
-            if (request.PinId is null)
-            {
-                request.PinId = Guid.Empty;
-            }
-
-            var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = (Guid)request.PinId };
-            var pinBoard = new PinBoard() { PinId = (Guid)request.PinId, BoardId = boardId };
-
-            var result = this.uploadImageValidator.Validate(addPin);
-
-            if (!result.IsValid)
-            {
-                return this.BadRequest();
-            }
-
-            if (request.File is null && request.PinId.Equals(Guid.Empty))
-            {
-                return this.BadRequest();
-            }
-
-            if (request.PinId.Equals(Guid.Empty))
-            {
-                var pin = new Pin { BoardId = boardId, UserId = userId, ImagePath = request.File.FileName };
-                this.storage.Upload(request.File);
-                await this.pinRepository.InsertPinAsync(pin);
-
-                var requestpin = await this.pinRepository.GetPinByIdAsync(pin.PinId);
-                var uploadImageResponse = new UploadImageResponse(requestpin);
-                return this.Ok(uploadImageResponse);
-            }
-            else
-            {
-                await this.pinRepository.InsertPinBoard(pinBoard);
-            }
-
-            return this.NoContent();
         }
     }
 }

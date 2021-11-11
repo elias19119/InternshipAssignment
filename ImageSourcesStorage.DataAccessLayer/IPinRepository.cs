@@ -13,12 +13,12 @@
 
         Task<PinBoard> GetPinBoardByIdAsync(Guid pinBoardId);
 
-        Task InsertPinAsync(Pin pin);
+        Task InsertPinAsync(Guid pinId , Guid boardId, Guid userId, string imagePath);
 
         Task<bool> IsPinExistsAsync(Guid pinId);
 
         Task<bool> IsPinBelongToBoardAsync(Guid boardId, Guid pinId);
 
-        Task InsertPinBoard(PinBoard pinBoard);
+        Task InsertPinBoard(Guid boardId, Guid pinId);
     }
 }

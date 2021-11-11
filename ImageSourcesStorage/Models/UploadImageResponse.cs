@@ -7,9 +7,9 @@
     {
         public Guid PinId { get; set; }
 
-        public UploadImageResponse(Pin pin)
+        public UploadImageResponse(Guid pinId)
         {
-            this.PinId = pin.PinId;
+            this.PinId = pinId;
         }
 
         public UploadImageResponse()

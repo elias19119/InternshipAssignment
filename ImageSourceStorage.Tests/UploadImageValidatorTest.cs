@@ -43,13 +43,11 @@
 
             var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = pinId };
 
-            var pinBoard = new PinBoard() { PinId = pinId, BoardId = boardId };
-
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinBoard(pinBoard)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -82,13 +80,11 @@
 
             var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = pinId };
 
-            var pin = new Pin { BoardId = boardId, UserId = userId, ImagePath = file.FileName };
-
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinAsync(pin)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinAsync(pinId, boardId,userId, file.FileName)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -107,13 +103,11 @@
 
             var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = pinId };
 
-            var pinBoard = new PinBoard() { PinId = pinId, BoardId = boardId };
-
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.InsertPinBoard(pinBoard)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -132,13 +126,11 @@
 
             var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = pinId };
 
-            var pinBoard = new PinBoard() { PinId = pinId, BoardId = boardId };
-
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.InsertPinBoard(pinBoard)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -157,13 +149,11 @@
 
             var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = pinId };
 
-            var pinBoard = new PinBoard() { PinId = pinId, BoardId = boardId };
-
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(false);
             this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.InsertPinBoard(pinBoard)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -182,13 +172,11 @@
 
             var addPin = new AddPinToBoard { BoardId = boardId, UserId = userId, PinId = pinId };
 
-            var pinBoard = new PinBoard() { PinId = pinId, BoardId = boardId };
-
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinBoard(pinBoard)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 

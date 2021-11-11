@@ -158,69 +158,18 @@
         [Fact]
         public async Task InsertPinAsync_should_add_pin_to_context_if_data_is_valid()
         {
-            var pinEntity = new Pin { PinId = Guid.NewGuid(), BoardId = Guid.NewGuid(), UserId = Guid.NewGuid(), ImagePath = "C:/desktop/cars" };
+            var pinId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var boardId = Guid.NewGuid();
+            var imagePath = "C:/desktop/cars";
 
-            await this.dataContext.AddAsync(pinEntity);
-            await this.dataContext.SaveChangesAsync();
+            await this.pinRepository.InsertPinAsync(pinId, boardId, userId, imagePath);
 
-            await this.pinRepository.InsertPinAsync(pinEntity);
+            var pin = await this.pinRepository.GetPinByIdAsync(pinId);
 
-            var pin = await this.pinRepository.GetPinByIdAsync(pinEntity.PinId);
-
-            Assert.Equal(pin.BoardId, pinEntity.BoardId);
-            Assert.Equal(pin.UserId, pinEntity.UserId);
-            Assert.Equal(pin.ImagePath, pinEntity.ImagePath);
-        }
-
-        /// <summary>
-        /// should return null.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task InsertPinAsync_should_not_add_pin_to_context_if_data_is_not_valid()
-        {
-            var pinEntity = new Pin { PinId = Guid.NewGuid(), BoardId = Guid.NewGuid(), UserId = Guid.NewGuid(), ImagePath = "C:/desktop/cars" };
-
-            await this.pinRepository.InsertPinAsync(pinEntity);
-            var pin = await this.pinRepository.GetPinByIdAsync(Guid.NewGuid());
-
-            Assert.Null(pin);
-        }
-
-        /// <summary>
-        /// should return A created pin.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task InsertPinBoard_should_add_pinboard_to_context_if_data_is_valid()
-        {
-            var pinBoardEntity = new PinBoard() { PinBoardId = Guid.NewGuid(), PinId = Guid.NewGuid(), BoardId = Guid.NewGuid() };
-
-            await this.dataContext.AddAsync(pinBoardEntity);
-            await this.dataContext.SaveChangesAsync();
-
-            await this.pinRepository.InsertPinBoard(pinBoardEntity);
-
-            var pinBoard = await this.pinRepository.GetPinBoardByIdAsync(pinBoardEntity.PinBoardId);
-
-            Assert.Equal(pinBoard.PinId, pinBoardEntity.PinId);
-            Assert.Equal(pinBoard.BoardId, pinBoardEntity.BoardId);
-        }
-
-        /// <summary>
-        /// should return null.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task InsertPinBoard_should_not_add_pinboard_to_context_if_data_is_not_valid()
-        {
-            var pinBoardEntity = new PinBoard() { PinBoardId = Guid.NewGuid(), PinId = Guid.NewGuid(), BoardId = Guid.NewGuid() };
-
-            await this.pinRepository.InsertPinBoard(pinBoardEntity);
-
-            var pinBoard = await this.pinRepository.GetPinBoardByIdAsync(Guid.NewGuid());
-
-            Assert.Null(pinBoard);
+            Assert.Equal(pin.BoardId, boardId);
+            Assert.Equal(pin.UserId, userId);
+            Assert.Equal(pin.ImagePath, imagePath);
         }
 
         /// <summary>
@@ -242,11 +191,11 @@
         }
 
         /// <summary>
-        /// should not return a pin.
+        /// should return a pin.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task GetPinBoardByIdAsync_should_return_Null_if_pinboard_does_not_exist()
+        public async Task GetPinBoardByIdAsync_should_not_return_pinboard_if_pinboard_does_not_exists()
         {
             var pinBoardEntity = new PinBoard() { PinBoardId = Guid.NewGuid(), PinId = Guid.NewGuid(), BoardId = Guid.NewGuid() };
 
@@ -257,6 +206,5 @@
 
             Assert.Null(result);
         }
-
     }
 }

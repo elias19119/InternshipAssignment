@@ -40,23 +40,34 @@
             return this.dataContext.Pins.AnyAsync(x => x.PinId == pinId && x.BoardId == boardId);
         }
 
-        public async Task InsertPinAsync(Pin pin)
+        public async Task<PinBoard> GetPinBoardByIdAsync(Guid pinBoardId)
         {
-            pin.PinId = Guid.NewGuid();
+            return await this.dataContext.PinBoards.FindAsync(pinBoardId);
+        }
+
+        public async Task InsertPinAsync(Guid pinId, Guid boardId, Guid userId, string imagePath)
+        {
+            var pin = new Pin
+            {
+                PinId = pinId,
+                BoardId = boardId,
+                ImagePath = imagePath,
+                UserId = userId,
+            };
             await this.dataContext.Pins.AddAsync(pin);
             await this.dataContext.SaveChangesAsync();
         }
 
-        public async Task InsertPinBoard(PinBoard pinBoard)
+        public async Task InsertPinBoard(Guid boardId, Guid pinId)
         {
-            pinBoard.PinBoardId = Guid.NewGuid();
+            var pinBoard = new PinBoard
+            {
+                PinId = pinId,
+                BoardId = boardId,
+                PinBoardId = Guid.NewGuid(),
+            };
             await this.dataContext.PinBoards.AddAsync(pinBoard);
             await this.dataContext.SaveChangesAsync();
-        }
-
-        public async Task<PinBoard> GetPinBoardByIdAsync(Guid pinBoardId)
-        {
-            return await this.dataContext.PinBoards.FindAsync(pinBoardId);
         }
     }
 }
