@@ -14,6 +14,7 @@
         private readonly IBoardRepository boardRepository;
         private readonly IUserRepository<User> userRepository;
         private readonly IPinRepository pinRepository;
+        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
         private readonly GetUserBoardValidator getUserBoardValidator;
         private readonly AddBoardtoUserValidator addBoardValidator;
         private readonly GetBoardByIdValidator getBoardIdValidator;
@@ -24,24 +25,25 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
         /// </summary>
-        public BoardController(IBoardRepository boardRepository , IUserRepository<User> userRepository, IPinRepository pinRepository)
+        public BoardController(IBoardRepository boardRepository , IUserRepository<User> userRepository, IPinRepository pinRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;
             this.pinRepository = pinRepository;
+            this.pinBoardRepository = pinBoardRepository;
             this.getUserBoardValidator = new GetUserBoardValidator(userRepository);
             this.addBoardValidator = new AddBoardtoUserValidator(userRepository, boardRepository);
             this.getBoardIdValidator = new GetBoardByIdValidator(boardRepository);
             this.deleteBoardValidator = new DeleteBoardOfUserValidator(userRepository, boardRepository);
             this.editBoardOfUserValidator = new EditBoardofUserValidator(userRepository, boardRepository);
-            this.deletePinOfBoardValidator = new DeletePinOfBoardValidator(pinRepository, boardRepository);
+            this.deletePinOfBoardValidator = new DeletePinOfBoardValidator(pinRepository, boardRepository, pinBoardRepository);
         }
 
         [HttpGet]
         [Route("api/users/{userId}/boards")]
         public async Task<IActionResult> GetUserBoardAsync(Guid userId)
         {
-            var board = new Board() { UserId = userId };
+            var board = new BoardEntity() { UserId = userId };
 
             var result = this.getUserBoardValidator.Validate(board);
 
@@ -53,7 +55,7 @@
             var boards = await this.boardRepository.GetUserBoardAsync(userId);
             var response = new GetUserBoardResponse(boards);
 
-            return this.Ok(response);
+            return this.Ok(boards);
         }
 
         [HttpGet]
@@ -142,7 +144,7 @@
         [Route("api/boards/{boardId}/pins/{pinId}")]
         public async Task<IActionResult> DeletePinOfBoardAsync(Guid pinId, Guid boardId)
         {
-            var pin = new Pin { PinId = pinId, BoardId = boardId };
+            var pin = new PinBoard { PinId = pinId, BoardId = boardId };
 
             var result = this.deletePinOfBoardValidator.Validate(pin);
 

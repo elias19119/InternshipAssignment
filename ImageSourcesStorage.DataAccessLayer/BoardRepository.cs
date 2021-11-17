@@ -23,11 +23,28 @@
             this.context = context;
         }
 
-        public async Task<List<Board>> GetUserBoardAsync(Guid userId)
+        public async Task<List<BoardEntity>> GetUserBoardAsync(Guid userId)
         {
-            return await this.context.Boards.Include(u => u.Pins)
-            .Where(u => u.UserId == userId)
-            .ToListAsync();
+            var result = new List<BoardEntity>();
+
+            IQueryable<Guid> boardIds = this.context.Boards.Where(x => x.UserId == userId).Select(y => y.BoardId);
+
+            foreach (var boardId in boardIds)
+            {
+                var board = await this.context.Boards.FindAsync(boardId);
+                var boardModel = new BoardEntity();
+                boardModel.Name = board.Name;
+                boardModel.UserId = board.UserId;
+
+                var pinIds = this.context.PinBoards.Where(x => x.BoardId == boardId).Select(y => y.PinId);
+                List<Pin> pins = this.context.Pins.Where(x => pinIds.Contains(x.PinId)).ToList();
+                List<PinModel> pinModels = pins.Select(x => new PinModel() { PinId = x.PinId, ImagePath = x.ImagePath, UserId = x.UserId, Description = x.Description }).ToList();
+
+                boardModel.pins = pinModels;
+                result.Add(boardModel);
+            }
+
+            return result;
         }
 
         public async Task AddBoardToUserAsync(Guid userId, Guid boardId, string name)
@@ -88,8 +105,8 @@
 
         public async Task DeletePinOfBoardAsync(Guid pinId)
         {
-            var pin = await this.context.Pins.FindAsync(pinId);
-            this.context.Pins.Remove(pin);
+            var pin = this.context.PinBoards.FirstOrDefault(x => x.PinId == pinId);
+            this.context.PinBoards.Remove(pin);
             await this.SaveAsync();
         }
     }

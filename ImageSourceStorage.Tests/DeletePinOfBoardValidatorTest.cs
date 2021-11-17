@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
     using Moq;
     using Xunit;
@@ -12,13 +13,15 @@
     {
         private readonly Mock<IBoardRepository> boardRepository;
         private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
         private readonly DeletePinOfBoardValidator deletePinOfBoardValidator;
 
         public DeletePinOfBoardValidatorTest()
         {
             this.boardRepository = new Mock<IBoardRepository>();
             this.pinRepository = new Mock<IPinRepository>();
-            this.deletePinOfBoardValidator = new DeletePinOfBoardValidator(this.pinRepository.Object, this.boardRepository.Object);
+            this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
+            this.deletePinOfBoardValidator = new DeletePinOfBoardValidator(this.pinRepository.Object, this.boardRepository.Object, this.pinBoardRepository.Object);
         }
 
         /// <summary>
@@ -27,13 +30,13 @@
         [Fact]
         public void Validate_should_return_false_if_pinId_and_boardId_does_not_exists_and_if_pin_does_not_belongs_to_the_board()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(false);
             this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(false);
 
@@ -48,13 +51,13 @@
         [Fact]
         public void Validate_should_return_false_if_pin_does_not_belongs_to_the_board()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
 
@@ -69,13 +72,13 @@
         [Fact]
         public void Validate_should_return_false_if_pinId_does_not_exists()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(false);
 
@@ -90,13 +93,13 @@
         [Fact]
         public void Validate_should_return_false_if_boardId_does_not_exists()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(false);
             this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
 
@@ -111,13 +114,13 @@
         [Fact]
         public void Validate_should_return_true_if_id_exists()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
 

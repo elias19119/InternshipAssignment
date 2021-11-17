@@ -20,6 +20,7 @@
         private readonly Mock<IBoardRepository> boardRepository;
         private readonly Mock<IUserRepository<User>> userRepository;
         private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardControllerTest"/> class.
@@ -29,17 +30,18 @@
             this.boardRepository = new Mock<IBoardRepository>();
             this.userRepository = new Mock<IUserRepository<User>>();
             this.pinRepository = new Mock<IPinRepository>();
-            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object, this.pinRepository.Object);
+            this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
+            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object, this.pinRepository.Object, this.pinBoardRepository.Object);
         }
 
-        /// <summary>
-        /// should return An OK Result.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        ///// <summary>
+        ///// should return An OK Result.
+        ///// </summary>
+        ///// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
         public async Task GetUserBoardAsync_should_return_OK_result()
         {
-            this.boardRepository.Setup(x => x.GetUserBoardAsync(It.IsAny<Guid>())).ReturnsAsync(new List<Board>());
+            this.boardRepository.Setup(x => x.GetUserBoardAsync(It.IsAny<Guid>())).ReturnsAsync(new List<BoardEntity>());
 
             var response = await this.controller.GetUserBoardAsync(It.IsAny<Guid>());
 
@@ -131,7 +133,7 @@
             var pinId = Guid.NewGuid();
 
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
             this.pinRepository.Setup(x => x.IsPinExistsAsync(pinId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.DeletePinOfBoardAsync(pinId)).Returns(Task.CompletedTask);
 

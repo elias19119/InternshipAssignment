@@ -23,15 +23,12 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .ToTable("User");
+            modelBuilder.Entity<User>();
 
-            modelBuilder.Entity<Board>()
-            .ToTable("Board")
-            .HasMany(c => c.Pins);
+            modelBuilder.Entity<Board>();
 
             modelBuilder.Entity<Pin>()
-             .ToTable("Pin").HasKey(x => x.PinId);
+           .HasKey(x => x.PinId);
         }
     }
 }

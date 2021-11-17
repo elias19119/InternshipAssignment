@@ -38,14 +38,14 @@
         [Fact]
         public async Task GetUserBoardAsync_should_return_list_of_boards_of_users_if_User_exists()
         {
-            var boards = new List<Board>
+            var boards = new List<BoardEntity>
             {
-                new Board
+                new BoardEntity
                 {
                     UserId = this.userId,
                     Name = "nature",
                 },
-                new Board
+                new BoardEntity
                 {
                     UserId = this.userId,
                     Name = "cars",
@@ -68,7 +68,7 @@
         [Fact]
         public async Task GetUserBoardAsync_should_return_empty_list_of_boards_of_user_if_User_does_not_exists()
         {
-            var boards = new List<Board>();
+            var boards = new List<BoardEntity>();
 
             await this.dataContext.AddRangeAsync(boards);
             await this.dataContext.SaveChangesAsync();
@@ -374,17 +374,18 @@
         [Fact]
         public async Task DeletePinOfBoardAsync_should_return_false_if_pin_is_deleted()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
+                PinBoardId = Guid.NewGuid(),
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            await this.dataContext.AddAsync(pin);
+            await this.dataContext.PinBoards.AddAsync(pin);
             await this.dataContext.SaveChangesAsync();
 
             await this.boardRepository.DeletePinOfBoardAsync(pin.PinId);
-            var isPinExists = this.dataContext.Pins.Any(x => x.PinId == pin.PinId);
+            var isPinExists = this.dataContext.PinBoards.Any(x => x.PinId == pin.PinId);
 
             Assert.False(isPinExists);
         }
@@ -396,13 +397,13 @@
         [Fact]
         public async Task DeletePinOfBoardAsync_should_return_false_if_id_does_not_exists()
         {
-            var pin = new Pin()
+            var pin = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            await this.dataContext.AddAsync(pin);
+            await this.dataContext.PinBoards.AddAsync(pin);
             await this.dataContext.SaveChangesAsync();
 
             var response = this.boardRepository.DeletePinOfBoardAsync(Guid.NewGuid());

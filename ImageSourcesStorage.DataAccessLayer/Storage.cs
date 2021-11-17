@@ -17,7 +17,6 @@
 
         public void Upload(IFormFile formfile)
         {
-
             var containerName = configuration.GetSection("Storage:ContainerName").Value;
 
             var containerclient = blobServiceClient.GetBlobContainerClient(containerName);

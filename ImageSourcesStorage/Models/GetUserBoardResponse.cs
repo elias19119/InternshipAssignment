@@ -14,7 +14,7 @@
         /// Initializes a new instance of the <see cref="GetUserBoardResponse"/> class.
         /// </summary>
         /// <param name="boards"></param>
-        public GetUserBoardResponse(List<Board> boards)
+        public GetUserBoardResponse(List<BoardEntity> boards)
         {
             this.BoardModels = new List<BoardModel>();
             foreach (var board in boards)
@@ -26,7 +26,7 @@
                     Pins = new List<PinModel>(),
                 };
 
-                foreach (var pin in board.Pins)
+                foreach (var pin in boardModel.Pins)
                 {
                     var pinModel = new PinModel
                     {

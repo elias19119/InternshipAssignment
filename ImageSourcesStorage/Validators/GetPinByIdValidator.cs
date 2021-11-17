@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using FluentValidation;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
 
     /// <summary>
     /// this class is to validate get pin by Id.

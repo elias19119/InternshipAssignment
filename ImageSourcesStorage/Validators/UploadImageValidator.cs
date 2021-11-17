@@ -13,17 +13,19 @@
         private readonly IBoardRepository boardRepository;
         private readonly IUserRepository<User> userRepository;
         private readonly IPinRepository pinRepository;
+        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UploadImageValidator"/> class.
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="boardRepository"></param>
-        public UploadImageValidator(IUserRepository<User> userRepository, IBoardRepository boardRepository, IPinRepository pinRepository)
+        public UploadImageValidator(IUserRepository<User> userRepository, IBoardRepository boardRepository, IPinRepository pinRepository , IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.userRepository = userRepository;
             this.boardRepository = boardRepository;
             this.pinRepository = pinRepository;
+            this.pinBoardRepository = pinBoardRepository;
             this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
             this.RuleFor(x => x).MustAsync(this.IsPinBelongToBoardAsync);
@@ -53,7 +55,7 @@
 
         private async Task<bool> IsPinBelongToBoardAsync(AddPinToBoard pin, CancellationToken cancellation)
         {
-            var isBelongs = await this.pinRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
+            var isBelongs = await this.pinBoardRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
 
             return !isBelongs;
         }

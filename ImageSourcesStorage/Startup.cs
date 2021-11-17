@@ -44,6 +44,7 @@ namespace ImageSourcesStorage
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddTransient(typeof(IBoardRepository), typeof(BoardRepository));
             services.AddTransient(typeof(IPinRepository), typeof(PinRepository));
+            services.AddTransient(typeof(IPinBoardRepository<>), typeof(PinBoardRepository<>));
             services.AddTransient<IStorage, Storage>();
         }
 

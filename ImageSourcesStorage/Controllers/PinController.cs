@@ -15,6 +15,7 @@
         private readonly IPinRepository pinRepository;
         private readonly IUserRepository<User> userRepository;
         private readonly IBoardRepository boardRepository;
+        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
         private readonly GetPinByIdValidator getPinByIdValidator;
         private readonly UploadImageValidator uploadImageValidator;
         private readonly IStorage storage;
@@ -23,14 +24,15 @@
         /// Initializes a new instance of the <see cref="PinController"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
-        public PinController(IPinRepository pinRepository, IUserRepository<User> userRepository, IStorage storage , IBoardRepository boardRepository)
+        public PinController(IPinRepository pinRepository, IUserRepository<User> userRepository, IStorage storage , IBoardRepository boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.pinRepository = pinRepository;
             this.userRepository = userRepository;
             this.boardRepository = boardRepository;
+            this.pinBoardRepository = pinBoardRepository;
             this.storage = storage;
             this.getPinByIdValidator = new GetPinByIdValidator(pinRepository);
-            this.uploadImageValidator = new UploadImageValidator(userRepository, boardRepository,pinRepository);
+            this.uploadImageValidator = new UploadImageValidator(userRepository, boardRepository,pinRepository , pinBoardRepository);
         }
 
         [HttpGet]
@@ -89,15 +91,15 @@
             {
                 var pinId = Guid.NewGuid();
                 this.storage.Upload(request.File);
-                await this.pinRepository.InsertPinAsync(pinId, boardId, userId, request.File.FileName);
-                await this.pinRepository.InsertPinBoard(boardId, pinId);
+                await this.pinRepository.InsertPinAsync(pinId, userId, request.File.FileName);
+                await this.pinBoardRepository.InsertPinBoard(boardId, pinId);
 
                 var uploadImageResponse = new UploadImageResponse(pinId);
                 return this.Ok(uploadImageResponse);
             }
             else
             {
-                await this.pinRepository.InsertPinBoard(boardId, (Guid)request.PinId);
+                await this.pinBoardRepository.InsertPinBoard(boardId, (Guid)request.PinId);
             }
 
             return this.NoContent();

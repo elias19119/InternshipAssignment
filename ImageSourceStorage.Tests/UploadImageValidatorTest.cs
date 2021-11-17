@@ -18,6 +18,7 @@
         private readonly Mock<IUserRepository<User>> userRepository;
         private readonly Mock<IBoardRepository> boardRepository;
         private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
         private readonly UploadImageValidator uploadImageValidator;
 
         /// <summary>
@@ -28,14 +29,15 @@
             this.userRepository = new Mock<IUserRepository<User>>();
             this.pinRepository = new Mock<IPinRepository>();
             this.boardRepository = new Mock<IBoardRepository>();
-            this.uploadImageValidator = new UploadImageValidator(this.userRepository.Object , this.boardRepository.Object , this.pinRepository.Object);
+            this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
+            this.uploadImageValidator = new UploadImageValidator(this.userRepository.Object , this.boardRepository.Object , this.pinRepository.Object, this.pinBoardRepository.Object);
         }
 
         /// <summary>
         /// should return true.
         /// </summary>
         [Fact]
-        public void Validate_Should_return_true_if_data_are_valid_and_if_pin_is_insearted()
+        public void Validate_Should_return_true_if_data_are_valid_and_if_pin_is_inserted()
         {
             var boardId = Guid.NewGuid();
             var userId = Guid.NewGuid();
@@ -46,8 +48,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -83,8 +85,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinAsync(pinId, boardId,userId, file.FileName)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -106,8 +108,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -129,8 +131,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(false);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -152,8 +154,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 
@@ -175,8 +177,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, pinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, pinId)).Returns(Task.CompletedTask);
 
             var result = this.uploadImageValidator.Validate(addPin);
 

@@ -4,18 +4,12 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class Pin
+    public class BoardEntity
     {
-        public Guid PinId { get; set; }
-
-        public string Description { get; set; }
-
         public string Name { get; set; }
-
-        public string ImagePath { get; set; }
 
         public Guid UserId { get; set; }
 
-        public User Owner { get; set; }
+        public List<PinModel> pins { get; set; }
     }
 }

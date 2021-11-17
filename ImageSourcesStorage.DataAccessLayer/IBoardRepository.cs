@@ -7,7 +7,7 @@
 
     public interface IBoardRepository
     {
-        Task<List<Board>> GetUserBoardAsync(Guid userId);
+        Task<List<BoardEntity>> GetUserBoardAsync(Guid userId);
 
         Task AddBoardToUserAsync(Guid userId, Guid boardId, string name);
 

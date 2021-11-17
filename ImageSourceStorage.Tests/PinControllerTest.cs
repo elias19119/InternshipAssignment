@@ -19,6 +19,7 @@
         private readonly Mock<IPinRepository> pinRepository;
         private readonly Mock<IUserRepository<User>> userRepository;
         private readonly Mock<IBoardRepository> boardRepository;
+        private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
         private readonly PinController pinController;
         private readonly Mock<IStorage> storage;
 
@@ -31,7 +32,8 @@
             this.userRepository = new Mock<IUserRepository<User>>();
             this.boardRepository = new Mock<IBoardRepository>();
             this.storage = new Mock<IStorage>();
-            this.pinController = new PinController(this.pinRepository.Object, this.userRepository.Object, this.storage.Object, this.boardRepository.Object);
+            this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
+            this.pinController = new PinController(this.pinRepository.Object, this.userRepository.Object, this.storage.Object, this.boardRepository.Object, this.pinBoardRepository.Object);
         }
 
         /// <summary>
@@ -103,13 +105,13 @@
             var userId = Guid.NewGuid();
             var pinId = request.PinId;
 
-            var pin = new Pin { BoardId = boardId, UserId = userId, ImagePath = request.File.FileName };
+            var pin = new Pin {UserId = userId, ImagePath = request.File.FileName };
 
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, (Guid)pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinAsync((Guid)pinId, boardId, userId, file.FileName)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, (Guid)pinId)).ReturnsAsync(false);
+            this.pinRepository.Setup(x => x.InsertPinAsync((Guid)pinId, userId, file.FileName)).Returns(Task.CompletedTask);
 
             var result = await this.pinController.AddPinToTheBoardAsync(request, userId, boardId);
 
@@ -136,8 +138,8 @@
             this.userRepository.Setup(x => x.ExistsAsync(userId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, (Guid)pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinBoard(boardId, (Guid)pinId)).Returns(Task.CompletedTask);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, (Guid)pinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.InsertPinBoard(boardId, (Guid)pinId)).Returns(Task.CompletedTask);
 
             var result = await this.pinController.AddPinToTheBoardAsync(request, userId, boardId);
 

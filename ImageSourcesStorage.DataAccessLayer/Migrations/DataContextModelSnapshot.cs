@@ -19,7 +19,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Boards", b =>
+            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Board", b =>
                 {
                     b.Property<Guid>("BoardId")
                         .ValueGeneratedOnAdd()
@@ -36,6 +36,31 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Boards");
+                });
+
+            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Pin", b =>
+                {
+                    b.Property<Guid>("PinId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PinId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Pins");
                 });
 
             modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.PinBoard", b =>
@@ -55,7 +80,7 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     b.ToTable("PinBoards");
                 });
 
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Users", b =>
+            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.User", b =>
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
@@ -72,36 +97,9 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Pins", b =>
+            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Board", b =>
                 {
-                    b.Property<Guid>("PinId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BoardId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PinId");
-
-                    b.HasIndex("BoardId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Pins");
-                });
-
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Boards", b =>
-                {
-                    b.HasOne("ImageSourcesStorage.DataAccessLayer.Models.Users", "Owner")
+                    b.HasOne("ImageSourcesStorage.DataAccessLayer.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -110,24 +108,15 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Pins", b =>
+            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Pin", b =>
                 {
-                    b.HasOne("ImageSourcesStorage.DataAccessLayer.Models.Boards", null)
-                        .WithMany("Pins")
-                        .HasForeignKey("BoardId");
-
-                    b.HasOne("ImageSourcesStorage.DataAccessLayer.Models.Users", "Owner")
+                    b.HasOne("ImageSourcesStorage.DataAccessLayer.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("ImageSourcesStorage.DataAccessLayer.Models.Boards", b =>
-                {
-                    b.Navigation("Pins");
                 });
 #pragma warning restore 612, 618
         }
