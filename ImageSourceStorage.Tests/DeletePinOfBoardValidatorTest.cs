@@ -30,17 +30,17 @@
         [Fact]
         public void Validate_should_return_false_if_pinId_and_boardId_does_not_exists_and_if_pin_does_not_belongs_to_the_board()
         {
-            var pin = new PinBoard()
+            var pinBoard = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(false);
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pinBoard.BoardId, pinBoard.PinId)).ReturnsAsync(false);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pinBoard.BoardId)).ReturnsAsync(false);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinBoard.PinId)).ReturnsAsync(false);
 
-            var result = this.deletePinOfBoardValidator.Validate(pin);
+            var result = this.deletePinOfBoardValidator.Validate(pinBoard);
 
             Assert.False(result.IsValid);
         }
@@ -51,17 +51,17 @@
         [Fact]
         public void Validate_should_return_false_if_pin_does_not_belongs_to_the_board()
         {
-            var pin = new PinBoard()
+            var pinBoard = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(false);
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pinBoard.BoardId, pinBoard.PinId)).ReturnsAsync(false);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pinBoard.BoardId)).ReturnsAsync(true);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinBoard.PinId)).ReturnsAsync(true);
 
-            var result = this.deletePinOfBoardValidator.Validate(pin);
+            var result = this.deletePinOfBoardValidator.Validate(pinBoard);
 
             Assert.False(result.IsValid);
         }
@@ -72,17 +72,17 @@
         [Fact]
         public void Validate_should_return_false_if_pinId_does_not_exists()
         {
-            var pin = new PinBoard()
+            var pinBoard = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(false);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pinBoard.BoardId, pinBoard.PinId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pinBoard.BoardId)).ReturnsAsync(true);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinBoard.PinId)).ReturnsAsync(false);
 
-            var result = this.deletePinOfBoardValidator.Validate(pin);
+            var result = this.deletePinOfBoardValidator.Validate(pinBoard);
 
             Assert.False(result.IsValid);
         }
@@ -93,17 +93,17 @@
         [Fact]
         public void Validate_should_return_false_if_boardId_does_not_exists()
         {
-            var pin = new PinBoard()
+            var pinBoard = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pinBoard.BoardId, pinBoard.PinId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pinBoard.BoardId)).ReturnsAsync(false);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinBoard.PinId)).ReturnsAsync(true);
 
-            var result = this.deletePinOfBoardValidator.Validate(pin);
+            var result = this.deletePinOfBoardValidator.Validate(pinBoard);
 
             Assert.False(result.IsValid);
         }
@@ -114,17 +114,17 @@
         [Fact]
         public void Validate_should_return_true_if_id_exists()
         {
-            var pin = new PinBoard()
+            var pinBoard = new PinBoard()
             {
                 PinId = Guid.NewGuid(),
                 BoardId = Guid.NewGuid(),
             };
 
-            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId)).ReturnsAsync(true);
-            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pin.BoardId)).ReturnsAsync(true);
-            this.pinRepository.Setup(x => x.IsPinExistsAsync(pin.PinId)).ReturnsAsync(true);
+            this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(pinBoard.BoardId, pinBoard.PinId)).ReturnsAsync(true);
+            this.boardRepository.Setup(x => x.IsBoardExistsAsync(pinBoard.BoardId)).ReturnsAsync(true);
+            this.pinRepository.Setup(x => x.IsPinExistsAsync(pinBoard.PinId)).ReturnsAsync(true);
 
-            var result = this.deletePinOfBoardValidator.Validate(pin);
+            var result = this.deletePinOfBoardValidator.Validate(pinBoard);
 
             Assert.True(result.IsValid);
         }

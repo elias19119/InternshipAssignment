@@ -11,7 +11,7 @@
 
         Task<Pin> GetPinByIdAsync(Guid pinId);
 
-        Task InsertPinAsync(Guid pinId, Guid userId, string imagePath);
+        Task InsertPinAsync(Guid pinId, Guid userId, string imagePath, string description);
 
         Task<bool> IsPinExistsAsync(Guid pinId);
     }

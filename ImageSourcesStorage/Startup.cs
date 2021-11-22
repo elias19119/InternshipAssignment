@@ -29,7 +29,6 @@ namespace ImageSourcesStorage
         {
             services.AddAzureClients(builder => {
                 builder.AddBlobServiceClient(Configuration.GetSection("Storage:ConnectionString").Value);
-
             });
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));

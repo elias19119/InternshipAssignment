@@ -35,13 +35,14 @@
             return await this.dataContext.Pins.AnyAsync(x => x.PinId == pinId);
         }
 
-        public async Task InsertPinAsync(Guid pinId, Guid userId, string imagePath)
+        public async Task InsertPinAsync(Guid pinId, Guid userId, string imagePath, string description)
         {
             var pin = new Pin
             {
                 PinId = pinId,
                 ImagePath = imagePath,
                 UserId = userId,
+                Description = description,
             };
             await this.dataContext.Pins.AddAsync(pin);
             await this.dataContext.SaveChangesAsync();

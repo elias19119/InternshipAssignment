@@ -6,15 +6,15 @@
     /// <summary>
     /// The response body for get all boards of User.
     /// </summary>
-    public class GetUserBoardResponse
+    public class GetUserBoardsResponse
     {
         public List<BoardModel> BoardModels { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetUserBoardResponse"/> class.
+        /// Initializes a new instance of the <see cref="GetUserBoardsResponse"/> class.
         /// </summary>
         /// <param name="boards"></param>
-        public GetUserBoardResponse(List<BoardEntity> boards)
+        public GetUserBoardsResponse(List<BoardModelDetails> boards)
         {
             this.BoardModels = new List<BoardModel>();
             foreach (var board in boards)

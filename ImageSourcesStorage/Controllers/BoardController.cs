@@ -41,9 +41,9 @@
 
         [HttpGet]
         [Route("api/users/{userId}/boards")]
-        public async Task<IActionResult> GetUserBoardAsync(Guid userId)
+        public async Task<IActionResult> GetUserBoardsAsync(Guid userId)
         {
-            var board = new BoardEntity() { UserId = userId };
+            var board = new BoardModelDetails() { UserId = userId };
 
             var result = this.getUserBoardValidator.Validate(board);
 
@@ -52,8 +52,8 @@
                return this.NotFound();
             }
 
-            var boards = await this.boardRepository.GetUserBoardAsync(userId);
-            var response = new GetUserBoardResponse(boards);
+            var boards = await this.boardRepository.GetUserBoardsAsync(userId);
+            var response = new GetUserBoardsResponse(boards);
 
             return this.Ok(boards);
         }
@@ -144,9 +144,9 @@
         [Route("api/boards/{boardId}/pins/{pinId}")]
         public async Task<IActionResult> DeletePinOfBoardAsync(Guid pinId, Guid boardId)
         {
-            var pin = new PinBoard { PinId = pinId, BoardId = boardId };
+            var pinBoard = new PinBoard { PinId = pinId, BoardId = boardId };
 
-            var result = this.deletePinOfBoardValidator.Validate(pin);
+            var result = this.deletePinOfBoardValidator.Validate(pinBoard);
 
             if (!result.IsValid)
             {

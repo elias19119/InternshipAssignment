@@ -163,48 +163,14 @@
             var pinId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var imagePath = "C:/desktop/cars";
+            var description = "BMW";
 
-            await this.pinRepository.InsertPinAsync(pinId, userId, imagePath);
+            await this.pinRepository.InsertPinAsync(pinId, userId, imagePath, description);
 
             var pin = await this.pinRepository.GetPinByIdAsync(pinId);
 
             Assert.Equal(pin.UserId, userId);
             Assert.Equal(pin.ImagePath, imagePath);
-        }
-
-        /// <summary>
-        /// should return a pin.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task GetPinBoardByIdAsync_should_return_pinboard_if_pinboard_exists()
-        {
-            var pinBoardEntity = new PinBoard() { PinBoardId = Guid.NewGuid(), PinId = Guid.NewGuid(), BoardId = Guid.NewGuid() };
-
-            await this.dataContext.PinBoards.AddAsync(pinBoardEntity);
-            await this.dataContext.SaveChangesAsync();
-
-            var result = await this.pinBoardRepository.GetPinBoardByIdAsync(pinBoardEntity.PinBoardId);
-
-            Assert.NotNull(result);
-            Assert.Equal(pinBoardEntity.PinBoardId, result.PinBoardId);
-        }
-
-        /// <summary>
-        /// should return a pin.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Fact]
-        public async Task GetPinBoardByIdAsync_should_not_return_pinboard_if_pinboard_does_not_exists()
-        {
-            var pinBoardEntity = new PinBoard() { PinBoardId = Guid.NewGuid(), PinId = Guid.NewGuid(), BoardId = Guid.NewGuid() };
-
-            await this.dataContext.PinBoards.AddAsync(pinBoardEntity);
-            await this.dataContext.SaveChangesAsync();
-
-            var result = await this.pinBoardRepository.GetPinBoardByIdAsync(Guid.NewGuid());
-
-            Assert.Null(result);
         }
     }
 }

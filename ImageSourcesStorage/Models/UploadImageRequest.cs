@@ -8,5 +8,7 @@
         public IFormFile File { get; set; }
 
         public Guid? PinId { get; set; }
+
+        public string Description { get; set; }
     }
 }

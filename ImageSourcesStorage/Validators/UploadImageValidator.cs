@@ -28,7 +28,7 @@
             this.pinBoardRepository = pinBoardRepository;
             this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
-            this.RuleFor(x => x).MustAsync(this.IsPinBelongToBoardAsync);
+            this.RuleFor(x => x).MustAsync(this.IsPinDoesNotBelongToBoardAsync);
             this.RuleFor(x => x).MustAsync(this.IsBoardBelongToUserAsync);
         }
 
@@ -53,7 +53,7 @@
             return isBelong;
         }
 
-        private async Task<bool> IsPinBelongToBoardAsync(AddPinToBoard pin, CancellationToken cancellation)
+        private async Task<bool> IsPinDoesNotBelongToBoardAsync(AddPinToBoard pin, CancellationToken cancellation)
         {
             var isBelongs = await this.pinBoardRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
 

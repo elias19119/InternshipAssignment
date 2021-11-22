@@ -104,6 +104,7 @@
             var boardId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var pinId = request.PinId;
+            var description = "BMW";
 
             var pin = new Pin {UserId = userId, ImagePath = request.File.FileName };
 
@@ -111,7 +112,7 @@
             this.boardRepository.Setup(x => x.IsBoardExistsAsync(boardId)).ReturnsAsync(true);
             this.boardRepository.Setup(x => x.IsBoardBelongToUserAsync(boardId, userId)).ReturnsAsync(true);
             this.pinBoardRepository.Setup(x => x.IsPinBelongToBoardAsync(boardId, (Guid)pinId)).ReturnsAsync(false);
-            this.pinRepository.Setup(x => x.InsertPinAsync((Guid)pinId, userId, file.FileName)).Returns(Task.CompletedTask);
+            this.pinRepository.Setup(x => x.InsertPinAsync((Guid)pinId, userId, file.FileName, description)).Returns(Task.CompletedTask);
 
             var result = await this.pinController.AddPinToTheBoardAsync(request, userId, boardId);
 

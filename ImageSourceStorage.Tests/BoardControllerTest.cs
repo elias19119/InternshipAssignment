@@ -41,9 +41,9 @@
         [Fact]
         public async Task GetUserBoardAsync_should_return_OK_result()
         {
-            this.boardRepository.Setup(x => x.GetUserBoardAsync(It.IsAny<Guid>())).ReturnsAsync(new List<BoardEntity>());
+            this.boardRepository.Setup(x => x.GetUserBoardsAsync(It.IsAny<Guid>())).ReturnsAsync(new List<BoardModelDetails>());
 
-            var response = await this.controller.GetUserBoardAsync(It.IsAny<Guid>());
+            var response = await this.controller.GetUserBoardsAsync(It.IsAny<Guid>());
 
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);

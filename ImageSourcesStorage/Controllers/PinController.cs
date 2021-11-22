@@ -51,9 +51,9 @@
         {
             var pin = new Pin() { PinId = pinId };
 
-            var ispinvalid = this.getPinByIdValidator.Validate(pin);
+            var isPinValid = this.getPinByIdValidator.Validate(pin);
 
-            if (!ispinvalid.IsValid)
+            if (!isPinValid.IsValid)
             {
                 return this.NotFound();
             }
@@ -91,7 +91,7 @@
             {
                 var pinId = Guid.NewGuid();
                 this.storage.Upload(request.File);
-                await this.pinRepository.InsertPinAsync(pinId, userId, request.File.FileName);
+                await this.pinRepository.InsertPinAsync(pinId, userId, request.File.FileName, request.Description);
                 await this.pinBoardRepository.InsertPinBoard(boardId, pinId);
 
                 var uploadImageResponse = new UploadImageResponse(pinId);

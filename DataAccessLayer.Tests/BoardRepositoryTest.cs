@@ -38,14 +38,14 @@
         [Fact]
         public async Task GetUserBoardAsync_should_return_list_of_boards_of_users_if_User_exists()
         {
-            var boards = new List<BoardEntity>
+            var boards = new List<BoardModelDetails>
             {
-                new BoardEntity
+                new BoardModelDetails
                 {
                     UserId = this.userId,
                     Name = "nature",
                 },
-                new BoardEntity
+                new BoardModelDetails
                 {
                     UserId = this.userId,
                     Name = "cars",
@@ -55,7 +55,7 @@
             await this.dataContext.AddRangeAsync(boards);
             await this.dataContext.SaveChangesAsync();
 
-            var result = await this.boardRepository.GetUserBoardAsync(this.userId);
+            var result = await this.boardRepository.GetUserBoardsAsync(this.userId);
 
             Assert.NotEmpty(result);
             Assert.Equal(boards.Count, result.Count);
@@ -68,12 +68,12 @@
         [Fact]
         public async Task GetUserBoardAsync_should_return_empty_list_of_boards_of_user_if_User_does_not_exists()
         {
-            var boards = new List<BoardEntity>();
+            var boards = new List<BoardModelDetails>();
 
             await this.dataContext.AddRangeAsync(boards);
             await this.dataContext.SaveChangesAsync();
 
-            var result = await this.boardRepository.GetUserBoardAsync(this.userId);
+            var result = await this.boardRepository.GetUserBoardsAsync(this.userId);
 
             Assert.Empty(result);
         }

@@ -66,14 +66,14 @@
 
             var content = "this is a test file";
             var fileName = "test.pdf";
-            var ms = new MemoryStream();
-            var writer = new StreamWriter(ms);
+            var memoryStream = new MemoryStream();
+            var writer = new StreamWriter(memoryStream);
             writer.Write(content);
             writer.Flush();
-            ms.Position = 0;
-            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            memoryStream.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(memoryStream);
             fileMock.Setup(_ => _.FileName).Returns(fileName);
-            fileMock.Setup(_ => _.Length).Returns(ms.Length);
+            fileMock.Setup(_ => _.Length).Returns(memoryStream.Length);
 
             var file = fileMock.Object;
             var boardId = Guid.NewGuid();
