@@ -15,6 +15,7 @@
     {
         private readonly DataContext dataContext;
         private readonly PinRepository pinRepository;
+        private readonly PinBoardRepository<PinBoard> pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinRepositoryTest"/> class.
@@ -26,6 +27,7 @@
                 .Options;
             this.dataContext = new DataContext(options);
             this.pinRepository = new PinRepository(this.dataContext);
+            this.pinBoardRepository = new PinBoardRepository<PinBoard>(this.dataContext);
         }
 
         /// <summary>
@@ -53,7 +55,7 @@
                 },
             };
 
-            await this.dataContext.AddRangeAsync(pins);
+            await this.dataContext.Pins.AddRangeAsync(pins);
             await this.dataContext.SaveChangesAsync();
 
             var result = await this.pinRepository.GetAllPinsAsync();
@@ -71,7 +73,7 @@
         {
             var pins = new List<Pin>();
 
-            await this.dataContext.AddRangeAsync(pins);
+            await this.dataContext.Pins.AddRangeAsync(pins);
             await this.dataContext.SaveChangesAsync();
 
             var result = await this.pinRepository.GetAllPinsAsync();
@@ -89,7 +91,7 @@
         {
             var pin = new Pin { PinId = Guid.NewGuid() };
 
-            await this.dataContext.AddAsync(pin);
+            await this.dataContext.Pins.AddRangeAsync(pin);
             await this.dataContext.SaveChangesAsync();
 
             var result = await this.pinRepository.GetPinByIdAsync(pin.PinId);
@@ -108,7 +110,7 @@
             var testId = Guid.NewGuid();
             var pin = new Pin { PinId = Guid.NewGuid() };
 
-            await this.dataContext.AddAsync(pin);
+            await this.dataContext.Pins.AddRangeAsync(pin);
             await this.dataContext.SaveChangesAsync();
 
             var result = await this.pinRepository.GetPinByIdAsync(testId);
@@ -125,7 +127,7 @@
         {
             var pin = new Pin { PinId = Guid.NewGuid() };
 
-            await this.dataContext.AddAsync(pin);
+            await this.dataContext.Pins.AddRangeAsync(pin);
             await this.dataContext.SaveChangesAsync();
 
             var result = await this.pinRepository.IsPinExistsAsync(pin.PinId);
@@ -143,12 +145,32 @@
             var testId = Guid.NewGuid();
             var pin = new Pin { PinId = Guid.NewGuid() };
 
-            await this.dataContext.AddAsync(pin);
+            await this.dataContext.Pins.AddRangeAsync(pin);
             await this.dataContext.SaveChangesAsync();
 
             var result = await this.pinRepository.IsPinExistsAsync(testId);
 
             Assert.False(result);
+        }
+
+        /// <summary>
+        /// should return A created pin.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task InsertPinAsync_should_add_pin_to_context_if_data_is_valid()
+        {
+            var pinId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var imagePath = "C:/desktop/cars";
+            var description = "BMW";
+
+            await this.pinRepository.InsertPinAsync(pinId, userId, imagePath, description);
+
+            var pin = await this.pinRepository.GetPinByIdAsync(pinId);
+
+            Assert.Equal(pin.UserId, userId);
+            Assert.Equal(pin.ImagePath, imagePath);
         }
     }
 }

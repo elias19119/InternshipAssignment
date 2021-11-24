@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
 
     public class GetPinsResponse
     {

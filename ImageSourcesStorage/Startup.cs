@@ -1,5 +1,6 @@
 namespace ImageSourcesStorage
 {
+    using System;
     using System.Text.Json.Serialization;
     using FluentValidation.AspNetCore;
     using ImageSourcesStorage.DataAccessLayer;
@@ -9,6 +10,7 @@ namespace ImageSourcesStorage
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Azure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -25,6 +27,9 @@ namespace ImageSourcesStorage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAzureClients(builder => {
+                builder.AddBlobServiceClient(Configuration.GetSection("Storage:ConnectionString").Value);
+            });
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));
             services.AddControllers().AddJsonOptions(options =>
@@ -38,6 +43,8 @@ namespace ImageSourcesStorage
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddTransient(typeof(IBoardRepository), typeof(BoardRepository));
             services.AddTransient(typeof(IPinRepository), typeof(PinRepository));
+            services.AddTransient(typeof(IPinBoardRepository<>), typeof(PinBoardRepository<>));
+            services.AddTransient<IStorage, Storage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

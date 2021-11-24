@@ -2,6 +2,7 @@
 {
     using System;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
 
     public class GetPinByIdResponse
     {

@@ -30,7 +30,7 @@
         [Fact]
         public void Validate_should_return_false_if_id_does_not_exists()
         {
-            var board = new Board()
+            var board = new BoardModelDetails()
             {
                 UserId = Guid.NewGuid(),
             };
@@ -50,7 +50,7 @@
         {
             var userId = Guid.NewGuid();
 
-            var board = new Board()
+            var board = new BoardModelDetails()
             {
                 UserId = userId,
             };

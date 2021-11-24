@@ -1,13 +1,18 @@
 ﻿namespace ImageSourcesStorage.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
     using ImageSourcesStorage.Models;
     using ImageSourcesStorage.Validators;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/users")]
@@ -20,6 +25,8 @@
         private readonly PutUserValidator putUserValidator;
         private readonly ChangeUserScoreValidator changeScoreValidator;
         private readonly GetUserPinsValidator getUserPinsValidator;
+
+        public object ViewBag { get; private set; }
 
         public UserController(IUserRepository<User> userRepository)
         {
@@ -108,7 +115,7 @@
 
         [HttpPost]
         [Route("{userId}/scores")]
-        public async Task<IActionResult> ChangeUserScoreAsync(Guid userId, [Required]ChangeScoreOptions changeScoreOptions)
+        public async Task<IActionResult> ChangeUserScoreAsync(Guid userId, [Required] ChangeScoreOptions changeScoreOptions)
         {
             var user = new User
             {

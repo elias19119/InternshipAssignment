@@ -3,13 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageSourcesStorage.DataAccessLayer.Migrations
 {
-    public partial class AddUser : Migration
+    public partial class InitialMigration : Migration
     {
-        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Boards",
+                name: "PinBoards",
+                columns: table => new
+                {
+                    PinBoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PinId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PinBoards", x => x.PinBoardId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -18,11 +30,11 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Board", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImageSources",
+                name: "Boards",
                 columns: table => new
                 {
                     BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -31,11 +43,11 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageSources", x => x.BoardId);
+                    table.PrimaryKey("PK_Boards", x => x.BoardId);
                     table.ForeignKey(
-                        name: "FK_ImageSources_Board_UserId",
+                        name: "FK_Boards_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Boards",
+                        principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -47,53 +59,44 @@ namespace ImageSourcesStorage.DataAccessLayer.Migrations
                     PinId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pin", x => x.PinId);
+                    table.PrimaryKey("PK_Pins", x => x.PinId);
                     table.ForeignKey(
-                        name: "FK_Pin_Board_UserId",
+                        name: "FK_Pins_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Boards",
+                        principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Pin_ImageSources_BoardId",
-                        column: x => x.BoardId,
-                        principalTable: "ImageSources",
-                        principalColumn: "BoardId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageSources_UserId",
-                table: "ImageSources",
+                name: "IX_Boards_UserId",
+                table: "Boards",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pin_BoardId",
-                table: "Pins",
-                column: "BoardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pin_UserId",
+                name: "IX_Pins_UserId",
                 table: "Pins",
                 column: "UserId");
         }
 
-        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Boards");
+
+            migrationBuilder.DropTable(
+                name: "PinBoards");
+
             migrationBuilder.DropTable(
                 name: "Pins");
 
             migrationBuilder.DropTable(
-                name: "ImageSources");
-
-            migrationBuilder.DropTable(
-                name: "Boards");
+                name: "Users");
         }
     }
 }

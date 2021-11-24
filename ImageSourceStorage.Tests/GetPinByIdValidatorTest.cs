@@ -2,6 +2,7 @@
 {
     using System;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Validators;
     using Moq;
     using Xunit;

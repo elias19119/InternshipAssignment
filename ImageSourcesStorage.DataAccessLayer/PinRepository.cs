@@ -35,9 +35,17 @@
             return await this.dataContext.Pins.AnyAsync(x => x.PinId == pinId);
         }
 
-        public Task<bool> IsPinBelongToBoardAsync(Guid boardId, Guid pinId)
+        public async Task InsertPinAsync(Guid pinId, Guid userId, string imagePath, string description)
         {
-            return this.dataContext.Pins.AnyAsync(x => x.PinId == pinId && x.BoardId == boardId);
+            var pin = new Pin
+            {
+                PinId = pinId,
+                ImagePath = imagePath,
+                UserId = userId,
+                Description = description,
+            };
+            await this.dataContext.Pins.AddAsync(pin);
+            await this.dataContext.SaveChangesAsync();
         }
     }
 }

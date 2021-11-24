@@ -7,21 +7,24 @@
     using System.Threading.Tasks;
     using FluentValidation;
     using ImageSourcesStorage.DataAccessLayer;
+    using ImageSourcesStorage.DataAccessLayer.Models;
 
-    public class DeletePinOfBoardValidator : AbstractValidator<Pin>
+    public class DeletePinOfBoardValidator : AbstractValidator<PinBoard>
     {
         private readonly IPinRepository pinRepository;
         private readonly IBoardRepository boardRepository;
+        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeletePinOfBoardValidator"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
         /// <param name="boardRepository"></param>
-        public DeletePinOfBoardValidator(IPinRepository pinRepository, IBoardRepository boardRepository)
+        public DeletePinOfBoardValidator(IPinRepository pinRepository, IBoardRepository boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.boardRepository = boardRepository;
             this.pinRepository = pinRepository;
+            this.pinBoardRepository = pinBoardRepository;
             this.RuleFor(x => x).MustAsync(this.IsPinBelongToBoardAsync);
             this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);
             this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync);
@@ -41,9 +44,9 @@
             return isExists;
         }
 
-        private async Task<bool> IsPinBelongToBoardAsync(Pin pin, CancellationToken cancellation)
+        private async Task<bool> IsPinBelongToBoardAsync(PinBoard pin, CancellationToken cancellation)
         {
-            var isBelongs = await this.pinRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
+            var isBelongs = await this.pinBoardRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
 
             return isBelongs;
         }

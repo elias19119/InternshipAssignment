@@ -10,7 +10,7 @@
     /// <summary>
     /// to validate the Get User Board method.
     /// </summary>
-    public class GetUserBoardValidator : AbstractValidator<Board>
+    public class GetUserBoardValidator : AbstractValidator<BoardModelDetails>
     {
           private readonly IUserRepository<User> userRepository;
 

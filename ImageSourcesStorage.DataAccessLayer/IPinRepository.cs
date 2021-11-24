@@ -3,15 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using ImageSourcesStorage.DataAccessLayer.Models;
 
-    public interface IPinRepository
+    public interface IPinRepository 
     {
         Task<List<Pin>> GetAllPinsAsync();
 
         Task<Pin> GetPinByIdAsync(Guid pinId);
 
-        Task<bool> IsPinExistsAsync(Guid pinId);
+        Task InsertPinAsync(Guid pinId, Guid userId, string imagePath, string description);
 
-        Task<bool> IsPinBelongToBoardAsync(Guid boardId, Guid pinId);
+        Task<bool> IsPinExistsAsync(Guid pinId);
     }
 }
