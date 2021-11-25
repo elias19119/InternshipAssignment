@@ -14,13 +14,13 @@
     {
         private const int MaxFieldLength = 50;
         private const int MinFieldLength = 1;
-        private readonly IBoardRepository boardRepository;
+        private readonly IBoardRepository<Board> boardRepository;
         private readonly IUserRepository<User> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditBoardofUserValidator"/> class.
         /// </summary>
-        public EditBoardofUserValidator(IUserRepository<User> userRepository, IBoardRepository boardRepository)
+        public EditBoardofUserValidator(IUserRepository<User> userRepository, IBoardRepository<Board> boardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;

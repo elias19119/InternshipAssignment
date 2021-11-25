@@ -11,9 +11,9 @@
     [ApiController]
     public class BoardController : ControllerBase
     {
-        private readonly IBoardRepository boardRepository;
+        private readonly IBoardRepository<Board> boardRepository;
         private readonly IUserRepository<User> userRepository;
-        private readonly IPinRepository pinRepository;
+        private readonly IPinRepository<Pin> pinRepository;
         private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
         private readonly GetUserBoardValidator getUserBoardValidator;
         private readonly AddBoardtoUserValidator addBoardValidator;
@@ -25,7 +25,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
         /// </summary>
-        public BoardController(IBoardRepository boardRepository , IUserRepository<User> userRepository, IPinRepository pinRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
+        public BoardController(IBoardRepository<Board> boardRepository , IUserRepository<User> userRepository, IPinRepository<Pin> pinRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;

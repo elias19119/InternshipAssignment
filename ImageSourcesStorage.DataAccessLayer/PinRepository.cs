@@ -7,12 +7,13 @@
     using ImageSourcesStorage.DataAccessLayer.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class PinRepository : IPinRepository
+    public class PinRepository<TPin> : IPinRepository<Pin>
+        where TPin : class
     {
         private readonly DataContext dataContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PinRepository"/> class.
+        /// Initializes a new instance of the <see cref="PinRepository{TPin}"/> class.
         /// </summary>
         /// <param name="dataContext"></param>
         public PinRepository(DataContext dataContext)

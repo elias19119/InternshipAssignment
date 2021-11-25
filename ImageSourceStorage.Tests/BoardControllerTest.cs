@@ -17,7 +17,7 @@
     public class BoardControllerTest
     {
         private readonly BoardController controller;
-        private readonly Mock<IBoardRepository> boardRepository;
+        private readonly Mock<IBoardRepository<Board>> boardRepository;
         private readonly Mock<IUserRepository<User>> userRepository;
         private readonly Mock<IPinRepository> pinRepository;
         private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
@@ -27,7 +27,7 @@
         /// </summary>
         public BoardControllerTest()
         {
-            this.boardRepository = new Mock<IBoardRepository>();
+            this.boardRepository = new Mock<IBoardRepository<Board>>();
             this.userRepository = new Mock<IUserRepository<User>>();
             this.pinRepository = new Mock<IPinRepository>();
             this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();

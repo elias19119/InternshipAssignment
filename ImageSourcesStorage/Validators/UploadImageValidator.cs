@@ -10,9 +10,9 @@
 
     public class UploadImageValidator : AbstractValidator<AddPinToBoard>
     {
-        private readonly IBoardRepository boardRepository;
+        private readonly IBoardRepository<Board> boardRepository;
         private readonly IUserRepository<User> userRepository;
-        private readonly IPinRepository pinRepository;
+        private readonly IPinRepository<Pin> pinRepository;
         private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="boardRepository"></param>
-        public UploadImageValidator(IUserRepository<User> userRepository, IBoardRepository boardRepository, IPinRepository pinRepository , IPinBoardRepository<PinBoard> pinBoardRepository)
+        public UploadImageValidator(IUserRepository<User> userRepository, IBoardRepository<Board> boardRepository, IPinRepository<Pin> pinRepository , IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.userRepository = userRepository;
             this.boardRepository = boardRepository;

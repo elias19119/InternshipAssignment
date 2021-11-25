@@ -41,8 +41,8 @@ namespace ImageSourcesStorage
                 opt.Filters.Add(typeof(ValidationFilter));
             }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddTransient(typeof(IUserRepository<>), typeof(UserRepository<>));
-            services.AddTransient(typeof(IBoardRepository), typeof(BoardRepository));
-            services.AddTransient(typeof(IPinRepository), typeof(PinRepository));
+            services.AddTransient(typeof(IBoardRepository<>), typeof(BoardRepository<>));
+            services.AddTransient(typeof(IPinRepository<>), typeof(PinRepository<>));
             services.AddTransient(typeof(IPinBoardRepository<>), typeof(PinBoardRepository<>));
             services.AddTransient<IStorage, Storage>();
         }

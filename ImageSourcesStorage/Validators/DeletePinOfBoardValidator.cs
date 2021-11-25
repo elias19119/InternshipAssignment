@@ -11,8 +11,8 @@
 
     public class DeletePinOfBoardValidator : AbstractValidator<PinBoard>
     {
-        private readonly IPinRepository pinRepository;
-        private readonly IBoardRepository boardRepository;
+        private readonly IPinRepository<Pin> pinRepository;
+        private readonly IBoardRepository<Board> boardRepository;
         private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="pinRepository"></param>
         /// <param name="boardRepository"></param>
-        public DeletePinOfBoardValidator(IPinRepository pinRepository, IBoardRepository boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
+        public DeletePinOfBoardValidator(IPinRepository<Pin> pinRepository, IBoardRepository<Board> boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
         {
             this.boardRepository = boardRepository;
             this.pinRepository = pinRepository;

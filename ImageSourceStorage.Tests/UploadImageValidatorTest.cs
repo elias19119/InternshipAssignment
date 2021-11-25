@@ -16,8 +16,8 @@
     public class UploadImageValidatorTest
     {
         private readonly Mock<IUserRepository<User>> userRepository;
-        private readonly Mock<IBoardRepository> boardRepository;
-        private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IBoardRepository<Board>> boardRepository;
+        private readonly Mock<IPinRepository<Pin>> pinRepository;
         private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
         private readonly UploadImageValidator uploadImageValidator;
 
@@ -27,8 +27,8 @@
         public UploadImageValidatorTest()
         {
             this.userRepository = new Mock<IUserRepository<User>>();
-            this.pinRepository = new Mock<IPinRepository>();
-            this.boardRepository = new Mock<IBoardRepository>();
+            this.pinRepository = new Mock<IPinRepository<Pin>>();
+            this.boardRepository = new Mock<IBoardRepository<Board>>();
             this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
             this.uploadImageValidator = new UploadImageValidator(this.userRepository.Object , this.boardRepository.Object , this.pinRepository.Object, this.pinBoardRepository.Object);
         }

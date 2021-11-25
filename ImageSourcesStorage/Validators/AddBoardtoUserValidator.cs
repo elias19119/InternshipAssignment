@@ -16,13 +16,13 @@
     {
         private const int MaxFieldLength = 50;
         private const int MinFieldLength = 1;
-        private readonly IBoardRepository boardRepository;
+        private readonly IBoardRepository<Board> boardRepository;
         private readonly IUserRepository<User> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddBoardtoUserValidator"/> class.
         /// </summary>
-        public AddBoardtoUserValidator(IUserRepository<User> userRepository , IBoardRepository boardRepository)
+        public AddBoardtoUserValidator(IUserRepository<User> userRepository , IBoardRepository<Board> boardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;
@@ -33,7 +33,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AddBoardtoUserValidator"/> class.
         /// </summary>
-        public AddBoardtoUserValidator(IBoardRepository boardRepository)
+        public AddBoardtoUserValidator(IBoardRepository<Board> boardRepository)
         {
             this.boardRepository = boardRepository;
             this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync);
