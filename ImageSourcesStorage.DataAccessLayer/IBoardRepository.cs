@@ -5,8 +5,7 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer.Models;
 
-    public interface IBoardRepository<in TBoard>
-        where TBoard : class
+    public interface IBoardRepository
     {
         Task<List<BoardModelDetails>> GetUserBoardsAsync(Guid userId);
 

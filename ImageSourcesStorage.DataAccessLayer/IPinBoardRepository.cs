@@ -6,8 +6,7 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer.Models;
 
-    public interface IPinBoardRepository<in TPinBoard>
-        where TPinBoard : class
+    public interface IPinBoardRepository
     {
         Task<PinBoard> GetPinBoardByIdAsync(Guid pinBoardId);
 

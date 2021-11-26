@@ -7,8 +7,7 @@
     using ImageSourcesStorage.DataAccessLayer.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class UserRepository<TUser> : IUserRepository<User>
-        where TUser : class
+    public class UserRepository : IUserRepository
     {
         private readonly DataContext context;
 

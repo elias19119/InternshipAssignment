@@ -19,7 +19,7 @@
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
         private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
@@ -28,7 +28,7 @@
 
         public object ViewBag { get; private set; }
 
-        public UserController(IUserRepository<User> userRepository)
+        public UserController(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             this.checkUserIdValidator = new CheckUserIdValidator(userRepository);

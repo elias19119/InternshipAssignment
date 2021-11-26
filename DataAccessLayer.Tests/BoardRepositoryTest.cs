@@ -15,7 +15,7 @@
     public class BoardRepositoryTest
     {
         private readonly DataContext dataContext;
-        private readonly BoardRepository<Board> boardRepository;
+        private readonly BoardRepository boardRepository;
         private readonly Guid userId;
 
         /// <summary>
@@ -27,7 +27,7 @@
                 .UseInMemoryDatabase(databaseName: "FakeConnectionString")
                 .Options;
             this.dataContext = new DataContext(options);
-            this.boardRepository = new BoardRepository<Board>(this.dataContext);
+            this.boardRepository = new BoardRepository(this.dataContext);
             this.userId = Guid.NewGuid();
         }
 

@@ -15,14 +15,14 @@
     public class AddBoardtoUserValidatorTest
     {
         private readonly AddBoardtoUserValidator addBoardtoUserValidator;
-        private readonly Mock<IBoardRepository<Board>> boardRepository;
+        private readonly Mock<IBoardRepository> boardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddBoardtoUserValidatorTest"/> class.
         /// </summary>
         public AddBoardtoUserValidatorTest()
         {
-            this.boardRepository = new Mock<IBoardRepository<Board>>();
+            this.boardRepository = new Mock<IBoardRepository>();
             this.addBoardtoUserValidator = new AddBoardtoUserValidator(this.boardRepository.Object);
         }
 

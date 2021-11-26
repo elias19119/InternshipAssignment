@@ -10,13 +10,12 @@
     /// <summary>
     /// Board logic.
     /// </summary>
-    public class BoardRepository<TBoard> : IBoardRepository<Board>
-        where TBoard : class
+    public class BoardRepository : IBoardRepository
     {
         private readonly DataContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoardRepository{TBoard}"/> class.
+        /// Initializes a new instance of the <see cref="BoardRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
         public BoardRepository(DataContext context)

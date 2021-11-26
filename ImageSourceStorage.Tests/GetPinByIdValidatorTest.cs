@@ -10,14 +10,14 @@
     public class GetPinByIdValidatorTest
     {
         private readonly GetPinByIdValidator getPinByIdValidator;
-        private readonly Mock<IPinRepository<Pin>> pinRepository;
+        private readonly Mock<IPinRepository> pinRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetPinByIdValidatorTest"/> class.
         /// </summary>
         public GetPinByIdValidatorTest()
         {
-            this.pinRepository = new Mock<IPinRepository<Pin>>();
+            this.pinRepository = new Mock<IPinRepository>();
             this.getPinByIdValidator = new GetPinByIdValidator(this.pinRepository.Object);
         }
 

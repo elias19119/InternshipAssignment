@@ -12,12 +12,12 @@
     /// </summary>
     public class GetBoardByIdValidator : AbstractValidator<Board>
     {
-        private readonly IBoardRepository<Board> boardRepository;
+        private readonly IBoardRepository boardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetBoardByIdValidator"/> class.
         /// </summary>
-        public GetBoardByIdValidator(IBoardRepository<Board> boardRepository)
+        public GetBoardByIdValidator(IBoardRepository boardRepository)
         {
             this.boardRepository = boardRepository;
             this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);

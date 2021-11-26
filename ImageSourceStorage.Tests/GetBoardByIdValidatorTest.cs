@@ -13,7 +13,7 @@
     /// </summary>
     public class GetBoardByIdValidatorTest
     {
-        private readonly Mock<IBoardRepository<Board>> boardRepository;
+        private readonly Mock<IBoardRepository> boardRepository;
         private readonly GetBoardByIdValidator getBoardByIdValidator;
 
         /// <summary>
@@ -22,7 +22,7 @@
         /// </summary>
         public GetBoardByIdValidatorTest()
         {
-            this.boardRepository = new Mock<IBoardRepository<Board>>();
+            this.boardRepository = new Mock<IBoardRepository>();
             this.getBoardByIdValidator = new GetBoardByIdValidator(this.boardRepository.Object);
         }
 

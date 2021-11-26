@@ -12,13 +12,13 @@
     /// </summary>
     public class GetUserBoardValidator : AbstractValidator<BoardModelDetails>
     {
-          private readonly IUserRepository<User> userRepository;
+          private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserBoardValidator"/> class.
         /// </summary>
         /// <param name="userRepository"></param>
-          public GetUserBoardValidator(IUserRepository<User> userRepository)
+          public GetUserBoardValidator(IUserRepository userRepository)
           {
             this.userRepository = userRepository;
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);

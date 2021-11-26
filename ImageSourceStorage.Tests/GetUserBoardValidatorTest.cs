@@ -13,14 +13,14 @@
     public class GetUserBoardValidatorTest
     {
         private readonly GetUserBoardValidator getUserBoardValidator;
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserBoardValidatorTest"/> class.
         /// </summary>
         public GetUserBoardValidatorTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.getUserBoardValidator = new GetUserBoardValidator(this.userRepository.Object);
         }
 

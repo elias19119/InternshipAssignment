@@ -11,16 +11,16 @@
 
     public class DeletePinOfBoardValidatorTest
     {
-        private readonly Mock<IBoardRepository<Board>> boardRepository;
-        private readonly Mock<IPinRepository<Pin>> pinRepository;
-        private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
+        private readonly Mock<IBoardRepository> boardRepository;
+        private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IPinBoardRepository> pinBoardRepository;
         private readonly DeletePinOfBoardValidator deletePinOfBoardValidator;
 
         public DeletePinOfBoardValidatorTest()
         {
-            this.boardRepository = new Mock<IBoardRepository<Board>>();
-            this.pinRepository = new Mock<IPinRepository<Pin>>();
-            this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
+            this.boardRepository = new Mock<IBoardRepository>();
+            this.pinRepository = new Mock<IPinRepository>();
+            this.pinBoardRepository = new Mock<IPinBoardRepository>();
             this.deletePinOfBoardValidator = new DeletePinOfBoardValidator(this.pinRepository.Object, this.boardRepository.Object, this.pinBoardRepository.Object);
         }
 

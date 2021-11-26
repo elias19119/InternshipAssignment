@@ -13,17 +13,17 @@
     /// </summary>
     public class EditBoardOfUserValidatorTest
     {
-        private readonly Mock<IUserRepository<User>> userRepository;
-        private readonly Mock<IBoardRepository<Board>> boardRepository;
+        private readonly Mock<IUserRepository> userRepository;
+        private readonly Mock<IBoardRepository> boardRepository;
         private readonly EditBoardofUserValidator editBoardOfUserValidator;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EditBoardOfUserValidatorTest"/> class.
         /// </summary>
         public EditBoardOfUserValidatorTest()
         {
-            this.boardRepository = new Mock<IBoardRepository<Board>>();
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.boardRepository = new Mock<IBoardRepository>();
+            this.userRepository = new Mock<IUserRepository>();
             this.editBoardOfUserValidator = new EditBoardofUserValidator(this.userRepository.Object, this.boardRepository.Object);
         }
 

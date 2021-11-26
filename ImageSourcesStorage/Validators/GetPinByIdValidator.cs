@@ -12,13 +12,13 @@
     /// </summary>
     public class GetPinByIdValidator : AbstractValidator<Pin>
     {
-        private readonly IPinRepository<Pin> pinRepository;
+        private readonly IPinRepository pinRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetPinByIdValidator"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
-        public GetPinByIdValidator(IPinRepository<Pin> pinRepository)
+        public GetPinByIdValidator(IPinRepository pinRepository)
         {
             this.pinRepository = pinRepository;
             this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync);

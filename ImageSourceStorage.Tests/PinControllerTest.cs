@@ -16,10 +16,10 @@
 
     public class PinControllerTest
     {
-        private readonly Mock<IPinRepository<Pin>> pinRepository;
-        private readonly Mock<IUserRepository<User>> userRepository;
-        private readonly Mock<IBoardRepository<Board>> boardRepository;
-        private readonly Mock<IPinBoardRepository<PinBoard>> pinBoardRepository;
+        private readonly Mock<IPinRepository> pinRepository;
+        private readonly Mock<IUserRepository> userRepository;
+        private readonly Mock<IBoardRepository> boardRepository;
+        private readonly Mock<IPinBoardRepository> pinBoardRepository;
         private readonly PinController pinController;
         private readonly Mock<IStorage> storage;
 
@@ -28,11 +28,11 @@
         /// </summary>
         public PinControllerTest()
         {
-            this.pinRepository = new Mock<IPinRepository<Pin>>();
-            this.userRepository = new Mock<IUserRepository<User>>();
-            this.boardRepository = new Mock<IBoardRepository<Board>>();
+            this.pinRepository = new Mock<IPinRepository>();
+            this.userRepository = new Mock<IUserRepository>();
+            this.boardRepository = new Mock<IBoardRepository>();
             this.storage = new Mock<IStorage>();
-            this.pinBoardRepository = new Mock<IPinBoardRepository<PinBoard>>();
+            this.pinBoardRepository = new Mock<IPinBoardRepository>();
             this.pinController = new PinController(this.pinRepository.Object, this.userRepository.Object, this.storage.Object, this.boardRepository.Object, this.pinBoardRepository.Object);
         }
 

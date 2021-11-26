@@ -5,14 +5,13 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer.Models;
 
-    public interface IUserRepository<in TUser>
-        where TUser : class
+    public interface IUserRepository
     {
         Task<IEnumerable<User>> GetAllAsync();
 
         Task<User> GetByIdAsync(Guid userId);
 
-        Task InsertAsync(TUser user);
+        Task InsertAsync(User user);
 
         Task UpdateAsync(Guid userId, string name, int score);
 

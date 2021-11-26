@@ -14,14 +14,14 @@
     public class ChangeUserScoreValidatorTest
     {
         private readonly ChangeUserScoreValidator changeUserScoreValidator;
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeUserScoreValidatorTest"/> class.
         /// </summary>
         public ChangeUserScoreValidatorTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.changeUserScoreValidator = new ChangeUserScoreValidator(this.userRepository.Object);
         }
 

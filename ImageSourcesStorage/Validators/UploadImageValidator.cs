@@ -10,17 +10,17 @@
 
     public class UploadImageValidator : AbstractValidator<AddPinToBoard>
     {
-        private readonly IBoardRepository<Board> boardRepository;
-        private readonly IUserRepository<User> userRepository;
-        private readonly IPinRepository<Pin> pinRepository;
-        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
+        private readonly IBoardRepository boardRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IPinRepository pinRepository;
+        private readonly IPinBoardRepository pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UploadImageValidator"/> class.
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="boardRepository"></param>
-        public UploadImageValidator(IUserRepository<User> userRepository, IBoardRepository<Board> boardRepository, IPinRepository<Pin> pinRepository , IPinBoardRepository<PinBoard> pinBoardRepository)
+        public UploadImageValidator(IUserRepository userRepository, IBoardRepository boardRepository, IPinRepository pinRepository , IPinBoardRepository pinBoardRepository)
         {
             this.userRepository = userRepository;
             this.boardRepository = boardRepository;

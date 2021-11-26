@@ -14,14 +14,14 @@
     public class CheckUserIdValidatorTest
     {
         private readonly CheckUserIdValidator checkUserIdValidator;
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckUserIdValidatorTest"/> class.
         /// </summary>
         public CheckUserIdValidatorTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.checkUserIdValidator = new CheckUserIdValidator(this.userRepository.Object);
         }
 

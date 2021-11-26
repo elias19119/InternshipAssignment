@@ -9,13 +9,13 @@
 
     public class DeleteBoardOfUserValidator : AbstractValidator<Board>
     {
-        private readonly IBoardRepository<Board> boardRepository;
-        private readonly IUserRepository<User> userRepository;
+        private readonly IBoardRepository boardRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteBoardOfUserValidator"/> class.
         /// </summary>
-        public DeleteBoardOfUserValidator(IUserRepository<User> userRepository, IBoardRepository<Board> boardRepository)
+        public DeleteBoardOfUserValidator(IUserRepository userRepository, IBoardRepository boardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;
@@ -27,7 +27,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteBoardOfUserValidator"/> class.
         /// </summary>
-        public DeleteBoardOfUserValidator(IBoardRepository<Board> boardRepository)
+        public DeleteBoardOfUserValidator(IBoardRepository boardRepository)
         {
             this.boardRepository = boardRepository;
             this.RuleFor(x => x.BoardId).MustAsync(this.IsBoardExistsAsync);

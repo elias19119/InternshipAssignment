@@ -11,7 +11,7 @@
     /// </summary>
     public class PostUserValidator : AbstractValidator<User>
     {
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
         private const int MaxFieldLength = 50;
         private const int MinFieldLength = 1;
 
@@ -19,7 +19,7 @@
         /// Initializes a new instance of the <see cref="PostUserValidator"/> class.
         /// Initializes a new user of the <see cref="PostUserValidator"/> class.
         /// </summary>
-        public PostUserValidator(IUserRepository<User> userRepository)
+        public PostUserValidator(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             this.RuleFor(x => x.Name).MustAsync(this.IsNameUniqueAsync);

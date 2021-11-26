@@ -12,14 +12,14 @@
     public class GetUserPinsValidatorTest
     {
         private readonly GetUserPinsValidator getUserPinsValidator;
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserPinsValidatorTest"/> class.
         /// </summary>
         public GetUserPinsValidatorTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.getUserPinsValidator = new GetUserPinsValidator(this.userRepository.Object);
         }
 

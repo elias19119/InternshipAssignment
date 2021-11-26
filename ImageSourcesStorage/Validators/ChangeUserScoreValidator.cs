@@ -15,13 +15,13 @@
     /// </summary>
     public class ChangeUserScoreValidator : AbstractValidator<User>
     {
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeUserScoreValidator"/> class.
         /// Initializes a new user of the <see cref="ChangeUserScoreValidator"/> class.
         /// </summary>
-        public ChangeUserScoreValidator(IUserRepository<User> userRepository)
+        public ChangeUserScoreValidator(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);

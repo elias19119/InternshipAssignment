@@ -12,10 +12,10 @@
     [ApiController]
     public class PinController : ControllerBase
     {
-        private readonly IPinRepository<Pin> pinRepository;
-        private readonly IUserRepository<User> userRepository;
-        private readonly IBoardRepository<Board> boardRepository;
-        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
+        private readonly IPinRepository pinRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IBoardRepository boardRepository;
+        private readonly IPinBoardRepository pinBoardRepository;
         private readonly GetPinByIdValidator getPinByIdValidator;
         private readonly UploadImageValidator uploadImageValidator;
         private readonly IStorage storage;
@@ -24,7 +24,7 @@
         /// Initializes a new instance of the <see cref="PinController"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
-        public PinController(IPinRepository<Pin> pinRepository, IUserRepository<User> userRepository, IStorage storage , IBoardRepository<Board> boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
+        public PinController(IPinRepository pinRepository, IUserRepository userRepository, IStorage storage , IBoardRepository boardRepository, IPinBoardRepository pinBoardRepository)
         {
             this.pinRepository = pinRepository;
             this.userRepository = userRepository;
