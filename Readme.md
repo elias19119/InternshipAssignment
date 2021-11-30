@@ -2,7 +2,7 @@
 ## Table of Content
 
 - Introduction
-- project set-up 
+- Project set-up 
 - Database Entities 
 - Features
 
@@ -11,28 +11,24 @@
 
 Introduction: Backend part implementation and deployment of a service which stores and sells digital image resources. basically It’s a simple version of the famous Pinterest app. The following technologies/sources were used To develop this project:
 
-1- Entity Framework Core
-2- Respository Pattern
-3- swagger UI 
-4- Dependency injection in ASP.NET Core
-5- Unit tests coverage (xUnit)
-6- SQL Server 
+- Entity Framework Core
+- Swagger UI 
+- Dependency injection in ASP.NET Core
+- Unit tests coverage (xUnit)
+- SQL Server 
 
 ## Project set-up
 
-to set-up the project please follow these steps:
+To set-up the project please follow these steps:
 
-1- create a database at sql server.
-2- download the code of the repository -InternshipAssignment- which could be found at https://github.com/eliasINDG/InternshipAssignment
-3- change the connection string in your appsettings.json
+1- Create a database at sql server.
+2- Clone the code of the repository -InternshipAssignment- which could be found at https://github.com/eliasINDG/InternshipAssignment
+3- Change the ConnectionStrings.ImageSourceDatabase in your appsettings.json
 4- Build the project 
 5- Open Package Manager
 6- For the Default project Chose: ImageSourcesStorage.DataAccessLayer
 7- Insert the following commands:
-```sh
-Add-Migration "Insert a name here"
-```
- after that 
+
 ```sh
 Update-Database
 ```
@@ -42,10 +38,10 @@ The database entities are generated after you finish step 7 above
 
 the following entites should be present at the database:
 
-1-Users
-2-PinBoards
-3-Pins
-4-Boards
+- Users
+- PinBoards
+- Pins
+- Boards
 
 ## Features
 
