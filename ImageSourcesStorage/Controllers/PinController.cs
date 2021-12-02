@@ -8,7 +8,6 @@
     using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/pins")]
     [ApiController]
     public class PinController : ControllerBase
     {
