@@ -39,7 +39,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsersAsync()
+        public async Task<IActionResult> GetAllUsersAsync()
         {
             var result = await this.userRepository.GetAllAsync();
             return this.Ok(result);
@@ -71,7 +71,10 @@
             }
 
             await this.userRepository.InsertAsync(user);
-            return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
+
+            var response = new AddUserResponse(user.UserId);
+
+            return this.CreatedAtAction("GetUserAsync", new { user.UserId }, response);
         }
 
         [HttpPut]

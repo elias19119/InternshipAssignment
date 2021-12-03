@@ -38,7 +38,7 @@
         {
             this.userRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<User>());
 
-            var response = await this.controller.GetUsersAsync();
+            var response = await this.controller.GetAllUsersAsync();
 
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);

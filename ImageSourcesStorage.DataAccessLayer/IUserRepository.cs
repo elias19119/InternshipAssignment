@@ -26,5 +26,7 @@
         Task<bool> ExistsAsync(Guid userId);
 
         Task<bool> NameExistsAsync(string name);
+
+        int GetUserScore(Guid userId);
     }
 }

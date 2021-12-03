@@ -68,7 +68,7 @@
 
             if (!result.IsValid)
             {
-               return this.BadRequest();
+                return this.NotFound();
             }
 
             var boards = await this.boardRepository.GetBoardByIdAsync(boardId);
@@ -81,11 +81,11 @@
         [Route("api/users/{userId}/boards")]
         public async Task<IActionResult> AddBoardToUserAsync(Guid userId, AddBoardtoUserRequest request)
         {
-            var boardId = Guid.NewGuid();
             Board board = new Board()
             {
                 UserId = userId,
                 Name = request.Name,
+                BoardId = Guid.NewGuid(),
             };
 
             var result = this.addBoardValidator.Validate(board);
@@ -96,9 +96,9 @@
             }
 
             await this.boardRepository.AddBoardToUserAsync(userId, board.BoardId, board.Name);
-            var response = new AddBoardtoUserResponse(boardId);
+            var response = new AddBoardtoUserResponse(board.BoardId);
 
-            return this.CreatedAtAction(nameof(this.GetUserBoardByIdAsync), new { boardId }, response);
+            return this.CreatedAtAction(nameof(this.GetUserBoardByIdAsync), new { board.BoardId }, response);
         }
 
         [HttpDelete]
