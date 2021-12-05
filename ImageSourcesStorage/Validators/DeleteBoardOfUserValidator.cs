@@ -10,12 +10,12 @@
     public class DeleteBoardOfUserValidator : AbstractValidator<Board>
     {
         private readonly IBoardRepository boardRepository;
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteBoardOfUserValidator"/> class.
         /// </summary>
-        public DeleteBoardOfUserValidator(IUserRepository<User> userRepository, IBoardRepository boardRepository)
+        public DeleteBoardOfUserValidator(IUserRepository userRepository, IBoardRepository boardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;

@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using ImageSourcesStorage.DataAccessLayer.Models;
 
-    public interface IPinRepository 
+    public interface IPinRepository
     {
         Task<List<Pin>> GetAllPinsAsync();
 

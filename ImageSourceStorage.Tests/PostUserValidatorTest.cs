@@ -12,14 +12,14 @@
     public class PostUserValidatorTest
     {
         private readonly PostUserValidator postUserValidator;
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostUserValidatorTest"/> class.
         /// </summary>
         public PostUserValidatorTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.postUserValidator = new PostUserValidator(this.userRepository.Object);
         }
 

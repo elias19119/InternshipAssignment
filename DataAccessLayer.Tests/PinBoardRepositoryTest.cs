@@ -10,7 +10,7 @@
     public class PinBoardRepositoryTest
     {
         private readonly DataContext dataContext;
-        private readonly PinBoardRepository<PinBoard> pinBoardRepository;
+        private readonly PinBoardRepository pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinBoardRepositoryTest"/> class.
@@ -21,7 +21,7 @@
                 .UseInMemoryDatabase(databaseName: "FakeConnectionString")
                 .Options;
             this.dataContext = new DataContext(options);
-            this.pinBoardRepository = new PinBoardRepository<PinBoard>(this.dataContext);
+            this.pinBoardRepository = new PinBoardRepository(this.dataContext);
         }
 
         /// <summary>

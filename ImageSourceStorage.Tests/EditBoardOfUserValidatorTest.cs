@@ -13,7 +13,7 @@
     /// </summary>
     public class EditBoardOfUserValidatorTest
     {
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
         private readonly Mock<IBoardRepository> boardRepository;
         private readonly EditBoardofUserValidator editBoardOfUserValidator;
 
@@ -23,7 +23,7 @@
         public EditBoardOfUserValidatorTest()
         {
             this.boardRepository = new Mock<IBoardRepository>();
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.editBoardOfUserValidator = new EditBoardofUserValidator(this.userRepository.Object, this.boardRepository.Object);
         }
 

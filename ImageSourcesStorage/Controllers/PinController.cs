@@ -8,14 +8,13 @@
     using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/pins")]
     [ApiController]
     public class PinController : ControllerBase
     {
         private readonly IPinRepository pinRepository;
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
         private readonly IBoardRepository boardRepository;
-        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
+        private readonly IPinBoardRepository pinBoardRepository;
         private readonly GetPinByIdValidator getPinByIdValidator;
         private readonly UploadImageValidator uploadImageValidator;
         private readonly IStorage storage;
@@ -24,7 +23,7 @@
         /// Initializes a new instance of the <see cref="PinController"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
-        public PinController(IPinRepository pinRepository, IUserRepository<User> userRepository, IStorage storage , IBoardRepository boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
+        public PinController(IPinRepository pinRepository, IUserRepository userRepository, IStorage storage , IBoardRepository boardRepository, IPinBoardRepository pinBoardRepository)
         {
             this.pinRepository = pinRepository;
             this.userRepository = userRepository;
@@ -79,12 +78,12 @@
 
             if (!result.IsValid)
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
 
             if (request.File is null && request.PinId.Equals(Guid.Empty))
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
 
             if (request.PinId.Equals(Guid.Empty))

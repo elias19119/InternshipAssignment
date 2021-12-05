@@ -13,13 +13,13 @@
     /// </summary>
     public class GetUserPinsValidator : AbstractValidator<Pin>
     {
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserPinsValidator"/> class.
         /// </summary>
         /// <param name="userRepository"></param>
-        public GetUserPinsValidator(IUserRepository<User> userRepository)
+        public GetUserPinsValidator(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);

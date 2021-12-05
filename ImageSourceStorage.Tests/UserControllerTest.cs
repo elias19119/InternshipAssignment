@@ -18,14 +18,14 @@
     public class UserControllerTest
     {
         private readonly UserController controller;
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserControllerTest"/> class.
         /// </summary>
         public UserControllerTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.controller = new UserController(this.userRepository.Object);
         }
 
@@ -38,7 +38,7 @@
         {
             this.userRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<User>());
 
-            var response = await this.controller.GetUsersAsync();
+            var response = await this.controller.GetAllUsersAsync();
 
             Assert.NotNull(response);
             Assert.IsAssignableFrom<IActionResult>(response);

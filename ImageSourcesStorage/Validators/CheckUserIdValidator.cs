@@ -12,13 +12,13 @@
     /// </summary>
     public class CheckUserIdValidator : AbstractValidator<User>
     {
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckUserIdValidator"/> class.
         /// Initializes a new user of the <see cref="CheckUserIdValidator"/> class.
         /// </summary>
-        public CheckUserIdValidator(IUserRepository<User> userRepository)
+        public CheckUserIdValidator(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);

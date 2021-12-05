@@ -15,7 +15,7 @@ namespace DataAccessLayer.Tests
     public class UserRepositoryTest
     {
         private DataContext dataContext;
-        private UserRepository<User> userRepository;
+        private UserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepositoryTest"/> class.
@@ -26,7 +26,7 @@ namespace DataAccessLayer.Tests
                 .UseInMemoryDatabase(databaseName: "FakeConnectionString")
                 .Options;
             this.dataContext = new DataContext(options);
-            this.userRepository = new UserRepository<User>(this.dataContext);
+            this.userRepository = new UserRepository(this.dataContext);
         }
 
         /// <summary>

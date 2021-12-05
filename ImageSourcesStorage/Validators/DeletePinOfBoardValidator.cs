@@ -13,14 +13,14 @@
     {
         private readonly IPinRepository pinRepository;
         private readonly IBoardRepository boardRepository;
-        private readonly IPinBoardRepository<PinBoard> pinBoardRepository;
+        private readonly IPinBoardRepository pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeletePinOfBoardValidator"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
         /// <param name="boardRepository"></param>
-        public DeletePinOfBoardValidator(IPinRepository pinRepository, IBoardRepository boardRepository, IPinBoardRepository<PinBoard> pinBoardRepository)
+        public DeletePinOfBoardValidator(IPinRepository pinRepository, IBoardRepository boardRepository, IPinBoardRepository pinBoardRepository)
         {
             this.boardRepository = boardRepository;
             this.pinRepository = pinRepository;

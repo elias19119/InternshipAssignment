@@ -7,8 +7,7 @@
     using ImageSourcesStorage.DataAccessLayer.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class PinBoardRepository<TPinBoard> : IPinBoardRepository<PinBoard>
-        where TPinBoard : class
+    public class PinBoardRepository : IPinBoardRepository
     {
         private readonly DataContext context;
 

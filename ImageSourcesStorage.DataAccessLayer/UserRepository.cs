@@ -7,8 +7,7 @@
     using ImageSourcesStorage.DataAccessLayer.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class UserRepository<TUser> : IUserRepository<User>
-        where TUser : class
+    public class UserRepository : IUserRepository
     {
         private readonly DataContext context;
 
@@ -79,16 +78,19 @@
 
             if (user != null)
             {
-                if (changeScoreOptions == ChangeScoreOptions.Decrease)
+                if (user.Score > 0)
                 {
-                    user.Score -= 1;
-                }
-                else
-                {
-                    user.Score += 1;
-                }
+                    if (changeScoreOptions == ChangeScoreOptions.Decrease)
+                    {
+                        user.Score -= 1;
+                    }
+                    else
+                    {
+                        user.Score += 1;
+                    }
 
-                await this.SaveAsync();
+                    await this.SaveAsync();
+                }
             }
         }
 
@@ -97,6 +99,11 @@
             return await this.context.Pins
            .Where(u => u.UserId == userId)
            .ToListAsync();
+        }
+
+        public int GetUserScore(Guid userId)
+        {
+            return this.context.Users.Where(x => x.UserId == userId).Select(x=>x.Score).FirstOrDefault();
         }
     }
 }

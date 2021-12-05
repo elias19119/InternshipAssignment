@@ -17,12 +17,12 @@
         private const int MaxFieldLength = 50;
         private const int MinFieldLength = 1;
         private readonly IBoardRepository boardRepository;
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddBoardtoUserValidator"/> class.
         /// </summary>
-        public AddBoardtoUserValidator(IUserRepository<User> userRepository , IBoardRepository boardRepository)
+        public AddBoardtoUserValidator(IUserRepository userRepository , IBoardRepository boardRepository)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;

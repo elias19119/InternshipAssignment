@@ -12,7 +12,7 @@
     /// </summary>
     public class PutUserValidatorTest
     {
-        private readonly Mock<IUserRepository<User>> userRepository;
+        private readonly Mock<IUserRepository> userRepository;
         private readonly PutUserValidator putUserValidator;
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// </summary>
         public PutUserValidatorTest()
         {
-            this.userRepository = new Mock<IUserRepository<User>>();
+            this.userRepository = new Mock<IUserRepository>();
             this.putUserValidator = new PutUserValidator(this.userRepository.Object);
         }
 

@@ -15,7 +15,7 @@
     {
         private readonly DataContext dataContext;
         private readonly PinRepository pinRepository;
-        private readonly PinBoardRepository<PinBoard> pinBoardRepository;
+        private readonly PinBoardRepository pinBoardRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinRepositoryTest"/> class.
@@ -27,7 +27,7 @@
                 .Options;
             this.dataContext = new DataContext(options);
             this.pinRepository = new PinRepository(this.dataContext);
-            this.pinBoardRepository = new PinBoardRepository<PinBoard>(this.dataContext);
+            this.pinBoardRepository = new PinBoardRepository(this.dataContext);
         }
 
         /// <summary>

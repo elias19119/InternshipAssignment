@@ -19,7 +19,7 @@
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository<User> userRepository;
+        private readonly IUserRepository userRepository;
         private readonly CheckUserIdValidator checkUserIdValidator;
         private readonly PostUserValidator postUserValidator;
         private readonly PutUserValidator putUserValidator;
@@ -28,7 +28,7 @@
 
         public object ViewBag { get; private set; }
 
-        public UserController(IUserRepository<User> userRepository)
+        public UserController(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             this.checkUserIdValidator = new CheckUserIdValidator(userRepository);
@@ -39,7 +39,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsersAsync()
+        public async Task<IActionResult> GetAllUsersAsync()
         {
             var result = await this.userRepository.GetAllAsync();
             return this.Ok(result);
@@ -71,7 +71,10 @@
             }
 
             await this.userRepository.InsertAsync(user);
-            return this.CreatedAtAction("GetUsers", new { id = user.UserId }, request);
+
+            var response = new AddUserResponse(user.UserId);
+
+            return this.CreatedAtAction("GetUserAsync", new { user.UserId }, response);
         }
 
         [HttpPut]
