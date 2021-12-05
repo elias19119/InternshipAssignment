@@ -30,6 +30,7 @@
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
             this.RuleFor(x => x).MustAsync(this.IsPinDoesNotBelongToBoardAsync);
             this.RuleFor(x => x).MustAsync(this.IsBoardBelongToUserAsync);
+            this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync).When(x=>x.PinId != Guid.Empty);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)
@@ -58,6 +59,13 @@
             var isBelongs = await this.pinBoardRepository.IsPinBelongToBoardAsync(pin.BoardId, pin.PinId);
 
             return !isBelongs;
+        }
+
+        public async Task<bool> IsPinExistsAsync(Guid pinId, CancellationToken cancellation)
+        {
+            var isExists = await this.pinRepository.IsPinExistsAsync(pinId);
+
+            return isExists;
         }
     }
 }

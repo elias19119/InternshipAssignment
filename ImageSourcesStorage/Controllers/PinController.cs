@@ -78,12 +78,12 @@
 
             if (!result.IsValid)
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
 
             if (request.File is null && request.PinId.Equals(Guid.Empty))
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
 
             if (request.PinId.Equals(Guid.Empty))
