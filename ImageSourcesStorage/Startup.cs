@@ -2,10 +2,12 @@ namespace ImageSourcesStorage
 {
     using System;
     using System.Text.Json.Serialization;
+    using AutoMapper;
     using FluentValidation.AspNetCore;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.DataAccessLayer.Validators;
+    using ImageSourcesStorage.Mappings;
     using ImageSourcesStorage.Validators;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ namespace ImageSourcesStorage
             services.AddTransient(typeof(IPinRepository), typeof(PinRepository));
             services.AddTransient(typeof(IPinBoardRepository), typeof(PinBoardRepository));
             services.AddTransient<IStorage, Storage>();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

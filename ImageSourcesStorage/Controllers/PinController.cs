@@ -1,7 +1,9 @@
 ﻿namespace ImageSourcesStorage.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AutoMapper;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Models;
@@ -18,18 +20,20 @@
         private readonly GetPinByIdValidator getPinByIdValidator;
         private readonly UploadImageValidator uploadImageValidator;
         private readonly IStorage storage;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinController"/> class.
         /// </summary>
         /// <param name="pinRepository"></param>
-        public PinController(IPinRepository pinRepository, IUserRepository userRepository, IStorage storage , IBoardRepository boardRepository, IPinBoardRepository pinBoardRepository)
+        public PinController(IPinRepository pinRepository, IUserRepository userRepository, IStorage storage , IBoardRepository boardRepository, IPinBoardRepository pinBoardRepository, IMapper mapper)
         {
             this.pinRepository = pinRepository;
             this.userRepository = userRepository;
             this.boardRepository = boardRepository;
             this.pinBoardRepository = pinBoardRepository;
             this.storage = storage;
+            this.mapper = mapper;
             this.getPinByIdValidator = new GetPinByIdValidator(pinRepository);
             this.uploadImageValidator = new UploadImageValidator(userRepository, boardRepository,pinRepository , pinBoardRepository);
         }
@@ -39,9 +43,10 @@
         public async Task<IActionResult> GetAllPinsAsync()
         {
             var result = await this.pinRepository.GetAllPinsAsync();
-            var response = new GetPinsResponse(result);
 
-            return this.Ok(response);
+            List<PinsModel> pins = this.mapper.Map<List<PinsModel>>(result);
+
+            return this.Ok(pins);
         }
 
         [HttpGet]

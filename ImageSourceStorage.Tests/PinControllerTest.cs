@@ -5,6 +5,7 @@
     using System.IO;
     using System.Net;
     using System.Threading.Tasks;
+    using AutoMapper;
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
@@ -22,6 +23,7 @@
         private readonly Mock<IPinBoardRepository> pinBoardRepository;
         private readonly PinController pinController;
         private readonly Mock<IStorage> storage;
+        private readonly Mock<IMapper> mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinControllerTest"/> class.
@@ -32,8 +34,9 @@
             this.userRepository = new Mock<IUserRepository>();
             this.boardRepository = new Mock<IBoardRepository>();
             this.storage = new Mock<IStorage>();
+            this.mapper = new Mock<IMapper>();
             this.pinBoardRepository = new Mock<IPinBoardRepository>();
-            this.pinController = new PinController(this.pinRepository.Object, this.userRepository.Object, this.storage.Object, this.boardRepository.Object, this.pinBoardRepository.Object);
+            this.pinController = new PinController(this.pinRepository.Object, this.userRepository.Object, this.storage.Object, this.boardRepository.Object, this.pinBoardRepository.Object, this.mapper.Object);
         }
 
         /// <summary>

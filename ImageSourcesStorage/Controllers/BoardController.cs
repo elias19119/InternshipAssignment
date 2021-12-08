@@ -1,7 +1,9 @@
 ﻿namespace ImageSourcesStorage.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AutoMapper;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Models;
@@ -15,6 +17,7 @@
         private readonly IUserRepository userRepository;
         private readonly IPinRepository pinRepository;
         private readonly IPinBoardRepository pinBoardRepository;
+        private readonly IMapper mapper;
         private readonly GetUserBoardValidator getUserBoardValidator;
         private readonly AddBoardtoUserValidator addBoardValidator;
         private readonly GetBoardByIdValidator getBoardIdValidator;
@@ -25,12 +28,13 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardController"/> class.
         /// </summary>
-        public BoardController(IBoardRepository boardRepository , IUserRepository userRepository, IPinRepository pinRepository, IPinBoardRepository pinBoardRepository)
+        public BoardController(IBoardRepository boardRepository , IUserRepository userRepository, IPinRepository pinRepository, IPinBoardRepository pinBoardRepository, IMapper mapper)
         {
             this.boardRepository = boardRepository;
             this.userRepository = userRepository;
             this.pinRepository = pinRepository;
             this.pinBoardRepository = pinBoardRepository;
+            this.mapper = mapper;
             this.getUserBoardValidator = new GetUserBoardValidator(userRepository);
             this.addBoardValidator = new AddBoardtoUserValidator(userRepository, boardRepository);
             this.getBoardIdValidator = new GetBoardByIdValidator(boardRepository);
@@ -53,9 +57,10 @@
             }
 
             var boards = await this.boardRepository.GetUserBoardsAsync(userId);
-            var response = new GetUserBoardsResponse(boards);
 
-            return this.Ok(boards);
+            List<BoardModelDetails> boardsResponse = this.mapper.Map<List<BoardModelDetails>>(boards);
+
+            return this.Ok(boardsResponse);
         }
 
         [HttpGet]
