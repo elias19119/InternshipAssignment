@@ -26,8 +26,6 @@
         private readonly ChangeUserScoreValidator changeScoreValidator;
         private readonly GetUserPinsValidator getUserPinsValidator;
 
-        public object ViewBag { get; private set; }
-
         public UserController(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
@@ -38,15 +36,25 @@
             this.getUserPinsValidator = new GetUserPinsValidator(userRepository);
         }
 
+        /// <summary>
+        /// Gets all the users in the system.
+        /// </summary>
         [HttpGet]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var result = await this.userRepository.GetAllAsync();
             return this.Ok(result);
         }
 
+        /// <summary>
+        /// Gets a User by Id.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>200.</returns>
         [HttpGet]
         [Route("{userId}")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserAsync(Guid userId)
         {
             var user = new User { UserId = userId };
@@ -55,6 +63,10 @@
             return result.IsValid ? this.Ok(await this.userRepository.GetByIdAsync(userId)) : (ActionResult)this.NotFound();
         }
 
+        /// <summary>
+        /// Adds a new User.
+        /// </summary>
+        /// <param name="request"></param>
         [HttpPost]
         public async Task<IActionResult> PostUserAsync(CreateUserRequest request)
         {
@@ -77,6 +89,11 @@
             return this.CreatedAtAction("GetUserAsync", new { user.UserId }, response);
         }
 
+        /// <summary>
+        /// Updates a User Name and Score.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="userId"></param>
         [HttpPut]
         [Route("{userId}")]
         public async Task<IActionResult> PutUserAsync(UpdateUserRequest request, Guid userId)

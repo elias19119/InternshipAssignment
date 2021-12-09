@@ -1,6 +1,7 @@
 namespace ImageSourcesStorage
 {
     using System;
+    using System.IO;
     using System.Text.Json.Serialization;
     using AutoMapper;
     using FluentValidation.AspNetCore;
@@ -36,7 +37,11 @@ namespace ImageSourcesStorage
                 options.UseSqlServer(this.Configuration.GetConnectionString("ImageSourceDatabase")));
             services.AddControllers().AddJsonOptions(options =>
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                var filePath = Path.Combine(AppContext.BaseDirectory, "ImageSources.xml");
+                c.IncludeXmlComments(filePath, includeControllerXmlComments: true);
+            });
             services.AddMvc(opt =>
             {
                 opt.SuppressAsyncSuffixInActionNames = false;

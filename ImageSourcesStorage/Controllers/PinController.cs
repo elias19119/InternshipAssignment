@@ -19,6 +19,7 @@
         private readonly IPinBoardRepository pinBoardRepository;
         private readonly GetPinByIdValidator getPinByIdValidator;
         private readonly UploadImageValidator uploadImageValidator;
+        private readonly EditPinValidator editPinValidator;
         private readonly IStorage storage;
         private readonly IMapper mapper;
 
@@ -35,6 +36,7 @@
             this.storage = storage;
             this.mapper = mapper;
             this.getPinByIdValidator = new GetPinByIdValidator(pinRepository);
+            this.editPinValidator = new EditPinValidator(pinRepository, userRepository);
             this.uploadImageValidator = new UploadImageValidator(userRepository, boardRepository,pinRepository , pinBoardRepository);
         }
 
@@ -106,6 +108,46 @@
                 await this.pinBoardRepository.InsertPinBoard(boardId, (Guid)request.PinId);
             }
 
+            return this.NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/pins/{pinId}")]
+        public async Task<IActionResult> DeleteBoardOfUserAsync(Guid pinId)
+        {
+            var pin = new Pin { PinId = pinId };
+
+            var result = this.getPinByIdValidator.Validate(pin);
+
+            if (!result.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            await this.pinRepository.DeletePinAsync(pinId);
+            return this.NoContent();
+        }
+
+        [HttpPut]
+        [Route("api/pins/{pinId}/users/{userId}")]
+        public async Task<IActionResult> EditPinAsync(Guid pinId, Guid userId, EditPinRequest request) 
+        {
+            var pin = new Pin
+            {
+                PinId = pinId,
+                UserId = userId,
+                Name = request.Name,
+                Description = request.Description,
+            };
+
+            var result = this.editPinValidator.Validate(pin);
+
+            if (!result.IsValid)
+            {
+                return this.BadRequest();
+            }
+
+            await this.pinRepository.EditPinAsync(pinId, userId, request.Description, request.Name);
             return this.NoContent();
         }
     }
