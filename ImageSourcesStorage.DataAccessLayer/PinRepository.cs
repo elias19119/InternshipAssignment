@@ -60,7 +60,7 @@
             return this.dataContext.SaveChangesAsync();
         }
 
-        public async Task EditPinAsync(Guid pinId, Guid userId, string description, string name)
+        public async Task EditPinAsync(Guid pinId, string description, string name)
         {
             var pin = await this.dataContext.Pins.FindAsync(pinId);
 

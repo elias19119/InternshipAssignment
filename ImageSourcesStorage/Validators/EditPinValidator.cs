@@ -25,10 +25,8 @@
             this.pinRepository = pinRepository;
             this.userRepository = userRepository;
             this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync);
-            this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
             this.RuleFor(x => x.Name).NotEmpty().Length(MinFieldLength, MaxFieldLength);
             this.RuleFor(x => x.Description).NotEmpty().Length(MinFieldLength, MaxFieldLength);
-            this.RuleFor(x => x).MustAsync(this.IsPinBelongToUserAsync);
         }
 
         /// <summary>
@@ -44,20 +42,6 @@
             var isExists = await this.pinRepository.IsPinExistsAsync(pinId);
 
             return isExists;
-        }
-
-        private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)
-        {
-            var isExists = await this.userRepository.ExistsAsync(userId);
-
-            return isExists;
-        }
-
-        public async Task<bool> IsPinBelongToUserAsync(Pin pin , CancellationToken cancellation)
-        {
-            var isBelongs = await this.pinRepository.IsPinBelongToUserAsync(pin.PinId, pin.UserId);
-
-            return isBelongs;
         }
     }
 }

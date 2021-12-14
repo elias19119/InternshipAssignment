@@ -19,7 +19,7 @@
 
         Task DeletePinAsync(Guid pinId);
 
-        Task EditPinAsync(Guid pinId, Guid userId, string description, string name);
+        Task EditPinAsync(Guid pinId, string description, string name);
 
         Task SaveAsync();
     }

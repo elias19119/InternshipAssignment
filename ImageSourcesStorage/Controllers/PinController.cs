@@ -8,9 +8,13 @@
     using ImageSourcesStorage.DataAccessLayer.Models;
     using ImageSourcesStorage.Models;
     using ImageSourcesStorage.Validators;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PinController : ControllerBase
     {
         private readonly IPinRepository pinRepository;
@@ -40,8 +44,13 @@
             this.uploadImageValidator = new UploadImageValidator(userRepository, boardRepository,pinRepository , pinBoardRepository);
         }
 
+        /// <summary>
+        /// Gets all pins in the system.
+        /// </summary>
+        /// <returns>200.</returns>
         [HttpGet]
         [Route("api/pins")]
+        [ProducesResponseType(typeof(List<Pin>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllPinsAsync()
         {
             var result = await this.pinRepository.GetAllPinsAsync();
@@ -51,8 +60,15 @@
             return this.Ok(pins);
         }
 
+        /// <summary>
+        /// Gets a pin by id.
+        /// </summary>
+        /// <param name="pinId"></param>
+        /// <returns>200.</returns>
+        /// <response code="404"> pinId Not Found.</response>
         [HttpGet]
         [Route("api/pins/{pinId}")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPinByIdAsync(Guid pinId)
         {
             var pin = new Pin() { PinId = pinId };
@@ -70,8 +86,17 @@
             return this.Ok(response);
         }
 
+        /// <summary>
+        /// Upload an image or add an existing pin.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="userId"></param>
+        /// <param name="boardId"></param>
+        /// <returns>404.</returns>
+        /// <response code="404">Not Found.</response>
         [HttpPost]
         [Route("api/users/{userId}/boards/{boardId}/pins")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> AddPinToTheBoardAsync([FromForm] UploadImageRequest request, Guid userId, Guid boardId)
         {
             if (request.PinId is null)
@@ -111,8 +136,15 @@
             return this.NoContent();
         }
 
+        /// <summary>
+        /// Deletes a board by userid.
+        /// </summary>
+        /// <param name="pinId"></param>
+        /// <returns>204.</returns>
+        /// <response code="404"> userId Not Found.</response>
         [HttpDelete]
         [Route("api/pins/{pinId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteBoardOfUserAsync(Guid pinId)
         {
             var pin = new Pin { PinId = pinId };
@@ -128,14 +160,21 @@
             return this.NoContent();
         }
 
+        /// <summary>
+        /// Updates a pin name and description.
+        /// </summary>
+        /// <param name="pinId"></param>
+        /// <param name="request"></param>
+        /// <returns>204.</returns>
+        /// <response code="400"> Bad Request.</response>
         [HttpPut]
-        [Route("api/pins/{pinId}/users/{userId}")]
-        public async Task<IActionResult> EditPinAsync(Guid pinId, Guid userId, EditPinRequest request) 
+        [Route("api/pins/{pinId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> EditPinAsync(Guid pinId, EditPinRequest request)
         {
             var pin = new Pin
             {
                 PinId = pinId,
-                UserId = userId,
                 Name = request.Name,
                 Description = request.Description,
             };
@@ -147,7 +186,7 @@
                 return this.BadRequest();
             }
 
-            await this.pinRepository.EditPinAsync(pinId, userId, request.Description, request.Name);
+            await this.pinRepository.EditPinAsync(pinId, request.Description, request.Name);
             return this.NoContent();
         }
     }

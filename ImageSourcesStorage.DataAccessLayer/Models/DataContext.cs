@@ -21,6 +21,8 @@
 
         public DbSet<PinBoard> PinBoards { get; set; }
 
+        public DbSet<Credentials> Credentials { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>();
@@ -29,6 +31,8 @@
 
             modelBuilder.Entity<Pin>()
            .HasKey(x => x.PinId);
+
+            modelBuilder.Entity<Credentials>().HasNoKey();
         }
     }
 }
