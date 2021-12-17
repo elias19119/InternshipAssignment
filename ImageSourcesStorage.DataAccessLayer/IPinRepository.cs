@@ -14,5 +14,13 @@
         Task InsertPinAsync(Guid pinId, Guid userId, string imagePath, string description);
 
         Task<bool> IsPinExistsAsync(Guid pinId);
+
+        Task<bool> IsPinBelongToUserAsync(Guid pinId, Guid userId);
+
+        Task DeletePinAsync(Guid pinId);
+
+        Task EditPinAsync(Guid pinId, string description, string name);
+
+        Task SaveAsync();
     }
 }

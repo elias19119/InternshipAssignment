@@ -30,7 +30,7 @@
             this.RuleFor(x => x.UserId).MustAsync(this.IsUserExistsAsync);
             this.RuleFor(x => x).MustAsync(this.IsPinDoesNotBelongToBoardAsync);
             this.RuleFor(x => x).MustAsync(this.IsBoardBelongToUserAsync);
-            this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync).When(x=>x.PinId != Guid.Empty);
+            this.RuleFor(x => x.PinId).MustAsync(this.IsPinExistsAsync).When(x => x.PinId != Guid.Empty);
         }
 
         private async Task<bool> IsUserExistsAsync(Guid userId, CancellationToken cancellation)

@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageSourcesStorage</name>
+    </assembly>
+    <members>
+        <member name="M:ImageSourcesStorage.Controllers.BoardController.#ctor(ImageSourcesStorage.DataAccessLayer.IBoardRepository,ImageSourcesStorage.DataAccessLayer.IUserRepository,ImageSourcesStorage.DataAccessLayer.IPinRepository,ImageSourcesStorage.DataAccessLayer.IPinBoardRepository,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Controllers.BoardController"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Controllers.PinController.#ctor(ImageSourcesStorage.DataAccessLayer.IPinRepository,ImageSourcesStorage.DataAccessLayer.IUserRepository,ImageSourcesStorage.DataAccessLayer.IStorage,ImageSourcesStorage.DataAccessLayer.IBoardRepository,ImageSourcesStorage.DataAccessLayer.IPinBoardRepository,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Controllers.PinController"/> class.
+            </summary>
+            <param name="pinRepository"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Controllers.UserController.GetAllUsersAsync">
+            <summary>
+            Gets all the users in the system.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Controllers.UserController.GetUserAsync(System.Guid)">
+            <summary>
+            Gets a User by Id.
+            </summary>
+            <param name="userId"></param>
+            <returns>200.</returns>
+        </member>
+        <member name="M:ImageSourcesStorage.Controllers.UserController.PostUserAsync(ImageSourcesStorage.Models.CreateUserRequest)">
+            <summary>
+            Adds a new User.
+            </summary>
+            <param name="request"></param>
+            <returns>201.</returns>
+        </member>
+        <member name="M:ImageSourcesStorage.Controllers.UserController.PutUserAsync(ImageSourcesStorage.Models.UpdateUserRequest,System.Guid)">
+            <summary>
+            Updates a User Name and Score.
+            </summary>
+            <param name="request"></param>
+            <param name="userId"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Models.AddBoardtoUserRequest">
+            <summary>
+            this is the request for adding a board to user.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Models.AddBoardtoUserResponse">
+            <summary>
+            this is the response for Add board to user.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Models.AddBoardtoUserResponse.#ctor(System.Guid)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Models.AddBoardtoUserResponse"/> class.
+            </summary>
+            <param name="boardId"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Models.AddUserResponse.#ctor(System.Guid)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Models.AddUserResponse"/> class.
+            </summary>
+            <param name="userId"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Models.GetBoardIdResponse.#ctor(ImageSourcesStorage.DataAccessLayer.Models.Board)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Models.GetBoardIdResponse"/> class.
+            </summary>
+            <param name="boardId"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Models.GetUserBoardsResponse">
+            <summary>
+            The response body for get all boards of User.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Models.GetUserBoardsResponse.#ctor(System.Collections.Generic.List{ImageSourcesStorage.DataAccessLayer.Models.BoardModelDetails})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Models.GetUserBoardsResponse"/> class.
+            </summary>
+            <param name="boards"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Models.GetUserPinsResponse.#ctor(System.Collections.Generic.List{ImageSourcesStorage.DataAccessLayer.Models.Pin})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Models.GetUserPinsResponse"/> class.
+            </summary>
+            <param name="pins"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Models.PinModel">
+            <summary>
+            PinModel.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.AddBoardtoUserValidator">
+            <summary>
+            this class is to validate the post board request.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.AddBoardtoUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository,ImageSourcesStorage.DataAccessLayer.IBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.AddBoardtoUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.AddBoardtoUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.AddBoardtoUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.ChangeUserScoreValidator">
+            <summary>
+            this class is to validate change user score.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.ChangeUserScoreValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.ChangeUserScoreValidator"/> class.
+            Initializes a new user of the <see cref="T:ImageSourcesStorage.Validators.ChangeUserScoreValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.DeleteBoardOfUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository,ImageSourcesStorage.DataAccessLayer.IBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.DeleteBoardOfUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.DeleteBoardOfUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.DeleteBoardOfUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.DeletePinOfBoardValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IPinRepository,ImageSourcesStorage.DataAccessLayer.IBoardRepository,ImageSourcesStorage.DataAccessLayer.IPinBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.DeletePinOfBoardValidator"/> class.
+            </summary>
+            <param name="pinRepository"></param>
+            <param name="boardRepository"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.EditBoardofUserValidator">
+            <summary>
+            this class is to validate the edit board of user request.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.EditBoardofUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository,ImageSourcesStorage.DataAccessLayer.IBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.EditBoardofUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.EditPinValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IPinRepository,ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.EditPinValidator"/> class.
+            </summary>
+            <param name="pinRepository"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.EditPinValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.EditPinValidator"/> class.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.GetBoardByIdValidator">
+            <summary>
+            this class is to validate Get Board By Id request.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.GetBoardByIdValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.GetBoardByIdValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.GetBoardByIdValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.GetBoardByIdValidator"/> class.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.GetPinByIdValidator">
+            <summary>
+            this class is to validate get pin by Id.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.GetPinByIdValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IPinRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.GetPinByIdValidator"/> class.
+            </summary>
+            <param name="pinRepository"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.GetPinByIdValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.GetPinByIdValidator"/> class.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.GetUserBoardValidator">
+            <summary>
+            to validate the Get User Board method.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.GetUserBoardValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.GetUserBoardValidator"/> class.
+            </summary>
+            <param name="userRepository"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.GetUserPinsValidator">
+            <summary>
+            this class is to validate get user pins request.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.GetUserPinsValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.GetUserPinsValidator"/> class.
+            </summary>
+            <param name="userRepository"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.PostUserValidator">
+            <summary>
+            this class is used to validate Post end point.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.PostUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.PostUserValidator"/> class.
+            Initializes a new user of the <see cref="T:ImageSourcesStorage.Validators.PostUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.PostUserValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.PostUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.PostUserValidator.IsNameUniqueAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            rule for checking unique Name.
+            </summary>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.PutUserValidator">
+            <summary>
+            this is class is used to put rules for Put method.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.PutUserValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.PutUserValidator"/> class.
+            Initializes a new user of the <see cref="T:ImageSourcesStorage.Validators.PutUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.PutUserValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.PutUserValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.PutUserValidator.IsNameUniqueAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            rule for checking unique Name.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.UploadImageValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository,ImageSourcesStorage.DataAccessLayer.IBoardRepository,ImageSourcesStorage.DataAccessLayer.IPinRepository,ImageSourcesStorage.DataAccessLayer.IPinBoardRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.Validators.UploadImageValidator"/> class.
+            </summary>
+            <param name="userRepository"></param>
+            <param name="boardRepository"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.Validators.ValidationFilter">
+            <summary>
+            Validation Filter.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.ValidationFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            on action executed.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:ImageSourcesStorage.Validators.ValidationFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            on action Executing.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator">
+            <summary>
+            User Validation.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator.#ctor(ImageSourcesStorage.DataAccessLayer.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator"/> class.
+            Initializes a new user of the <see cref="T:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:ImageSourcesStorage.DataAccessLayer.Validators.CheckUserIdValidator.Validate(FluentValidation.ValidationContext{ImageSourcesStorage.DataAccessLayer.Models.User})">
+            <summary>
+            rule for checking if User Exist.
+            </summary>
+            <returns> true. </returns>
+        </member>
+    </members>
+</doc>

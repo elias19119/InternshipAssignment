@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AutoMapper;
     using ImageSourcesStorage.Controllers;
     using ImageSourcesStorage.DataAccessLayer;
     using ImageSourcesStorage.DataAccessLayer.Models;
@@ -21,6 +22,7 @@
         private readonly Mock<IUserRepository> userRepository;
         private readonly Mock<IPinRepository> pinRepository;
         private readonly Mock<IPinBoardRepository> pinBoardRepository;
+        private readonly Mock<IMapper> mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoardControllerTest"/> class.
@@ -31,7 +33,8 @@
             this.userRepository = new Mock<IUserRepository>();
             this.pinRepository = new Mock<IPinRepository>();
             this.pinBoardRepository = new Mock<IPinBoardRepository>();
-            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object, this.pinRepository.Object, this.pinBoardRepository.Object);
+            this.mapper = new Mock<IMapper>();
+            this.controller = new BoardController(this.boardRepository.Object, this.userRepository.Object, this.pinRepository.Object, this.pinBoardRepository.Object, this.mapper.Object);
         }
 
         ///// <summary>

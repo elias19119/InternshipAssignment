@@ -22,7 +22,7 @@
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await this.context.Users.ToListAsync();
+            return await this.context.Users.OrderByDescending(x => x.Score).ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(Guid userId)
